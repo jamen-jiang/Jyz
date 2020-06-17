@@ -1,0 +1,64 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30204.135
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jyz.Api", "Jyz.Api\Jyz.Api.csproj", "{56EADFAC-05E8-480C-8456-7B875E4F8049}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Api", "Api", "{AD24D54D-AF4A-494B-82A7-85FE7226B082}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{E9E39E07-1C4E-46F7-BEB1-0E162B8B8623}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Utility", "Utility", "{F865FB30-1911-4179-BF56-EE22137263AB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Service", "Service", "{E3A79A17-00AA-45D2-9950-FE146B62D28E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jyz.Domain", "Jyz.Domain\Jyz.Domain.csproj", "{788443C1-0D39-403C-885F-BE1D22A27EBE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jyz.IService", "Jyz.IService\Jyz.IService.csproj", "{5E181D3A-B68B-47DF-A89E-1114A216B5FA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jyz.Service", "Jyz.Service\Jyz.Service.csproj", "{BD73AD48-E718-4ED7-B78E-6CA44F454466}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jyz.Utility", "Jyz.Utility\Jyz.Utility.csproj", "{46FCA87D-A87A-4CB2-9244-EC22A5A030C4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{56EADFAC-05E8-480C-8456-7B875E4F8049}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{56EADFAC-05E8-480C-8456-7B875E4F8049}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{56EADFAC-05E8-480C-8456-7B875E4F8049}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{56EADFAC-05E8-480C-8456-7B875E4F8049}.Release|Any CPU.Build.0 = Release|Any CPU
+		{788443C1-0D39-403C-885F-BE1D22A27EBE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{788443C1-0D39-403C-885F-BE1D22A27EBE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{788443C1-0D39-403C-885F-BE1D22A27EBE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{788443C1-0D39-403C-885F-BE1D22A27EBE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5E181D3A-B68B-47DF-A89E-1114A216B5FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E181D3A-B68B-47DF-A89E-1114A216B5FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E181D3A-B68B-47DF-A89E-1114A216B5FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E181D3A-B68B-47DF-A89E-1114A216B5FA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BD73AD48-E718-4ED7-B78E-6CA44F454466}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD73AD48-E718-4ED7-B78E-6CA44F454466}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BD73AD48-E718-4ED7-B78E-6CA44F454466}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BD73AD48-E718-4ED7-B78E-6CA44F454466}.Release|Any CPU.Build.0 = Release|Any CPU
+		{46FCA87D-A87A-4CB2-9244-EC22A5A030C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{46FCA87D-A87A-4CB2-9244-EC22A5A030C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{46FCA87D-A87A-4CB2-9244-EC22A5A030C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{46FCA87D-A87A-4CB2-9244-EC22A5A030C4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{56EADFAC-05E8-480C-8456-7B875E4F8049} = {AD24D54D-AF4A-494B-82A7-85FE7226B082}
+		{788443C1-0D39-403C-885F-BE1D22A27EBE} = {E9E39E07-1C4E-46F7-BEB1-0E162B8B8623}
+		{5E181D3A-B68B-47DF-A89E-1114A216B5FA} = {E3A79A17-00AA-45D2-9950-FE146B62D28E}
+		{BD73AD48-E718-4ED7-B78E-6CA44F454466} = {E3A79A17-00AA-45D2-9950-FE146B62D28E}
+		{46FCA87D-A87A-4CB2-9244-EC22A5A030C4} = {F865FB30-1911-4179-BF56-EE22137263AB}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E43AC0B1-9204-46F5-A862-EC7184086228}
+	EndGlobalSection
+EndGlobal
