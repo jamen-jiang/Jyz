@@ -1,11 +1,9 @@
+using Jyz.Domain.Core;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Jyz.Domain
 {
-    public partial class Privilege : BaseEntity
+    public partial class Privilege : Entity<Guid>
     {
         public string Master { get; set; }
         public Guid MasterValue { get; set; }

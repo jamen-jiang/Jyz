@@ -1,7 +1,8 @@
-﻿using Jyz.Domain.Enum;
-using Jyz.Domain.Exception;
-using Jyz.Domain.Response;
-using Jyz.Utility;
+﻿using Jyz.Application.Enums;
+using Jyz.Application.Exception;
+using Jyz.Application.Response;
+using Jyz.Infrastructure.Extensions;
+using Jyz.Infrastructure.Utility;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Threading.Tasks;
@@ -33,7 +34,7 @@ namespace Jyz.Api.Middlewares
         {
             if (ex == null) return;
 
-            //_logger.LogError(e, e.GetBaseException().ToString());
+            Logger.Error("请求处理异常" + ex.Message, ex);
 
             await WriteExceptionAsync(context, ex).ConfigureAwait(false);
         }

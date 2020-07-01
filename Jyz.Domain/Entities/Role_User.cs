@@ -1,11 +1,9 @@
+using Jyz.Domain.Core;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Jyz.Domain
 {
-    public partial class Role_User : BaseEntity
+    public partial class Role_User : Entity<Guid>
     {
         public Guid RoleId { get; set; }
         public Guid UserId { get; set; }

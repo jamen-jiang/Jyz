@@ -1,36 +1,47 @@
-using Jyz.Domain;
 using Jyz.Api.Extensions;
+using Jyz.Api.Filter;
 using Jyz.Api.Middlewares;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.IO;
 
 namespace Jyz.Api
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IWebHostEnvironment env)
         {
             Configuration = configuration;
+            Env = env;
         }
 
         public IConfiguration Configuration { get; }
+        public IWebHostEnvironment Env { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var connection = "Data Source=.;Initial Catalog=System;User ID=sa;Password=19911004";
-            services.AddDbContext<JyzContext>(options => options.UseSqlServer(connection));
+            //var connection = "Data Source=.;Initial Catalog=System;User ID=sa;Password=19911004";
+            //string conStr = Config.GetVal<string>("ConStr");
+            //services.AddDbContext<JyzContext>(options => options.UseSqlServer(conStr));
+            services.AddAppSettingSetup(Env);
             services.AddControllers();
             services.AddSwaggerSetup();
+            services.AddMvc(mvc =>
+            {
+                mvc.Filters.Add<TokenFilter>();
+                mvc.Filters.Add<ValidateModelFilter>();
+            });
+            // Automapper ×¢Èë
+            services.AddAutoMapperSetup();
+            //services.AddServiceSetup("Blog.Core.Services");
         }
-
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
