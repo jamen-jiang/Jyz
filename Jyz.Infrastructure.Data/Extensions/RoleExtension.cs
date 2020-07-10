@@ -21,15 +21,5 @@ namespace Jyz.Infrastructure.Data.Extensions
                       select a;
             return obj.Distinct();
         }
-        /// <summary>
-        /// 根据用户Id获取RoleId列表
-        /// </summary>
-        /// <param name="query"></param>
-        /// <param name="userId"></param>
-        /// <returns></returns>
-        public static List<Guid> GetRoleIdList(this IQueryable<Role> query, Guid userId)
-        {
-            return WhereByUserId(query, userId).Select(s => s.Id).ToList();
-        }
     }
 }

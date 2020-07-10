@@ -10,8 +10,9 @@ namespace Jyz.Infrastructure.Extensions
         /// </summary>
         /// <param name="timeStamp"></param>
         /// <returns></returns>
-        public static DateTime TimeStamp2DateTime(this string timeStamp)
+        public static DateTime TimeStamp2DateTime(this object timeStamp)
         {
+            if (timeStamp == null) return dateStart;
             return dateStart.AddMilliseconds(Convert.ToInt64(timeStamp));
         }
         /// <summary>

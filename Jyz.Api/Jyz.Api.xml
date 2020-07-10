@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Jyz.Api</name>
+    </assembly>
+    <members>
+        <member name="M:Jyz.Api.Controllers.UserController.Login(Jyz.Application.Dtos.LoginReqDto)">
+            <summary>
+            登录
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Jyz.Api.Filter.ApiResultAndValidateModelFilterAttribute.OnActionExecuting(Microsoft.AspNetCore.Mvc.Filters.ActionExecutingContext)">
+            <summary>
+            模型验证
+            </summary>
+            <param name="context"></param>
+        </member>
+        <member name="M:Jyz.Api.Filter.ApiResultAndValidateModelFilterAttribute.OnActionExecuted(Microsoft.AspNetCore.Mvc.Filters.ActionExecutedContext)">
+            <summary>
+            统一返回值
+            </summary>
+            <param name="context"></param>
+        </member>
+        <member name="M:Jyz.Api.Handlers.Policy.LoginHandler.#ctor(Microsoft.AspNetCore.Authentication.IAuthenticationSchemeProvider,Microsoft.AspNetCore.Http.IHttpContextAccessor)">
+            <summary>
+            ctor
+            </summary>
+            <param name="scheme"></param>
+            <param name="accessor"></param>
+        </member>
+        <member name="M:Jyz.Api.Middlewares.MiddlewareUtil.UseExceptionHandlerMiddleware(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+            <summary>
+            异常处理中间件
+            </summary>
+            <param name="app"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

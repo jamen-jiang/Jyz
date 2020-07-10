@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Jyz.Infrastructure.Configuration
+namespace Jyz.Domain.Models
 {
     public class Connection
     {

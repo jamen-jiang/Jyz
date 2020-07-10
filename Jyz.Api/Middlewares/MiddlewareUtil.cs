@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Jyz.Api.Middlewares
 {
-    public static class MiddlewareUtils
+    public static class MiddlewareUtil
     {
         /// <summary>
         /// 异常处理中间件

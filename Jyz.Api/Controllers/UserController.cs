@@ -1,12 +1,13 @@
-﻿using Jyz.Application.Dtos;
+﻿using Jyz.Api.Filter;
+using Jyz.Application.Dtos;
 using Jyz.Application.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Threading.Tasks;
 
 namespace Jyz.Api.Controllers
 {
+    
     public class UserController : BaseController
     {
         private readonly IUserService userSvc;
@@ -19,10 +20,9 @@ namespace Jyz.Api.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost, AllowAnonymous]
-        public async Task<string> Login(LoginInfo info)
+        public async Task<LoginResDto> Login(LoginReqDto info)
         {
-            string token =  await userSvc.Login(info);
-            return token;
+            return await userSvc.Login(info);
         }
     }
 }

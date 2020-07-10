@@ -9,6 +9,19 @@ namespace Jyz.Infrastructure.Data.Extensions
     public static class PrivilegeExtension
     {
         /// <summary>
+        /// 根据权限对象(Master)获取Privilege的列表
+        /// </summary>
+        /// <param name="query"></param>
+        /// <param name="master"></param>
+        /// <param name="masterValue"></param>
+        /// <returns></returns>
+        public static IQueryable<Privilege> WhereByMaster(this IQueryable<Privilege> query, MasterEnum master, params Guid [] masterValue)
+        {
+             return query.Where(x => x.Master == master.ToString() && masterValue.Contains(x.MasterValue));
+        }
+
+
+        /// <summary>
         /// 获取Privilege的列表
         /// </summary>
         /// <param name="query"></param>

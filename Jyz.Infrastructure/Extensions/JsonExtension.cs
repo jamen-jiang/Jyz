@@ -21,7 +21,7 @@ namespace Jyz.Infrastructure.Extensions
         /// <returns></returns>
         public static T ToEntity<T>(this string data)
         {
-            if (string.IsNullOrWhiteSpace(data)) return default;
+            if (data.IsNullOrWhiteSpace()) return default;
             return JsonConvert.DeserializeObject<T>(data);
         }
     }

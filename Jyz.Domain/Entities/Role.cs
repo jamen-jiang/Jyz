@@ -10,6 +10,6 @@ namespace Jyz.Domain
         public string RoleCode { get; set; }
         public int? Sort { get; set; }
         public string Remark { get; set; }
-        public virtual List<Role_User> Role_User { get; set; }
+        public virtual ICollection<Role_User> Role_User { get; set; }
     }
 }

@@ -13,9 +13,9 @@ namespace Jyz.Domain.Enums
         Request = 1
     }
     /// <summary>
-    /// 菜单类型
+    /// 模块类型
     /// </summary>
-    public enum MenuTypeEnum
+    public enum ModuleTypeEnum
     {
         [Description("目录")]
         Catalog = 0,
@@ -37,8 +37,6 @@ namespace Jyz.Domain.Enums
     /// </summary>
     public enum AccessEnum
     {
-        [Description("菜单")]
-        Menu,
         [Description("模块")]
         Module,
         [Description("操作")]

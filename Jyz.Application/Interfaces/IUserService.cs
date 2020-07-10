@@ -5,6 +5,6 @@ namespace Jyz.Application.Interfaces
 {
     public  interface IUserService
     {
-        Task<string> Login(LoginInfo info);
+        Task<LoginResDto> Login(LoginReqDto info);
     }
 }

@@ -2,7 +2,7 @@
 using Jyz.Application.Exception;
 using Jyz.Application.Response;
 using Jyz.Infrastructure.Extensions;
-using Jyz.Infrastructure.Utility;
+using Jyz.Infrastructure.Utilities;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Threading.Tasks;

@@ -10,7 +10,7 @@ namespace Jyz.Domain.Core
 
     }
     [Serializable]
-    public abstract class Entity<TPrimaryKey>  where TPrimaryKey : struct
+    public abstract class Entity<TPrimaryKey> : IEntity<TPrimaryKey> where TPrimaryKey : struct
     {
         [Key]
         public virtual TPrimaryKey Id { get; set; }
@@ -20,7 +20,7 @@ namespace Jyz.Domain.Core
         /// 是否启用
         /// </summary>
         [Required]
-        public bool IsEnable { get; set; } = true;
+        public virtual bool IsEnable { get; set; } = true;
         /// <summary>
         /// 创建人Id
         /// </summary>
@@ -31,27 +31,27 @@ namespace Jyz.Domain.Core
         /// </summary>
         [Required]
         [Column(TypeName = "nvarchar(50)")]
-        public string CreatedByName { get; set; }
+        public virtual string CreatedByName { get; set; }
         /// <summary>
         /// 创建时间
         /// </summary>
         [Required]
         [Column(TypeName = "datetime")]
-        public DateTime CreatedOn { get; set; } = DateTime.Now;
+        public virtual DateTime CreatedOn { get; set; } = DateTime.Now;
         /// <summary>
         /// 更新人Id
         /// </summary>
-        public TPrimaryKey? UpdatedBy { get; set; }
+        public virtual TPrimaryKey? UpdatedBy { get; set; }
         /// <summary>
         /// 更新人名称
         /// </summary>
         [Column(TypeName = "nvarchar(50)")]
-        public string UpdatedByName { get; set; }
+        public virtual string UpdatedByName { get; set; }
         /// <summary>
         /// 更新时间
         /// </summary>
         [Column(TypeName = "datetime")]
-        public DateTime? UpdatedOn { get; set; }
+        public virtual DateTime? UpdatedOn { get; set; }
         #endregion
     }
 }

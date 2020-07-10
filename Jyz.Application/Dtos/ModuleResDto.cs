@@ -1,11 +1,13 @@
-using Jyz.Domain.Core;
+﻿using Jyz.Application.Core;
 using System;
 using System.Collections.Generic;
+using System.Text;
 
-namespace Jyz.Domain
+namespace Jyz.Application.Dtos
 {
-    public partial class Module : Entity<Guid>
+    public class ModuleResDto : BaseResDto
     {
+        public Guid Id { get; set; }
         public Guid? PId { get; set; }
         public int Type { get; set; }
         public string Name { get; set; }
@@ -14,6 +16,5 @@ namespace Jyz.Domain
         public int? Sort { get; set; }
         public string VueUri { get; set; }
         public string Remark { get; set; }
-        public virtual ICollection<Operate> Operates { get; set; }
     }
 }
