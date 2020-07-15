@@ -10,12 +10,12 @@ namespace Jyz.Application.Response
     {
         public ApiResponse()
         {
-            Status = (int)ApiStatusEnum.SUCCESS;
+            Status = (int)ApiStatusEnum.Success;
         }
         public ApiResponse(dynamic data)
         {
             Data = data;
-            Status = (int)ApiStatusEnum.SUCCESS;
+            Status = (int)ApiStatusEnum.Success;
         }
 
         public ApiResponse(ApiStatusEnum apiStatusEnum, string message = "")
@@ -51,20 +51,20 @@ namespace Jyz.Application.Response
             }
         }
         /// <summary>
-        /// 总数
+        /// 数据总数
         /// </summary>
         public int TotalCount{get; set; }
         /// <summary>
-        /// 页容量
+        /// 每页大小
         /// </summary>
         public int PageSize { get; set; }
         /// <summary>
-        /// 页码
+        /// 当前页码
         /// </summary>
         public int PageIndex { get; set; }
         /// <summary>
         /// 数据
         /// </summary>
-        public dynamic Data { get; set; }
+        public object Data { get; set; }
     }
 }

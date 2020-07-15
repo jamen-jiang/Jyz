@@ -36,11 +36,12 @@ namespace Jyz.Api.Extensions
             };
             services.AddAuthorization(options =>
             {
-                options.AddPolicy("NeedToken", policy => policy.Requirements.Add(new LoginRequirement()));
+                options.AddPolicy("Permission", policy => policy.Requirements.Add(new PermissionRequirement()));
             }).AddAuthentication(options =>
             {
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = nameof(ApiResponseHandler);
+                options.DefaultForbidScheme = nameof(ApiResponseHandler);
             }).AddJwtBearer(options =>
               {
                   options.TokenValidationParameters = tokenValidationParameters;
@@ -52,16 +53,12 @@ namespace Jyz.Api.Extensions
                             if (context.Exception.GetType() == typeof(SecurityTokenExpiredException))
                             {
                                 context.Response.Headers.Add("Token-Expired", "true");
-                                context.Response.ContentType = "application/json";
-                                context.Response.StatusCode = 200;
-                                ApiResponse response = new ApiResponse(ApiStatusEnum.EXPIRED_TOKEN_UNVALID);
-                                context.Response.WriteAsync(response.ToJson());
                             }
                             return Task.CompletedTask;
                         }
                   };
               }).AddScheme<AuthenticationSchemeOptions, ApiResponseHandler>(nameof(ApiResponseHandler), o => { });
-            services.AddScoped<IAuthorizationHandler, LoginHandler>();
+            services.AddScoped<IAuthorizationHandler, PermissionHandler>();
         }
     }
 }

@@ -10,7 +10,7 @@ namespace Jyz.Infrastructure.Data
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             // 定义要使用的数据库
-            optionsBuilder.UseSqlServer(AppSetting.Connection.DbConnectionString);
+            optionsBuilder.UseSqlServer(AppSetting.Connection.DbConnectionString, b => b.UseRowNumberForPaging());
         }
         public virtual DbSet<Module> Menu { get; set; }
         public virtual DbSet<Module> Module { get; set; }

@@ -11,7 +11,8 @@ namespace Jyz.Application.AutoMapper
         /// </summary>
         public DomainToDtoMappingProfile()
         {
-            CreateMap<Module, ModuleDto>();
+            CreateMap<Module, ModuleResDto>();
+            CreateMap<User, UserResDto>();
         }
     }
 }

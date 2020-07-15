@@ -11,36 +11,36 @@ namespace Jyz.Application.Enums
         /// 成功
         /// </summary>
         [Description("成功")]
-        SUCCESS = 200,
+        Success = 200,
         /// <summary>
         /// 令牌无效
         /// </summary>
         [Description("令牌无效")]
-        FAIL_TOKEN_UNVALID = 1,
+        Fail_Token_Unvalid = 1,
         /// <summary>
         /// 令牌过期
         /// </summary>
         [Description("令牌过期")]
-        EXPIRED_TOKEN_UNVALID = 2,
+        Fail_Token_Expired = 2,
         /// <summary>
         /// 没访问权限
         /// </summary>
         [Description("没访问权限")]
-        FAIL_PERMISSION = 3,
-        /// <summary>
-        /// 应用程序错误
-        /// </summary>
-        [Description("应用程序错误")]
-        FAIL_APP = 98,
-        /// <summary>
-        /// 系统异常
-        /// </summary>
-        [Description("系统异常")]
-        FAIL_EXCEPTION = 99,
+        Fail_UnAuthorized = 401,
         /// <summary>
         /// 403
         /// </summary>
         [Description("403")]
-        FAIL_CODE = 403
+        Fail_Forbidden = 403,
+        /// <summary>
+        /// 应用程序错误
+        /// </summary>
+        [Description("应用程序错误")]
+        Fail_App = 98,
+        /// <summary>
+        /// 系统异常
+        /// </summary>
+        [Description("系统异常")]
+        Fail_Exception = 99
     }
 }

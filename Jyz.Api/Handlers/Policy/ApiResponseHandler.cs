@@ -6,8 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Net;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 
@@ -25,16 +24,20 @@ namespace Jyz.Api.Handlers.Policy
         protected override async Task HandleChallengeAsync(AuthenticationProperties properties)
         {
             Response.ContentType = "application/json";
-            Response.StatusCode = 200;
-            ApiResponse response = new ApiResponse(ApiStatusEnum.FAIL_PERMISSION);
+            Response.StatusCode = (int)HttpStatusCode.OK;
+            ApiResponse response = new ApiResponse();
+            if (Response.Headers["Token-Expired"] == "true")
+                response.Status = (int)ApiStatusEnum.Fail_Token_Expired;
+            else
+                response.Status = (int)ApiStatusEnum.Fail_UnAuthorized;
             await Response.WriteAsync(response.ToJson());
         }
 
         protected override async Task HandleForbiddenAsync(AuthenticationProperties properties)
         {
             Response.ContentType = "application/json";
-            Response.StatusCode = 200;
-            ApiResponse response = new ApiResponse(ApiStatusEnum.FAIL_CODE);
+            Response.StatusCode = (int)HttpStatusCode.OK;
+            ApiResponse response = new ApiResponse(ApiStatusEnum.Fail_Forbidden);
             await Response.WriteAsync(response.ToJson());
         }
     }

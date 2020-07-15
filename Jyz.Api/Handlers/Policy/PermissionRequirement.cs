@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace Jyz.Api.Handlers.Policy
 {
-    public class LoginRequirement : IAuthorizationRequirement
+    public class PermissionRequirement : IAuthorizationRequirement
     {
         
     }

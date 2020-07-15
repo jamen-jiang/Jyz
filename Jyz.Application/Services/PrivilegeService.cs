@@ -42,19 +42,23 @@ namespace Jyz.Application.Services
                 return list;
             }
         }
-
-        public ModuleVM GetModuleList(Guid userId)
+        /// <summary>
+        /// 根据用户Id获取授权的菜单列表
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public List<AuthorizeModuleDto> GetAuthorizeModules(Guid userId)
         {
             using (var db = base.NewDB())
             {
-                List<Module> moduleList = null;
-                List<Operate> operateList = null;
+                List<Module> modules = null;
+                List<Operate> operates = null;
                 //如果是管理员
-                if (userId ==AppSetting.Project.Admin.ToGuid())
+                if (userId == AppSetting.Project.Admin.ToGuid())
                 {
                     //取出所有模块所有操作
-                    moduleList = db.Module.ToList();
-                    operateList = db.Operate.ToList();
+                    modules = db.Module.Query().ToList();
+                    operates = db.Operate.Query().ToList();
                 }
                 else
                 {
@@ -62,10 +66,9 @@ namespace Jyz.Application.Services
                     List<Privilege> privilegeList = db.Privilege.WhereByMaster(MasterEnum.Role, roleIdList).ToList();
                     Guid[] moduleIds = privilegeList.Where(x => x.Access == AccessEnum.Module.ToString()).Select(s => s.AccessValue).ToArray();
                     Guid[] operateIds = privilegeList.Where(x => x.Access == AccessEnum.Operate.ToString()).Select(s => s.AccessValue).ToArray();
-                    moduleList = db.Module.Where(x => moduleIds.Contains(x.Id)).ToList();
-                    operateList = db.Operate.Where(x => operateIds.Contains(x.Id)).ToList();
+                    modules = db.Module.Where(x => moduleIds.Contains(x.Id)).ToList();
+                    operates = db.Operate.Where(x => operateIds.Contains(x.Id)).ToList();
                 }
-                ModuleVM model = new ModuleVM();
                 //model.OperateList = operateList.Select(s => new OperateTree()
                 //{
                 //    MenuId = s.MenuId,
@@ -73,10 +76,11 @@ namespace Jyz.Application.Services
                 //    Icon = s.Icon,
                 //    Type = s.Type
                 //}).ToList();
-                List<Module> list = moduleList.Where(x => x.PId == null).ToList();
-                foreach (var l in list)
+                List<AuthorizeModuleDto> list = new List<AuthorizeModuleDto>();
+                List<Module> pModules = modules.Where(x => x.PId == null).ToList();
+                foreach (var l in pModules)
                 {
-                    ModuleNode node = new ModuleNode
+                    AuthorizeModuleDto node = new AuthorizeModuleDto
                     {
                         Id = l.Id,
                         PId = l.PId,
@@ -88,20 +92,18 @@ namespace Jyz.Application.Services
                         VueUri = l.VueUri,
                         Remark = l.Remark,
                     };
-                    CreateMenuTree(node, moduleList, operateList);
-                    model.ModuleTree.Add(node);
+                    CreateMenuTree(node, modules, operates);
+                    list.Add(node);
                 }
-
-                //ApiResponse response = new ApiResponse(Request, tree);
-                return model;
+                return list;
             }
         }
-        private void CreateMenuTree(ModuleNode node, List<Module> list, List<Operate> oplist)
+        private void CreateMenuTree(AuthorizeModuleDto node, List<Module> list, List<Operate> oplist)
         {
             var childList = list.Where(x => x.PId == node.Id).ToList();
             foreach (var c in childList)
             {
-                ModuleNode n = new ModuleNode
+                AuthorizeModuleDto n = new AuthorizeModuleDto
                 {
                     Id = c.Id,
                     PId = c.PId,

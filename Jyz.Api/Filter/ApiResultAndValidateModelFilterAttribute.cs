@@ -18,7 +18,7 @@ namespace Jyz.Api.Filter
             if (!context.ModelState.IsValid)
             {
                 ApiResponse response = new ApiResponse();
-                response.Status = (int)ApiStatusEnum.FAIL_APP;
+                response.Status = (int)ApiStatusEnum.Fail_App;
                 foreach (var item in context.ModelState.Values)
                 {
                     foreach (var error in item.Errors)
@@ -36,8 +36,15 @@ namespace Jyz.Api.Filter
         /// <param name="context"></param>
         public override void OnActionExecuted(ActionExecutedContext context)
         {
-            var objectResult = context.Result as ObjectResult;
-            ApiResponse response = new ApiResponse(objectResult.Value);
+            ApiResponse response = new ApiResponse();
+            if (context.Result != null)
+            {
+                var objectResult = context.Result as ObjectResult;
+                if (objectResult.Value is ApiResponse obj)
+                    response = obj;
+                else
+                    response.Data = objectResult.Value;
+            }
             context.Result = new ObjectResult(response);
             base.OnActionExecuted(context);
         }

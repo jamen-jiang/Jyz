@@ -2,6 +2,7 @@
 using Jyz.Application.ViewModels;
 using Jyz.Domain;
 using Jyz.Domain.Enums;
+using Jyz.Infrastructure.Configuration;
 using Jyz.Infrastructure.Data.Extensions;
 using Jyz.Infrastructure.Extensions;
 using Microsoft.EntityFrameworkCore.Internal;
@@ -15,7 +16,6 @@ namespace Jyz.Application.Services
 {
     public class ModuleService : BaseService, IModuleService
     {
-        
         /// <summary>
         /// 根据privilegeIds获取模块列表
         /// </summary>
@@ -30,7 +30,6 @@ namespace Jyz.Application.Services
                 return modules;
             }
         }
-
         /// <summary>
         /// 添加模块
         /// </summary>

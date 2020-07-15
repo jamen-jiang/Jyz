@@ -4,12 +4,10 @@ using System.Text;
 
 namespace Jyz.Application.ViewModels
 {
-    public class ModuleVM
-    {
-        public List<ModuleNode> ModuleTree { get; set; } = new List<ModuleNode>();
-    }
-   
-    public class ModuleNode
+    /// <summary>
+    /// 授权菜单
+    /// </summary>
+    public class AuthorizeModuleDto
     {
         public Guid Id { get; set; }
         public Guid? PId { get; set; }
@@ -20,10 +18,13 @@ namespace Jyz.Application.ViewModels
         public int? Sort { get; set; }
         public string VueUri { get; set; }
         public string Remark { get; set; }
-        public List<OperateVM> OperateList { get; set; } = new List<OperateVM>();
-        public List<ModuleNode> Children { get; set; } = new List<ModuleNode>();
+        public List<AuthorizeOperateDto> OperateList { get; set; } = new List<AuthorizeOperateDto>();
+        public List<AuthorizeModuleDto> Children { get; set; } = new List<AuthorizeModuleDto>();
     }
-    public class OperateVM
+    /// <summary>
+    /// 授权操作
+    /// </summary>
+    public class AuthorizeOperateDto
     {
         public Guid ModuleId { get; set; }
         public int Type { get; set; }

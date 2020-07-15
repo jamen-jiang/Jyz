@@ -40,5 +40,17 @@ namespace Jyz.Infrastructure.Data.Extensions
         {
             return query.Where(x => x.IsEnable).Where(lambda);
         }
+        /// <summary>
+        /// 分页
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="query"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
+        public static IQueryable<T> Paging<T>(this IQueryable<T> query,  int pageIndex, int pageSize)
+        {
+            return query.Skip( pageSize * (pageIndex - 1)).Take(pageSize);
+        }
     }
 }

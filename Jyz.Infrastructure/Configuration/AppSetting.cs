@@ -17,6 +17,7 @@ namespace Jyz.Infrastructure.Configuration
         public static Connection Connection { get; private set; }
         public static Jwt Jwt { get; private set; }
         public static Project Project { get; private set; }
+        public static Cors Cors { get; private set; }
 
         public static void Init(IServiceCollection services, IWebHostEnvironment env)
         {
@@ -30,10 +31,12 @@ namespace Jyz.Infrastructure.Configuration
             services.Configure<Connection>(Configuration.GetSection("Connection"));
             services.Configure<Jwt>(Configuration.GetSection("Jwt"));
             services.Configure<Project>(Configuration.GetSection("Project"));
+            services.Configure<Cors>(Configuration.GetSection("Cors"));
             var provider = services.BuildServiceProvider();
             Connection = provider.GetRequiredService<IOptions<Connection>>().Value;
             Jwt = provider.GetRequiredService<IOptions<Jwt>>().Value;
             Project = provider.GetRequiredService<IOptions<Project>>().Value;
+            Cors = provider.GetRequiredService<IOptions<Cors>>().Value;
         }
     }
 }

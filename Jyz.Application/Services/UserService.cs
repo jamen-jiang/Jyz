@@ -1,6 +1,8 @@
-﻿using Jyz.Application.Dtos;
+﻿using AutoMapper;
+using Jyz.Application.Dtos;
 using Jyz.Application.Exception;
 using Jyz.Application.Interfaces;
+using Jyz.Application.Response;
 using Jyz.Domain;
 using Jyz.Domain.Enums;
 using Jyz.Domain.Models;
@@ -18,6 +20,11 @@ namespace Jyz.Application
 {
     public class UserService : BaseService,IUserService
     {
+        private readonly IMapper _mapper;
+        public UserService(IMapper mapper)
+        {
+            _mapper = mapper;
+        }
         /// <summary>
         /// 登录(返回token)
         /// </summary>
@@ -38,6 +45,27 @@ namespace Jyz.Application
                 LoginResDto response = new LoginResDto();
                 response.Name = user.Name;
                 response.Token = token;
+                return response;
+            }
+        }
+        /// <summary>
+        /// 获取用户列表
+        /// </summary>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
+        public async Task<ApiResponse> Get(int pageIndex = 1, int pageSize = 10)
+        {
+            using (var db = NewDB())
+            {
+                ApiResponse response = new ApiResponse();
+                int totalCount = await db.User.CountAsync();
+                List<User> list = await db.User.Paging(pageIndex, pageSize).ToListAsync();
+                var data = _mapper.Map<List<UserResDto>>(list);
+                response.PageIndex = pageIndex;
+                response.PageSize = pageSize;
+                response.TotalCount = totalCount;
+                response.Data = data;
                 return response;
             }
         }

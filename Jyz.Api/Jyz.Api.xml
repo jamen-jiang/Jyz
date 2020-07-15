@@ -4,6 +4,17 @@
         <name>Jyz.Api</name>
     </assembly>
     <members>
+        <member name="P:Jyz.Api.Controllers.BaseController.UserId">
+            <summary>
+            当前用户Id
+            </summary>
+        </member>
+        <member name="M:Jyz.Api.Controllers.PrivilegeController.GetAuthorizeModules">
+            <summary>
+            获取当前用户授权的菜单列表
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:Jyz.Api.Controllers.UserController.Login(Jyz.Application.Dtos.LoginReqDto)">
             <summary>
             登录
@@ -22,12 +33,23 @@
             </summary>
             <param name="context"></param>
         </member>
-        <member name="M:Jyz.Api.Handlers.Policy.LoginHandler.#ctor(Microsoft.AspNetCore.Authentication.IAuthenticationSchemeProvider,Microsoft.AspNetCore.Http.IHttpContextAccessor)">
+        <member name="T:Jyz.Api.Filter.PrivilegeFilter">
+            <summary>
+            权限过滤
+            </summary>
+        </member>
+        <member name="T:Jyz.Api.Filter.NoPrivilegeFilter">
+            <summary>
+            不需要权限
+            </summary>
+        </member>
+        <member name="M:Jyz.Api.Handlers.Policy.PermissionHandler.#ctor(Microsoft.AspNetCore.Authentication.IAuthenticationSchemeProvider,Microsoft.AspNetCore.Http.IHttpContextAccessor,Jyz.Application.Interfaces.IPrivilegeService)">
             <summary>
             ctor
             </summary>
             <param name="scheme"></param>
             <param name="accessor"></param>
+            <param name="privilegeSvc"></param>
         </member>
         <member name="M:Jyz.Api.Middlewares.MiddlewareUtil.UseExceptionHandlerMiddleware(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
             <summary>

@@ -5,6 +5,7 @@ using Jyz.Infrastructure.Extensions;
 using Jyz.Infrastructure.Utilities;
 using Microsoft.AspNetCore.Http;
 using System;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace Jyz.Api.Middlewares
@@ -41,8 +42,6 @@ namespace Jyz.Api.Middlewares
 
         private static async Task WriteExceptionAsync(HttpContext context, Exception ex)
         {
-            context.Response.StatusCode = 200;
-            context.Response.ContentType = "application/json";
             ApiResponse response = new ApiResponse();
             if (ex is ApiException)
             {
@@ -52,9 +51,11 @@ namespace Jyz.Api.Middlewares
             }
             else
             {
-                response.Status = (int)ApiStatusEnum.FAIL_EXCEPTION;
+                response.Status = (int)ApiStatusEnum.Fail_Exception;
                 response.Message = "系统错误";
             }
+            context.Response.StatusCode = (int)HttpStatusCode.OK;
+            context.Response.ContentType = "application/json";
             await context.Response.WriteAsync(response.ToJson()).ConfigureAwait(false);
         }
     }

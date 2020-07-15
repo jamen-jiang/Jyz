@@ -16,7 +16,7 @@ namespace Jyz.Application.Exception
         {
             get
             {
-                return _code == 0 ? (int)ApiStatusEnum.FAIL_APP : _code;
+                return _code == 0 ? (int)ApiStatusEnum.Fail_App : _code;
             }
             set
             {

@@ -42,7 +42,7 @@ namespace Jyz.Api.Filter
                 List<PrivilegeDto> list = _privilegeSvc.GetPrivilegeByUserId(userId);
                 if (list.Count(x => x.Controller.Compare(controllerName) && x.Action.Compare(actionName)) <= 0)
                 {
-                    throw new ApiException(ApiStatusEnum.FAIL_PERMISSION);
+                    throw new ApiException(ApiStatusEnum.Fail_UnAuthorized);
                 }
             }
         }
