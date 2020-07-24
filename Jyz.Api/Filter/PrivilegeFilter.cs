@@ -1,11 +1,6 @@
-﻿using Jyz.Application.Dtos;
-using Jyz.Application.Enums;
-using Jyz.Application.Exception;
-using Jyz.Application.Interfaces;
-using Jyz.Infrastructure.Configuration;
-using Jyz.Infrastructure.Extensions;
+﻿using Jyz.Application;
+using Jyz.Infrastructure;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System;
 using System.Collections.Generic;
@@ -39,7 +34,7 @@ namespace Jyz.Api.Filter
             {
                 string controllerName = context.RouteData.Values["controller"].ToString(); ;
                 string actionName = context.RouteData.Values["action"].ToString();
-                List<PrivilegeDto> list = _privilegeSvc.GetPrivilegeByUserId(userId);
+                List<PrivilegeResponse> list = _privilegeSvc.GetPrivilegeByUserId(userId);
                 if (list.Count(x => x.Controller.Compare(controllerName) && x.Action.Compare(actionName)) <= 0)
                 {
                     throw new ApiException(ApiStatusEnum.Fail_UnAuthorized);

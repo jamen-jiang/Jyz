@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Jyz.Application.Dtos;
 using Jyz.Domain;
 
 namespace Jyz.Application.AutoMapper
@@ -11,7 +10,8 @@ namespace Jyz.Application.AutoMapper
         /// </summary>
         public DtoToDomainMappingProfile()
         {
-            CreateMap<ModuleDto, Module>();
+            CreateMap<OperateRequest, Operate>();
+            CreateMap<RoleModel, Role>();
         }
     }
 }

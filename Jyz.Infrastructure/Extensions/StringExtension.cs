@@ -1,4 +1,4 @@
-﻿namespace Jyz.Infrastructure.Extensions
+﻿namespace Jyz.Infrastructure
 {
     public static class StringExtension
     {

@@ -1,6 +1,5 @@
-﻿using Jyz.Infrastructure.Configuration;
+﻿using Jyz.Infrastructure;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Jyz.Api.Extensions

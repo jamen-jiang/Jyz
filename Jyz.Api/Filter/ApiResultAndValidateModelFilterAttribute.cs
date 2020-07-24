@@ -1,5 +1,4 @@
-﻿using Jyz.Application.Enums;
-using Jyz.Application.Response;
+﻿using Jyz.Application;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System;
@@ -40,10 +39,7 @@ namespace Jyz.Api.Filter
             if (context.Result != null)
             {
                 var objectResult = context.Result as ObjectResult;
-                if (objectResult.Value is ApiResponse obj)
-                    response = obj;
-                else
-                    response.Data = objectResult.Value;
+                response.Data = objectResult?.Value;
             }
             context.Result = new ObjectResult(response);
             base.OnActionExecuted(context);

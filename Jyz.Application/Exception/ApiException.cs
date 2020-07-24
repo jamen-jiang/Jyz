@@ -1,7 +1,6 @@
-﻿using Jyz.Application.Enums;
-using System;
+﻿using System;
 
-namespace Jyz.Application.Exception
+namespace Jyz.Application
 {
     /// <summary>
     /// 自定义异常

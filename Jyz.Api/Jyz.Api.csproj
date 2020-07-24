@@ -10,16 +10,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Attribute\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Autofac" Version="5.2.0" />
     <PackageReference Include="AutoMapper" Version="9.0.0" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
     <PackageReference Include="log4net" Version="2.0.8" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.5" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.6" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="3.1.5" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.1.5" />
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="3.1.5" />

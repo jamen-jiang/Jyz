@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Jyz.Infrastructure.Extensions
+namespace Jyz.Infrastructure
 {
     public static class JsonExtension
     {

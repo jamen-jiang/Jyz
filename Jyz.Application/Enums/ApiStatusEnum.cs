@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace Jyz.Application.Enums
+namespace Jyz.Application
 {
     /// <summary>
     /// Api状态

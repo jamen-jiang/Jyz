@@ -1,6 +1,5 @@
-﻿using Jyz.Application.Enums;
-using Jyz.Application.Response;
-using Jyz.Infrastructure.Extensions;
+﻿using Jyz.Application;
+using Jyz.Infrastructure;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;

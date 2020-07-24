@@ -1,10 +1,13 @@
 using Jyz.Api.Extensions;
 using Jyz.Api.Filter;
 using Jyz.Api.Middlewares;
-using Jyz.Infrastructure.Configuration;
+using Jyz.Application;
+using Jyz.Infrastructure;
+using Jyz.Infrastructure.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -26,6 +29,8 @@ namespace Jyz.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             //接口注入
             services.AddServiceSetup("Jyz.Application");
             //配置文件注入
@@ -38,7 +43,6 @@ namespace Jyz.Api
             services.AddAutoMapperSetup();
             //跨域配置
             services.AddCorsSetup();
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddControllers()
              //全局配置Json序列化处理
             .AddNewtonsoftJson(options =>

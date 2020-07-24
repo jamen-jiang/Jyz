@@ -1,8 +1,5 @@
-﻿using Jyz.Application.Enums;
-using Jyz.Application.Exception;
-using Jyz.Application.Response;
-using Jyz.Infrastructure.Extensions;
-using Jyz.Infrastructure.Utilities;
+﻿using Jyz.Application;
+using Jyz.Infrastructure;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Net;

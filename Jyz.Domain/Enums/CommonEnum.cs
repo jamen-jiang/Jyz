@@ -7,7 +7,7 @@ namespace Jyz.Domain.Enums
     /// </summary>
     public enum OperateTypeEnum
     {
-        [Description("操作")]
+        [Description("按钮")]
         Operate = 0,
         [Description("请求")]
         Request = 1
@@ -39,7 +39,7 @@ namespace Jyz.Domain.Enums
     {
         [Description("模块")]
         Module,
-        [Description("操作")]
+        [Description("功能")]
         Operate,
     }
 }

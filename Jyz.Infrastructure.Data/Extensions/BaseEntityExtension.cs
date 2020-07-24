@@ -1,10 +1,10 @@
-﻿using Jyz.Domain.Core;
+﻿using Jyz.Domain;
+using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
+using System.Threading.Tasks;
 
-namespace Jyz.Infrastructure.Data.Extensions
+namespace Jyz.Infrastructure.Data
 {
     public static class BaseEntityExtension
     {
@@ -15,30 +15,20 @@ namespace Jyz.Infrastructure.Data.Extensions
         /// <param name="query"></param>
         /// <param name="id"></param>
         /// <returns></returns>
-        public static T Get<T>(this IQueryable<T> query, Guid id) where T : Entity<Guid>
+        public static T FindById<T>(this IQueryable<T> query, Guid id) where T : Entity<Guid>
         {
-            return query.FirstOrDefault(x => x.Id == id && x.IsEnable);
+            return  query.FirstOrDefault(x => x.Id == id);
         }
         /// <summary>
-        /// IsEnable为true
+        /// 根据Id获取实体(异步)
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="query"></param>
+        /// <param name="id"></param>
         /// <returns></returns>
-        public static IQueryable<T> Query<T>(this IQueryable<T> query) where T : Entity<Guid>
+        public static async  Task<T> FindByIdAsync<T>(this IQueryable<T> query, Guid id) where T : Entity<Guid>
         {
-            return query.Where(x => x.IsEnable);
-        }
-        /// <summary>
-        /// Where入口(IsEnable为true)
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="query"></param>
-        /// <param name="lambda"></param>
-        /// <returns></returns>
-        public static IQueryable<T> Query<T>(this IQueryable<T> query,Expression<Func<T,bool>> lambda) where T : Entity<Guid>
-        {
-            return query.Where(x => x.IsEnable).Where(lambda);
+            return await query.FirstOrDefaultAsync(x => x.Id == id);
         }
         /// <summary>
         /// 分页
@@ -48,7 +38,7 @@ namespace Jyz.Infrastructure.Data.Extensions
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        public static IQueryable<T> Paging<T>(this IQueryable<T> query,  int pageIndex, int pageSize)
+        public static IQueryable<T> Paging<T>(this IQueryable<T> query,  int pageIndex, int pageSize) where T : Entity<Guid>
         {
             return query.Skip( pageSize * (pageIndex - 1)).Take(pageSize);
         }

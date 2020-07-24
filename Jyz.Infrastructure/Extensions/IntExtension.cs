@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Jyz.Infrastructure.Extensions
+namespace Jyz.Infrastructure
 {
     public static class IntExtension
     {

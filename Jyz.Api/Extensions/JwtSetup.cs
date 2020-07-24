@@ -1,17 +1,10 @@
 ﻿using Jyz.Api.Handlers.Policy;
-using Jyz.Application.Enums;
-using Jyz.Application.Response;
-using Jyz.Infrastructure.Configuration;
-using Jyz.Infrastructure.Extensions;
+using Jyz.Infrastructure;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
-using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 

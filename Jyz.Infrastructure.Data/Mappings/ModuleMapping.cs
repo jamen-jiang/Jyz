@@ -8,6 +8,7 @@ namespace Jyz.Infrastructure.Data.Mappings
     {
         public void Configure(EntityTypeBuilder<Module> builder)
         {
+            builder.HasQueryFilter(x => x.IsEnable);
             builder.Property(x => x.PId).IsRequired(false);
             builder.Property(x => x.Type).IsRequired();
             builder.Property(x => x.Name).IsRequired().HasMaxLength(50);

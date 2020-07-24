@@ -1,9 +1,6 @@
-﻿using Jyz.Infrastructure.Configuration;
+﻿using Jyz.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Jyz.Api.Extensions
 {

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
-using Jyz.Application.Dtos;
 using Jyz.Domain;
+using Jyz.Domain.Enums;
+using Jyz.Infrastructure;
 
 namespace Jyz.Application.AutoMapper
 {
@@ -11,8 +12,16 @@ namespace Jyz.Application.AutoMapper
         /// </summary>
         public DomainToDtoMappingProfile()
         {
-            CreateMap<Module, ModuleResDto>();
-            CreateMap<User, UserResDto>();
+            CreateMap<User, UserResponse>();
+            CreateMap<Module, ModuleResponse>().ForMember(
+               dto => dto.TypeName,
+               domain => domain.MapFrom(src=>src.Type.GetDescription<ModuleTypeEnum>())
+            );
+            CreateMap<Operate, OperateResponse>().ForMember(
+               dto => dto.TypeName,
+               domain => domain.MapFrom(src => src.Type.GetDescription<OperateTypeEnum>())
+            );
+            CreateMap<Role, RoleResponse>();
         }
     }
 }

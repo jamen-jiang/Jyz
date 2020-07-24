@@ -1,4 +1,3 @@
-using Jyz.Domain.Core;
 using System;
 
 namespace Jyz.Domain

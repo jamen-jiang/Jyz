@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Jyz.Application.Interfaces;
-using Jyz.Application.ViewModels;
+﻿using Jyz.Application;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 
 namespace Jyz.Api.Controllers
 {
-    [Authorize]
     public class PrivilegeController : BaseController
     {
         private readonly IPrivilegeService _privilegeSvc;
@@ -22,10 +16,10 @@ namespace Jyz.Api.Controllers
         /// 获取当前用户授权的菜单列表
         /// </summary>
         /// <returns></returns>
-        [HttpGet]
-        public List<AuthorizeModuleDto> GetAuthorizeModules()
+        [HttpGet, Authorize]
+        public List<ModuleResponse> GetAuthorizeModules()
         {
-            return _privilegeSvc.GetAuthorizeModules(UserId);
+            return _privilegeSvc.GetAuthorizeModules(UserContext.UserId);
         }
     }
 }

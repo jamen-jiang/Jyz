@@ -1,11 +1,9 @@
-﻿using Jyz.Domain.Models;
-using Jyz.Domain.Models.AppSetting;
-using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 
-namespace Jyz.Infrastructure.Configuration
+namespace Jyz.Infrastructure
 {
     /// <summary>
     /// appsettings.json操作类
@@ -18,6 +16,7 @@ namespace Jyz.Infrastructure.Configuration
         public static Jwt Jwt { get; private set; }
         public static Project Project { get; private set; }
         public static Cors Cors { get; private set; }
+        public static ServiceProvider Provider { get; private set; }
 
         public static void Init(IServiceCollection services, IWebHostEnvironment env)
         {
@@ -32,11 +31,11 @@ namespace Jyz.Infrastructure.Configuration
             services.Configure<Jwt>(Configuration.GetSection("Jwt"));
             services.Configure<Project>(Configuration.GetSection("Project"));
             services.Configure<Cors>(Configuration.GetSection("Cors"));
-            var provider = services.BuildServiceProvider();
-            Connection = provider.GetRequiredService<IOptions<Connection>>().Value;
-            Jwt = provider.GetRequiredService<IOptions<Jwt>>().Value;
-            Project = provider.GetRequiredService<IOptions<Project>>().Value;
-            Cors = provider.GetRequiredService<IOptions<Cors>>().Value;
+            Provider = services.BuildServiceProvider();
+            Connection = Provider.GetRequiredService<IOptions<Connection>>().Value;
+            Jwt = Provider.GetRequiredService<IOptions<Jwt>>().Value;
+            Project = Provider.GetRequiredService<IOptions<Project>>().Value;
+            Cors = Provider.GetRequiredService<IOptions<Cors>>().Value;
         }
     }
 }

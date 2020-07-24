@@ -3,7 +3,7 @@ using log4net.Config;
 using System;
 using System.IO;
 
-namespace Jyz.Infrastructure.Utilities
+namespace Jyz.Infrastructure
 {
     public class Logger
     {

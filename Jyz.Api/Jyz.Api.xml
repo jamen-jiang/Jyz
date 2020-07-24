@@ -4,10 +4,29 @@
         <name>Jyz.Api</name>
     </assembly>
     <members>
-        <member name="P:Jyz.Api.Controllers.BaseController.UserId">
+        <member name="M:Jyz.Api.Controllers.CommonController.GetOperateTypes">
             <summary>
-            当前用户Id
+            获取对应的功能列表
             </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Jyz.Api.Controllers.ModuleController.Get">
+            <summary>
+            获取模块列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Jyz.Api.Controllers.OperateController.GetModules">
+            <summary>
+            获取模块列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Jyz.Api.Controllers.OperateController.Get(System.Guid)">
+            <summary>
+            获取对应的功能列表
+            </summary>
+            <returns></returns>
         </member>
         <member name="M:Jyz.Api.Controllers.PrivilegeController.GetAuthorizeModules">
             <summary>
@@ -15,7 +34,49 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Jyz.Api.Controllers.UserController.Login(Jyz.Application.Dtos.LoginReqDto)">
+        <member name="M:Jyz.Api.Controllers.RoleController.Get(Jyz.Application.PageReqDto)">
+            <summary>
+            获取角色列表
+            </summary>
+            <param name="info"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Jyz.Api.Controllers.RoleController.GetUsers(Jyz.Application.PageReqDto)">
+            <summary>
+            获取用户列表
+            </summary>
+            <param name="info"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Jyz.Api.Controllers.RoleController.GetRoleUsers(System.Guid)">
+            <summary>
+            根据角色Id获取用户列表
+            </summary>
+            <param name="roleId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Jyz.Api.Controllers.RoleController.GetModuleAndPrivilege(System.Guid)">
+            <summary>
+            获取模块树及权限
+            </summary>
+            <param name="roleId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Jyz.Api.Controllers.RoleController.Detail(System.Guid)">
+            <summary>
+            根据Id获取角色
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Jyz.Api.Controllers.RoleController.Modify(Jyz.Application.RoleRequest)">
+            <summary>
+            角色信息修改
+            </summary>
+            <param name="info"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Jyz.Api.Controllers.UserController.Login(Jyz.Application.LoginRequest)">
             <summary>
             登录
             </summary>
@@ -43,7 +104,7 @@
             不需要权限
             </summary>
         </member>
-        <member name="M:Jyz.Api.Handlers.Policy.PermissionHandler.#ctor(Microsoft.AspNetCore.Authentication.IAuthenticationSchemeProvider,Microsoft.AspNetCore.Http.IHttpContextAccessor,Jyz.Application.Interfaces.IPrivilegeService)">
+        <member name="M:Jyz.Api.Handlers.Policy.PermissionHandler.#ctor(Microsoft.AspNetCore.Authentication.IAuthenticationSchemeProvider,Microsoft.AspNetCore.Http.IHttpContextAccessor,Jyz.Application.IPrivilegeService)">
             <summary>
             ctor
             </summary>
@@ -57,6 +118,26 @@
             </summary>
             <param name="app"></param>
             <returns></returns>
+        </member>
+        <member name="T:Jyz.Api.ApiResponse">
+            <summary>
+            返回Model
+            </summary>
+        </member>
+        <member name="P:Jyz.Api.ApiResponse.Status">
+            <summary>
+            状态码
+            </summary>
+        </member>
+        <member name="P:Jyz.Api.ApiResponse.Message">
+            <summary>
+            信息
+            </summary>
+        </member>
+        <member name="P:Jyz.Api.ApiResponse.Data">
+            <summary>
+            数据
+            </summary>
         </member>
     </members>
 </doc>

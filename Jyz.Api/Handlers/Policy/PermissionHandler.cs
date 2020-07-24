@@ -1,9 +1,5 @@
-﻿using Jyz.Application.Dtos;
-using Jyz.Application.Enums;
-using Jyz.Application.Exception;
-using Jyz.Application.Interfaces;
-using Jyz.Infrastructure.Configuration;
-using Jyz.Infrastructure.Extensions;
+﻿using Jyz.Application;
+using Jyz.Infrastructure;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -53,7 +49,7 @@ namespace Jyz.Api.Handlers.Policy
                     {
                         string controllerName =  httpContext.Request.RouteValues["controller"].ToString(); ;
                         string actionName = httpContext.Request.RouteValues["action"].ToString();
-                        List<PrivilegeDto> list = _privilegeSvc.GetPrivilegeByUserId(userId);
+                        List<PrivilegeResponse> list = _privilegeSvc.GetPrivilegeByUserId(userId);
                         if (list.Count(x => x.Controller.Compare(controllerName) && x.Action.Compare(actionName)) <= 0)
                         {
                             throw new ApiException(ApiStatusEnum.Fail_UnAuthorized);

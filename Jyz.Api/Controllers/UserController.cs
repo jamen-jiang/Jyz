@@ -1,11 +1,6 @@
-﻿using Jyz.Api.Filter;
-using Jyz.Application.Dtos;
-using Jyz.Application.Interfaces;
-using Jyz.Application.Response;
+﻿using Jyz.Application;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Jyz.Api.Controllers
@@ -23,14 +18,14 @@ namespace Jyz.Api.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost, AllowAnonymous]
-        public async Task<LoginResDto> Login(LoginReqDto info)
+        public async Task<LoginResponse> Login(LoginRequest info)
         {
             return await userSvc.Login(info);
         }
         [HttpGet]
-        public async Task<ApiResponse> Get(int pageIndex = 1,int pageSize = 10)
+        public async Task<PageResDto<UserResponse>> Get([FromQuery]PageReqDto info)
         {
-            return await userSvc.Get(pageIndex, pageSize);
+            return await userSvc.Get(info);
         }
     }
 }

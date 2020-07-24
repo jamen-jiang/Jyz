@@ -15,23 +15,20 @@ namespace Jyz.Infrastructure.Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.5")
+                .HasAnnotation("ProductVersion", "2.2.0-rtm-35687")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("Jyz.Domain.Module", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("Controller")
                         .IsRequired()
-                        .HasColumnType("nvarchar(50)")
                         .HasMaxLength(50);
 
-                    b.Property<Guid>("CreatedBy")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<Guid>("CreatedBy");
 
                     b.Property<string>("CreatedByName")
                         .IsRequired()
@@ -41,32 +38,24 @@ namespace Jyz.Infrastructure.Data.Migrations
                         .HasColumnType("datetime");
 
                     b.Property<string>("Icon")
-                        .HasColumnType("nvarchar(200)")
                         .HasMaxLength(200);
 
-                    b.Property<bool>("IsEnable")
-                        .HasColumnType("bit");
+                    b.Property<bool>("IsEnable");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(50)")
                         .HasMaxLength(50);
 
-                    b.Property<Guid?>("PId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<Guid?>("PId");
 
                     b.Property<string>("Remark")
-                        .HasColumnType("nvarchar(500)")
                         .HasMaxLength(500);
 
-                    b.Property<int?>("Sort")
-                        .HasColumnType("int");
+                    b.Property<int?>("Sort");
 
-                    b.Property<int>("Type")
-                        .HasColumnType("int");
+                    b.Property<int>("Type");
 
-                    b.Property<Guid?>("UpdatedBy")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<Guid?>("UpdatedBy");
 
                     b.Property<string>("UpdatedByName")
                         .HasColumnType("nvarchar(50)");
@@ -75,7 +64,6 @@ namespace Jyz.Infrastructure.Data.Migrations
                         .HasColumnType("datetime");
 
                     b.Property<string>("VueUri")
-                        .HasColumnType("nvarchar(200)")
                         .HasMaxLength(200);
 
                     b.HasKey("Id");
@@ -86,16 +74,13 @@ namespace Jyz.Infrastructure.Data.Migrations
             modelBuilder.Entity("Jyz.Domain.Operate", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("Action")
                         .IsRequired()
-                        .HasColumnType("nvarchar(50)")
                         .HasMaxLength(50);
 
-                    b.Property<Guid>("CreatedBy")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<Guid>("CreatedBy");
 
                     b.Property<string>("CreatedByName")
                         .IsRequired()
@@ -105,32 +90,24 @@ namespace Jyz.Infrastructure.Data.Migrations
                         .HasColumnType("datetime");
 
                     b.Property<string>("Icon")
-                        .HasColumnType("nvarchar(200)")
                         .HasMaxLength(200);
 
-                    b.Property<bool>("IsEnable")
-                        .HasColumnType("bit");
+                    b.Property<bool>("IsEnable");
 
-                    b.Property<Guid>("ModuleId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<Guid>("ModuleId");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(50)")
                         .HasMaxLength(50);
 
                     b.Property<string>("Remark")
-                        .HasColumnType("nvarchar(500)")
                         .HasMaxLength(500);
 
-                    b.Property<int?>("Sort")
-                        .HasColumnType("int");
+                    b.Property<int?>("Sort");
 
-                    b.Property<int>("Type")
-                        .HasColumnType("int");
+                    b.Property<int>("Type");
 
-                    b.Property<Guid?>("UpdatedBy")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<Guid?>("UpdatedBy");
 
                     b.Property<string>("UpdatedByName")
                         .HasColumnType("nvarchar(50)");
@@ -148,29 +125,27 @@ namespace Jyz.Infrastructure.Data.Migrations
             modelBuilder.Entity("Jyz.Domain.Privilege", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("Access")
                         .IsRequired()
-                        .HasColumnType("nvarchar(50)")
                         .HasMaxLength(50);
 
                     b.Property<string>("AccessValue")
                         .IsRequired()
+                        .HasConversion(new ValueConverter<string, string>(v => default(string), v => default(string), new ConverterMappingHints(size: 36)))
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Master")
                         .IsRequired()
-                        .HasColumnType("nvarchar(50)")
                         .HasMaxLength(50);
 
                     b.Property<string>("MasterValue")
                         .IsRequired()
+                        .HasConversion(new ValueConverter<string, string>(v => default(string), v => default(string), new ConverterMappingHints(size: 36)))
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<int>("Operation")
-                        .HasColumnType("int");
+                    b.Property<int>("Operation");
 
                     b.HasKey("Id");
 
@@ -180,11 +155,9 @@ namespace Jyz.Infrastructure.Data.Migrations
             modelBuilder.Entity("Jyz.Domain.Role", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .ValueGeneratedOnAdd();
 
-                    b.Property<Guid>("CreatedBy")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<Guid>("CreatedBy");
 
                     b.Property<string>("CreatedByName")
                         .IsRequired()
@@ -193,27 +166,18 @@ namespace Jyz.Infrastructure.Data.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime");
 
-                    b.Property<bool>("IsEnable")
-                        .HasColumnType("bit");
+                    b.Property<bool>("IsEnable");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(50)")
                         .HasMaxLength(50);
 
                     b.Property<string>("Remark")
-                        .HasColumnType("nvarchar(500)")
                         .HasMaxLength(500);
 
-                    b.Property<string>("RoleCode")
-                        .HasColumnType("nvarchar(200)")
-                        .HasMaxLength(200);
+                    b.Property<int?>("Sort");
 
-                    b.Property<int?>("Sort")
-                        .HasColumnType("int");
-
-                    b.Property<Guid?>("UpdatedBy")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<Guid?>("UpdatedBy");
 
                     b.Property<string>("UpdatedByName")
                         .HasColumnType("nvarchar(50)");
@@ -229,14 +193,11 @@ namespace Jyz.Infrastructure.Data.Migrations
             modelBuilder.Entity("Jyz.Domain.Role_User", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .ValueGeneratedOnAdd();
 
-                    b.Property<Guid>("RoleId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<Guid>("RoleId");
 
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<Guid>("UserId");
 
                     b.HasKey("Id");
 
@@ -250,11 +211,9 @@ namespace Jyz.Infrastructure.Data.Migrations
             modelBuilder.Entity("Jyz.Domain.User", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .ValueGeneratedOnAdd();
 
-                    b.Property<Guid>("CreatedBy")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<Guid>("CreatedBy");
 
                     b.Property<string>("CreatedByName")
                         .IsRequired()
@@ -263,25 +222,20 @@ namespace Jyz.Infrastructure.Data.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime");
 
-                    b.Property<bool>("IsEnable")
-                        .HasColumnType("bit");
+                    b.Property<bool>("IsEnable");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(50)")
                         .HasMaxLength(50);
 
                     b.Property<string>("PassWord")
                         .IsRequired()
-                        .HasColumnType("nvarchar(50)")
                         .HasMaxLength(50);
 
                     b.Property<string>("Remark")
-                        .HasColumnType("nvarchar(500)")
                         .HasMaxLength(500);
 
-                    b.Property<Guid?>("UpdatedBy")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<Guid?>("UpdatedBy");
 
                     b.Property<string>("UpdatedByName")
                         .HasColumnType("nvarchar(50)");
@@ -291,7 +245,6 @@ namespace Jyz.Infrastructure.Data.Migrations
 
                     b.Property<string>("UserName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(50)")
                         .HasMaxLength(50);
 
                     b.HasKey("Id");
@@ -304,8 +257,7 @@ namespace Jyz.Infrastructure.Data.Migrations
                     b.HasOne("Jyz.Domain.Module", "Module")
                         .WithMany("Operates")
                         .HasForeignKey("ModuleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Jyz.Domain.Role_User", b =>
@@ -313,14 +265,12 @@ namespace Jyz.Infrastructure.Data.Migrations
                     b.HasOne("Jyz.Domain.Role", "Role")
                         .WithMany("Role_User")
                         .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Jyz.Domain.User", "User")
                         .WithMany("Role_User")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

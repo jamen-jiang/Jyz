@@ -12,8 +12,8 @@ namespace Jyz.Infrastructure.Data.Mappings
     {
         public void Configure(EntityTypeBuilder<Role> builder)
         {
+            builder.HasQueryFilter(x => x.IsEnable);
             builder.Property(x => x.Name).IsRequired().HasMaxLength(50);
-            builder.Property(x => x.RoleCode).IsRequired(false).HasMaxLength(200);
             builder.Property(x => x.Sort).IsRequired(false);
             builder.Property(x => x.Remark).IsRequired(false).HasMaxLength(500);
         }

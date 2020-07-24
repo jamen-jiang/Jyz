@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Jyz.Infrastructure.Extensions
+namespace Jyz.Infrastructure
 {
     public static class GuidExtension
     {
@@ -15,6 +15,10 @@ namespace Jyz.Infrastructure.Extensions
             if (Guid.TryParse(str, out guid))
                 return guid;
             return Guid.Empty;
+        }
+        public static bool IsEmpty(this Guid guid)
+        {
+            return guid == Guid.Empty ? true : false;
         }
     }
 }
