@@ -18,5 +18,9 @@ namespace Jyz.Api.Middlewares
         {
             return app.UseMiddleware<ExceptionHandlerMiddleware>();
         }
+        public static IApplicationBuilder UseResultMiddleware(this IApplicationBuilder app)
+        {
+            return app.UseMiddleware<ResultMiddleware>();
+        }
     }
 }

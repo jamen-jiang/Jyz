@@ -1,6 +1,7 @@
 ﻿using Jyz.Domain;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -18,6 +19,16 @@ namespace Jyz.Infrastructure.Data
         public static T FindById<T>(this IQueryable<T> query, Guid id) where T : Entity<Guid>
         {
             return  query.FirstOrDefault(x => x.Id == id);
+        }
+        /// <summary>
+        /// 获取全部忽视isEnable
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="query"></param>
+        /// <returns></returns>
+        public static IQueryable<T> GetAll<T>(this IQueryable<T> query) where T : Entity<Guid>
+        {
+            return query.IgnoreQueryFilters();
         }
         /// <summary>
         /// 根据Id获取实体(异步)

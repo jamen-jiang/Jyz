@@ -12,7 +12,7 @@ namespace Jyz.Infrastructure.Data.Mappings
             builder.Property(x => x.PId).IsRequired(false);
             builder.Property(x => x.Type).IsRequired();
             builder.Property(x => x.Name).IsRequired().HasMaxLength(50);
-            builder.Property(x => x.Controller).IsRequired().HasMaxLength(50);
+            builder.Property(x => x.Controller).HasMaxLength(50);
             builder.Property(x => x.Icon).IsRequired(false).HasMaxLength(200);
             builder.Property(x => x.Sort).IsRequired(false);
             builder.Property(x => x.VueUri).IsRequired(false).HasMaxLength(200);

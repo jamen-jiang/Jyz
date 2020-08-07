@@ -17,11 +17,14 @@ namespace Jyz.Application.AutoMapper
                dto => dto.TypeName,
                domain => domain.MapFrom(src=>src.Type.GetDescription<ModuleTypeEnum>())
             );
+            CreateMap<Module, ComboBoxTreeResponse>();
             CreateMap<Operate, OperateResponse>().ForMember(
                dto => dto.TypeName,
                domain => domain.MapFrom(src => src.Type.GetDescription<OperateTypeEnum>())
             );
             CreateMap<Role, RoleResponse>();
+            CreateMap<LogOperate, LogOperateResponse>();
+            CreateMap<LogLogin, LogLoginResponse>();
         }
     }
 }

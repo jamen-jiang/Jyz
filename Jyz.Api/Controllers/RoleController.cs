@@ -1,4 +1,7 @@
-﻿using Jyz.Application;
+﻿using Jyz.Api.Attributes;
+using Jyz.Api.Filter;
+using Jyz.Application;
+using Jyz.Domain.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -7,8 +10,8 @@ using System.Threading.Tasks;
 
 namespace Jyz.Api.Controllers
 {
-    [Authorize(Policy = "Permission")]
-    public class RoleController : BaseController
+    [Privilege]
+    public class RoleController : ApiControllerBase
     {
         private readonly IRoleService _roleSvc;
         private readonly IUserService _userSvc;
@@ -26,10 +29,11 @@ namespace Jyz.Api.Controllers
         /// </summary>
         /// <param name="info"></param>
         /// <returns></returns>
-        [HttpGet]
-        public async Task<PageResDto<RoleResponse>> Get([FromQuery]PageReqDto info)
+        [HttpPost]
+        [Logger("获取角色列表")]
+        public async Task<PageResponse<RoleResponse>> Query([FromQuery]PageRequest info)
         {
-            return await _roleSvc.Get(info);
+            return await _roleSvc.Query(info);
         }
         /// <summary>
         /// 获取用户列表
@@ -37,36 +41,40 @@ namespace Jyz.Api.Controllers
         /// <param name="info"></param>
         /// <returns></returns>
         [HttpGet]
-        public async Task<PageResDto<UserResponse>> GetUsers([FromQuery]PageReqDto info)
+        [Logger("获取用户列表")]
+        public async Task<PageResponse<UserResponse>> GetUsers([FromQuery]PageRequest<UserQuery> info)
         {
-            return await _userSvc.Get(info);
+            return await _userSvc.Query(info);
         }
         /// <summary>
-        /// 根据角色Id获取用户列表
+        /// 获取此角色Id的用户列表
         /// </summary>
         /// <param name="roleId"></param>
         /// <returns></returns>
         [HttpGet]
+        [Logger("获取此角色Id的用户列表")]
         public async Task<List<UserResponse>> GetRoleUsers(Guid roleId)
         {
             return await _userSvc.GetRoleUsers(roleId);
         }
         /// <summary>
-        /// 获取模块树及权限
+        /// 获取模块列表及此角色Id的权限
         /// </summary>
         /// <param name="roleId"></param>
         /// <returns></returns>
         [HttpGet]
+        [Logger("获取模块列表及此角色Id的权限")]
         public async Task<ModuleAndPrivilegeResponse> GetModuleAndPrivilege(Guid roleId)
         {
-            return await _privilegeSvc.GetModuleAndPrivilege(roleId);
+            return await _privilegeSvc.GetModuleAndPrivilege(MasterEnum.Role, roleId);
         }
         /// <summary>
-        /// 根据Id获取角色
+        /// 获取角色详情
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet]
+        [Logger("获取角色详情")]
         public async Task<RoleResponse> Detail(Guid id)
         {
             return await _roleSvc.Detail(id);
@@ -77,6 +85,7 @@ namespace Jyz.Api.Controllers
         /// <param name="info"></param>
         /// <returns></returns>
         [HttpPost]
+        [Logger("修改角色信息")]
         public async Task Modify(RoleRequest info)
         {
             await _roleSvc.Save(info);

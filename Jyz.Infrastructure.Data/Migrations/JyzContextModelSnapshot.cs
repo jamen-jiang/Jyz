@@ -19,13 +19,98 @@ namespace Jyz.Infrastructure.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("Jyz.Domain.LogLogin", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Browser")
+                        .HasMaxLength(200);
+
+                    b.Property<string>("City")
+                        .HasMaxLength(50);
+
+                    b.Property<string>("IP")
+                        .HasMaxLength(200);
+
+                    b.Property<bool>("IsSuccess");
+
+                    b.Property<DateTime>("LoginOn");
+
+                    b.Property<string>("Os")
+                        .HasMaxLength(200);
+
+                    b.Property<string>("UserAgent")
+                        .HasMaxLength(500);
+
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasMaxLength(50);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("LogLogin");
+                });
+
+            modelBuilder.Entity("Jyz.Domain.LogOperate", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("ApiMethod")
+                        .HasMaxLength(50);
+
+                    b.Property<string>("ApiName")
+                        .IsRequired()
+                        .HasMaxLength(50);
+
+                    b.Property<string>("ApiUrl")
+                        .IsRequired()
+                        .HasMaxLength(50);
+
+                    b.Property<string>("Browser")
+                        .HasMaxLength(200);
+
+                    b.Property<string>("City")
+                        .HasMaxLength(50);
+
+                    b.Property<long>("ElapsedMilliseconds");
+
+                    b.Property<string>("IP")
+                        .HasMaxLength(200);
+
+                    b.Property<bool>("IsSuccess");
+
+                    b.Property<DateTime>("LogOn");
+
+                    b.Property<string>("Os")
+                        .HasMaxLength(200);
+
+                    b.Property<string>("Request");
+
+                    b.Property<string>("Response");
+
+                    b.Property<string>("Type")
+                        .HasMaxLength(50);
+
+                    b.Property<string>("UserAgent")
+                        .HasMaxLength(500);
+
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasMaxLength(50);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("LogOperate");
+                });
+
             modelBuilder.Entity("Jyz.Domain.Module", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Controller")
-                        .IsRequired()
                         .HasMaxLength(50);
 
                     b.Property<Guid>("CreatedBy");

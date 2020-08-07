@@ -29,7 +29,7 @@ namespace Jyz.Api.Extensions
             };
             services.AddAuthorization(options =>
             {
-                options.AddPolicy("Permission", policy => policy.Requirements.Add(new PermissionRequirement()));
+                //options.AddPolicy("Permission", policy => policy.Requirements.Add(new PermissionRequirement()));
             }).AddAuthentication(options =>
             {
                 options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -51,7 +51,7 @@ namespace Jyz.Api.Extensions
                         }
                   };
               }).AddScheme<AuthenticationSchemeOptions, ApiResponseHandler>(nameof(ApiResponseHandler), o => { });
-            services.AddScoped<IAuthorizationHandler, PermissionHandler>();
+            //services.AddScoped<IAuthorizationHandler, PermissionHandler>();
         }
     }
 }

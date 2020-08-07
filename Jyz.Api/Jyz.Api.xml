@@ -4,16 +4,95 @@
         <name>Jyz.Api</name>
     </assembly>
     <members>
+        <member name="T:Jyz.Api.Attributes.ApiResponseAttribute">
+            <summary>
+            返回值过滤器
+            </summary>
+        </member>
+        <member name="M:Jyz.Api.Attributes.ApiResponseAttribute.OnResultExecuting(Microsoft.AspNetCore.Mvc.Filters.ResultExecutingContext)">
+            <summary>
+            统一返回值
+            </summary>
+            <param name="context"></param>
+        </member>
+        <member name="T:Jyz.Api.Attributes.DisableLogAttribute">
+            <summary>
+            禁用操作日志
+            </summary>
+        </member>
+        <member name="T:Jyz.Api.Attributes.ValidateModelAttribute">
+            <summary>
+            模型过滤器
+            </summary>
+        </member>
+        <member name="M:Jyz.Api.Attributes.ValidateModelAttribute.OnActionExecuting(Microsoft.AspNetCore.Mvc.Filters.ActionExecutingContext)">
+            <summary>
+            模型验证
+            </summary>
+            <param name="context"></param>
+        </member>
+        <member name="T:Jyz.Api.Controllers.CommonController">
+            <summary>
+            公用接口
+            </summary>
+        </member>
         <member name="M:Jyz.Api.Controllers.CommonController.GetOperateTypes">
             <summary>
-            获取对应的功能列表
+            获取功能类型列表
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Jyz.Api.Controllers.ModuleController.Get">
+        <member name="M:Jyz.Api.Controllers.CommonController.GetModuleTypes">
+            <summary>
+            获取模块类型列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Jyz.Api.Controllers.CommonController.GetModuleCatalogs">
+            <summary>
+            获取模块目录树
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Jyz.Api.Controllers.LogLoginController.Query(Jyz.Application.PageRequest)">
+            <summary>
+            获取登录日志
+            </summary>
+            <param name="info"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Jyz.Api.Controllers.LogOperateController.Query(Jyz.Application.PageRequest)">
+            <summary>
+            获取操作日志
+            </summary>
+            <param name="info"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Jyz.Api.Controllers.ModuleController.Query">
             <summary>
             获取模块列表
             </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Jyz.Api.Controllers.ModuleController.Detail(System.Guid)">
+            <summary>
+            获取模块详情
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Jyz.Api.Controllers.ModuleController.Add(Jyz.Application.ModuleRequest)">
+            <summary>
+            添加模块
+            </summary>
+            <param name="info"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Jyz.Api.Controllers.ModuleController.Modify(Jyz.Application.ModuleRequest)">
+            <summary>
+            修改模块
+            </summary>
+            <param name="info"></param>
             <returns></returns>
         </member>
         <member name="M:Jyz.Api.Controllers.OperateController.GetModules">
@@ -22,7 +101,7 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Jyz.Api.Controllers.OperateController.Get(System.Guid)">
+        <member name="M:Jyz.Api.Controllers.OperateController.Query(System.Guid)">
             <summary>
             获取对应的功能列表
             </summary>
@@ -34,14 +113,14 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Jyz.Api.Controllers.RoleController.Get(Jyz.Application.PageReqDto)">
+        <member name="M:Jyz.Api.Controllers.RoleController.Query(Jyz.Application.PageRequest)">
             <summary>
             获取角色列表
             </summary>
             <param name="info"></param>
             <returns></returns>
         </member>
-        <member name="M:Jyz.Api.Controllers.RoleController.GetUsers(Jyz.Application.PageReqDto)">
+        <member name="M:Jyz.Api.Controllers.RoleController.GetUsers(Jyz.Application.PageRequest{Jyz.Application.UserQuery})">
             <summary>
             获取用户列表
             </summary>
@@ -50,21 +129,21 @@
         </member>
         <member name="M:Jyz.Api.Controllers.RoleController.GetRoleUsers(System.Guid)">
             <summary>
-            根据角色Id获取用户列表
+            获取此角色Id的用户列表
             </summary>
             <param name="roleId"></param>
             <returns></returns>
         </member>
         <member name="M:Jyz.Api.Controllers.RoleController.GetModuleAndPrivilege(System.Guid)">
             <summary>
-            获取模块树及权限
+            获取模块列表及此角色Id的权限
             </summary>
             <param name="roleId"></param>
             <returns></returns>
         </member>
         <member name="M:Jyz.Api.Controllers.RoleController.Detail(System.Guid)">
             <summary>
-            根据Id获取角色
+            获取角色详情
             </summary>
             <param name="id"></param>
             <returns></returns>
@@ -82,24 +161,61 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Jyz.Api.Filter.ApiResultAndValidateModelFilterAttribute.OnActionExecuting(Microsoft.AspNetCore.Mvc.Filters.ActionExecutingContext)">
+        <member name="M:Jyz.Api.Controllers.UserController.Query(Jyz.Application.PageRequest{Jyz.Application.UserQuery})">
             <summary>
-            模型验证
+            获取用户列表
             </summary>
-            <param name="context"></param>
+            <param name="info"></param>
+            <returns></returns>
         </member>
-        <member name="M:Jyz.Api.Filter.ApiResultAndValidateModelFilterAttribute.OnActionExecuted(Microsoft.AspNetCore.Mvc.Filters.ActionExecutedContext)">
+        <member name="M:Jyz.Api.Controllers.UserController.Detail(System.Guid)">
             <summary>
-            统一返回值
+            获取用户详情
             </summary>
-            <param name="context"></param>
+            <param name="id"></param>
+            <returns></returns>
         </member>
-        <member name="T:Jyz.Api.Filter.PrivilegeFilter">
+        <member name="M:Jyz.Api.Controllers.UserController.GetRoles(Jyz.Application.PageRequest)">
+            <summary>
+            获取角色列表
+            </summary>
+            <param name="info"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Jyz.Api.Controllers.UserController.GetUserRoles(System.Guid)">
+            <summary>
+            获取此用户Id的角色列表
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Jyz.Api.Controllers.UserController.GetModuleAndPrivilege(System.Guid)">
+            <summary>
+            获取模块列表及此用户Id的权限
+            </summary>
+            <param name="userId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Jyz.Api.Controllers.UserController.Add(Jyz.Application.UserAddRequest)">
+            <summary>
+            添加用户
+            </summary>
+            <param name="info"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Jyz.Api.Controllers.UserController.Modify(Jyz.Application.UserModifyRequest)">
+            <summary>
+            修改用户
+            </summary>
+            <param name="info"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Jyz.Api.Filter.PrivilegeAttribute">
             <summary>
             权限过滤
             </summary>
         </member>
-        <member name="T:Jyz.Api.Filter.NoPrivilegeFilter">
+        <member name="T:Jyz.Api.Filter.NoPrivilegeAttribute">
             <summary>
             不需要权限
             </summary>

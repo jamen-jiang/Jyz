@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 
@@ -14,16 +15,17 @@ namespace Jyz.Infrastructure
         /// <param name="enumType"></param>
         /// <param name="isAddEmpty"></param>
         /// <returns></returns>
-        public static Dictionary<string, string> GetEnumDict(Type enumType, bool isAddEmpty = false)
+        public static Dictionary<string, string> GetEnumDict<T>(bool isAddEmpty = false)where T : Enum
         {
+            var type = typeof(T);
             Dictionary<string, string> dict = new Dictionary<string, string>();
             if (isAddEmpty)
             {
                 dict.Add("", "");
             }
-            foreach (int i in Enum.GetValues(enumType))
+            foreach (int i in Enum.GetValues(type))
             {
-                string name = GetEnumName(enumType, i);
+                string name = GetEnumName(type, i);
                 dict.Add(i.ToString(), name);
             }
             return dict;

@@ -1,7 +1,9 @@
+using Jyz.Api.Attributes;
 using Jyz.Api.Extensions;
 using Jyz.Api.Filter;
 using Jyz.Api.Middlewares;
 using Jyz.Application;
+using Jyz.Domain;
 using Jyz.Infrastructure;
 using Jyz.Infrastructure.Data;
 using Microsoft.AspNetCore.Builder;
@@ -13,6 +15,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using System.Linq;
 
 namespace Jyz.Api
 {
@@ -29,7 +32,6 @@ namespace Jyz.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             //接口注入
             services.AddServiceSetup("Jyz.Application");
@@ -52,12 +54,11 @@ namespace Jyz.Api
                 //不使用驼峰样式的key
                 options.SerializerSettings.ContractResolver = new DefaultContractResolver();
                 //设置时间格式
-                options.SerializerSettings.DateFormatString = "yyyy-MM-dd";
+                options.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:mm:ss";
             }); ;
-            services.AddMvc(mvc =>
+            services.AddControllers(controller =>
             {
-                //模型验证及统一返回结果
-                mvc.Filters.Add<ApiResultAndValidateModelFilterAttribute>();
+                controller.Filters.Add<LogActionFilter>();
             });
         }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -80,7 +81,14 @@ namespace Jyz.Api
 
             app.UseHttpsRedirection();
 
+            var serviceProvider = app.ApplicationServices;
+            var httpContextAccessor = serviceProvider.GetRequiredService<IHttpContextAccessor>();
+            CurrentUser.Configure(httpContextAccessor);
+
             app.UseRouting();
+
+            app.UseResultMiddleware();
+            
             //认证
             app.UseAuthentication();
             //授权

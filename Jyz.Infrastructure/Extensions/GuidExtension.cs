@@ -9,10 +9,10 @@ namespace Jyz.Infrastructure
         /// </summary>
         /// <param name="str"></param>
         /// <returns></returns>
-        public static Guid ToGuid(this string str)
+        public static Guid ToGuid(this object str)
         {
             Guid guid;
-            if (Guid.TryParse(str, out guid))
+            if (Guid.TryParse(str?.ToString(), out guid))
                 return guid;
             return Guid.Empty;
         }

@@ -12,6 +12,12 @@ namespace Jyz.Application.AutoMapper
         {
             CreateMap<OperateRequest, Operate>();
             CreateMap<RoleModel, Role>();
+            CreateMap<ModuleRequest, Module>();
+            CreateMap<UserAddRequest, User>();
+            CreateMap<UserModifyRequest, User>();
+            CreateMap<UserInfo, User>();
+            CreateMap<LogOperateRequest, LogOperate>();
+            CreateMap<LogLoginRequest, LogLogin>();
         }
     }
 }

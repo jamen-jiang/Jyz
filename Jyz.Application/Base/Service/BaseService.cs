@@ -21,15 +21,15 @@ namespace Jyz.Application
         /// <returns></returns>
         protected void BeforeAddOrModify<T>(T t) where T : Entity<Guid>
         {
-            if (t.Id.IsEmpty())
+            if (t.Id == null || t.Id.IsEmpty())
             {
-                t.CreatedBy = UserContext.UserId;
-                t.CreatedByName = UserContext.UserName;
+                t.CreatedBy = CurrentUser.UserId;
+                t.CreatedByName = CurrentUser.UserName;
             }
             else
             {
-                t.UpdatedBy = UserContext.UserId;
-                t.UpdatedByName = UserContext.UserName;
+                t.UpdatedBy = CurrentUser.UserId;
+                t.UpdatedByName = CurrentUser.UserName;
                 t.UpdatedOn = DateTime.Now;
             }
         }
