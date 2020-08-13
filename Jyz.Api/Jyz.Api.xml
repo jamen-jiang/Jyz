@@ -54,6 +54,73 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:Jyz.Api.Controllers.CommonController.GetModules">
+            <summary>
+            获取模块树
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Jyz.Api.Controllers.CommonController.GetDepartments">
+            <summary>
+            获取部门树
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Jyz.Api.Controllers.DepartmentController.Query(Jyz.Application.DepartmentRequest)">
+            <summary>
+            获取部门列表
+            </summary>
+            <param name="info"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Jyz.Api.Controllers.DepartmentController.Detail(System.Guid)">
+            <summary>
+            获取部门详情
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Jyz.Api.Controllers.DepartmentController.GetModuleOperates">
+            <summary>
+            获取模块操作列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Jyz.Api.Controllers.DepartmentController.GetAuthorizeModuleOperateIds(System.Guid)">
+            <summary>
+            获取授权的模块操作Id列表
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Jyz.Api.Controllers.DepartmentController.GetRoles(Jyz.Application.PageRequest{Jyz.Application.RoleRequest})">
+            <summary>
+            获取角色列表
+            </summary>
+            <param name="info"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Jyz.Api.Controllers.DepartmentController.GetDepartmentRoles(System.Guid)">
+            <summary>
+            获取此部门Id的角色列表
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Jyz.Api.Controllers.DepartmentController.Add(Jyz.Application.DepartmentAddRequest)">
+            <summary>
+            添加部门
+            </summary>
+            <param name="info"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Jyz.Api.Controllers.DepartmentController.Modify(Jyz.Application.DepartmentModifyRequest)">
+            <summary>
+            修改部门
+            </summary>
+            <param name="info"></param>
+            <returns></returns>
+        </member>
         <member name="M:Jyz.Api.Controllers.LogLoginController.Query(Jyz.Application.PageRequest)">
             <summary>
             获取登录日志
@@ -68,7 +135,7 @@
             <param name="info"></param>
             <returns></returns>
         </member>
-        <member name="M:Jyz.Api.Controllers.ModuleController.Query">
+        <member name="M:Jyz.Api.Controllers.ModuleController.Query(Jyz.Application.ModuleRequest)">
             <summary>
             获取模块列表
             </summary>
@@ -81,46 +148,46 @@
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:Jyz.Api.Controllers.ModuleController.Add(Jyz.Application.ModuleRequest)">
+        <member name="M:Jyz.Api.Controllers.ModuleController.Add(Jyz.Application.ModuleAddRequest)">
             <summary>
             添加模块
             </summary>
             <param name="info"></param>
             <returns></returns>
         </member>
-        <member name="M:Jyz.Api.Controllers.ModuleController.Modify(Jyz.Application.ModuleRequest)">
+        <member name="M:Jyz.Api.Controllers.ModuleController.Modify(Jyz.Application.ModuleModifyRequest)">
             <summary>
             修改模块
             </summary>
             <param name="info"></param>
             <returns></returns>
         </member>
-        <member name="M:Jyz.Api.Controllers.OperateController.GetModules">
+        <member name="M:Jyz.Api.Controllers.OperateController.GetModules(Jyz.Application.ModuleRequest)">
             <summary>
             获取模块列表
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Jyz.Api.Controllers.OperateController.Query(System.Guid)">
+        <member name="M:Jyz.Api.Controllers.OperateController.Query(Jyz.Application.PageRequest{Jyz.Application.OperateRequest})">
             <summary>
             获取对应的功能列表
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Jyz.Api.Controllers.PrivilegeController.GetAuthorizeModules">
+        <member name="M:Jyz.Api.Controllers.PrivilegeController.GetAuthorizeModuleOperates">
             <summary>
-            获取当前用户授权的菜单列表
+            获取当前用户授权的菜单操作列表
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Jyz.Api.Controllers.RoleController.Query(Jyz.Application.PageRequest)">
+        <member name="M:Jyz.Api.Controllers.RoleController.Query(Jyz.Application.PageRequest{Jyz.Application.RoleRequest})">
             <summary>
             获取角色列表
             </summary>
             <param name="info"></param>
             <returns></returns>
         </member>
-        <member name="M:Jyz.Api.Controllers.RoleController.GetUsers(Jyz.Application.PageRequest{Jyz.Application.UserQuery})">
+        <member name="M:Jyz.Api.Controllers.RoleController.GetUsers(Jyz.Application.PageRequest{Jyz.Application.UserRequest})">
             <summary>
             获取用户列表
             </summary>
@@ -131,14 +198,20 @@
             <summary>
             获取此角色Id的用户列表
             </summary>
-            <param name="roleId"></param>
+            <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:Jyz.Api.Controllers.RoleController.GetModuleAndPrivilege(System.Guid)">
+        <member name="M:Jyz.Api.Controllers.RoleController.GetModuleOperates">
             <summary>
-            获取模块列表及此角色Id的权限
+            获取模块操作列表
             </summary>
-            <param name="roleId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Jyz.Api.Controllers.RoleController.GetAuthorizeModuleOperateIds(System.Guid)">
+            <summary>
+            获取授权的模块操作Id列表
+            </summary>
+            <param name="id"></param>
             <returns></returns>
         </member>
         <member name="M:Jyz.Api.Controllers.RoleController.Detail(System.Guid)">
@@ -148,7 +221,7 @@
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:Jyz.Api.Controllers.RoleController.Modify(Jyz.Application.RoleRequest)">
+        <member name="M:Jyz.Api.Controllers.RoleController.Modify(Jyz.Application.RoleModifyRequest)">
             <summary>
             角色信息修改
             </summary>
@@ -161,7 +234,7 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Jyz.Api.Controllers.UserController.Query(Jyz.Application.PageRequest{Jyz.Application.UserQuery})">
+        <member name="M:Jyz.Api.Controllers.UserController.Query(Jyz.Application.PageRequest{Jyz.Application.UserRequest})">
             <summary>
             获取用户列表
             </summary>
@@ -175,7 +248,7 @@
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:Jyz.Api.Controllers.UserController.GetRoles(Jyz.Application.PageRequest)">
+        <member name="M:Jyz.Api.Controllers.UserController.GetRoles(Jyz.Application.PageRequest{Jyz.Application.RoleRequest})">
             <summary>
             获取角色列表
             </summary>
@@ -189,11 +262,24 @@
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:Jyz.Api.Controllers.UserController.GetModuleAndPrivilege(System.Guid)">
+        <member name="M:Jyz.Api.Controllers.UserController.GetModuleOperates">
             <summary>
-            获取模块列表及此用户Id的权限
+            获取模块操作列表
             </summary>
-            <param name="userId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Jyz.Api.Controllers.UserController.GetAuthorizeModuleOperateIds(System.Guid)">
+            <summary>
+            获取授权的模块操作Id列表
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Jyz.Api.Controllers.UserController.GetDepartments(Jyz.Application.DepartmentRequest)">
+            <summary>
+            获取部门列表
+            </summary>
+            <param name="info"></param>
             <returns></returns>
         </member>
         <member name="M:Jyz.Api.Controllers.UserController.Add(Jyz.Application.UserAddRequest)">

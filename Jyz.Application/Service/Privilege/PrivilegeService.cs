@@ -15,6 +15,7 @@ namespace Jyz.Application
     public class PrivilegeService : BaseService, IPrivilegeService
     {
         private readonly IMapper _mapper;
+
         public PrivilegeService(IMapper mapper)
         {
             _mapper = mapper;
@@ -42,45 +43,6 @@ namespace Jyz.Application
                         model.Action = o.Action;
                         list.Add(model);
                     }
-                }
-                return list;
-            }
-        }
-        /// <summary>
-        /// 根据用户Id获取授权的菜单列表
-        /// </summary>
-        /// <param name="userId"></param>
-        /// <returns></returns>
-        public List<ModuleResponse> GetAuthorizeModules(Guid userId)
-        {
-            using (var db = base.NewDB())
-            {
-                List<Module> modules = null;
-                List<Operate> operates = null;
-                //如果是管理员
-                if (userId == AppSetting.Project.Admin.ToGuid())
-                {
-                    //取出所有模块所有操作
-                    modules = db.Module.AsNoTracking().OrderBy(o=>o.Sort).ToList();
-                    operates = db.Operate.AsNoTracking().ToList();
-                }
-                else
-                {
-                    Guid[] roleIdList = db.Role.WhereByUserId(userId).Select(s => s.Id).ToArray();
-                    List<Privilege> privilegeList = db.Privilege.Get(MasterEnum.Role, roleIdList).ToList();
-                    Guid[] moduleIds = privilegeList.Where(x => x.Access == AccessEnum.Module.ToString()).Select(s => s.AccessValue).ToArray();
-                    Guid[] operateIds = privilegeList.Where(x => x.Access == AccessEnum.Operate.ToString()).Select(s => s.AccessValue).ToArray();
-                    modules = db.Module.Where(x => moduleIds.Contains(x.Id)).OrderBy(o => o.Sort).ToList();
-                    operates = db.Operate.Where(x => operateIds.Contains(x.Id)).ToList();
-                }
-                var operateDtos = _mapper.Map<List<OperateResponse>>(operates);
-                var moduleDtos = _mapper.Map<List<ModuleResponse>>(modules);
-                List<ModuleResponse> list = new List<ModuleResponse>();
-                List<ModuleResponse> pModules = moduleDtos.Where(x => x.PId == null).ToList();
-                foreach (var p in pModules)
-                {
-                    CreateModuleTree(p, moduleDtos, operateDtos);
-                    list.Add(p);
                 }
                 return list;
             }
@@ -117,7 +79,7 @@ namespace Jyz.Application
             var childList = list.Where(x => x.PId == node.Id).ToList();
             foreach (var c in childList)
             {
-                c.Operates = operates.Where(x => x.ModuleId == c.Id).ToList();
+                //c.Operates = operates.Where(x => x.ModuleId == c.Id).ToList();
                 node.Children.Add(c);
                 CreateModuleTree(c, list, operates);
             }

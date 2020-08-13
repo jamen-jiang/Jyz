@@ -25,18 +25,18 @@ namespace Jyz.Api.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost, DisableLog]
-        public async Task<List<ModuleResponse>> GetModules()
+        public async Task<List<ModuleResponse>> GetModules(ModuleRequest info)
         {
-            return await _moduleSvc.Query();
+            return await _moduleSvc.Query(info);
         }
         /// <summary>
         /// 获取对应的功能列表
         /// </summary>
         /// <returns></returns>
-        [HttpGet, DisableLog]
-        public async Task<List<OperateResponse>> Query(Guid moduleId)
+        [HttpPost, DisableLog]
+        public async Task<PageResponse<OperateResponse>> Query(PageRequest<OperateRequest> info)
         {
-            return await _operateSvc.Query(moduleId);
+            return await _operateSvc.Query(info);
         }
         [HttpGet, DisableLog]
         public async Task<OperateResponse> Detail(Guid id)
@@ -45,13 +45,13 @@ namespace Jyz.Api.Controllers
         }
         [HttpPost]
         [Logger("添加功能")]
-        public async Task Add(OperateRequest info)
+        public async Task Add(OperateAddRequest info)
         {
             await _operateSvc.Add(info);
         }
         [HttpPost]
         [Logger("修改功能")]
-        public async Task Modify(OperateRequest info)
+        public async Task Modify(OperateModifyRequest info)
         {
             await _operateSvc.Modify(info);
         }

@@ -22,6 +22,8 @@ namespace Jyz.Infrastructure.Data
         public virtual DbSet<User> User { get; set; }
         public virtual DbSet<LogOperate> LogOperate { get; set; }
         public virtual DbSet<LogLogin> LogLogin { get; set; }
+        public virtual DbSet<Department> Department { get; set; }
+        public virtual DbSet<Role_Department> Role_Department { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

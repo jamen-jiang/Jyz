@@ -46,7 +46,7 @@ namespace Jyz.Application
         {
             get
             {
-                return UserId ==  AppSetting.Project.Admin.ToGuid();
+                return UserId ==  AppSetting.SystemConfig.Admin.ToGuid();
             }
         }
         public static User User

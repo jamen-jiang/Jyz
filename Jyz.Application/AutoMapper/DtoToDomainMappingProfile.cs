@@ -10,14 +10,22 @@ namespace Jyz.Application.AutoMapper
         /// </summary>
         public DtoToDomainMappingProfile()
         {
-            CreateMap<OperateRequest, Operate>();
-            CreateMap<RoleModel, Role>();
-            CreateMap<ModuleRequest, Module>();
+            CreateMap<OperateAddRequest, Operate>();
+            CreateMap<OperateModifyRequest, Operate>();
+
+            CreateMap<RoleInfo, Role>();
+
+            CreateMap<ModuleAddRequest, Module>();
+            CreateMap<ModuleModifyRequest, Module>();
+
             CreateMap<UserAddRequest, User>();
             CreateMap<UserModifyRequest, User>();
             CreateMap<UserInfo, User>();
+
             CreateMap<LogOperateRequest, LogOperate>();
             CreateMap<LogLoginRequest, LogLogin>();
+
+            CreateMap<DepartmentInfo, Department>();
         }
     }
 }

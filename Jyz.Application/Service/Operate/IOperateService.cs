@@ -16,9 +16,9 @@ namespace Jyz.Application
         /// <summary>
         /// 获取对应的功能列表
         /// </summary>
-        /// <param name="moduleId"></param>
+        /// <param name="info"></param>
         /// <returns></returns>
-        Task<List<OperateResponse>> Query(Guid moduleId);
+        Task<PageResponse<OperateResponse>> Query(PageRequest<OperateRequest> info);
         /// <summary>
         /// 获取详情
         /// </summary>
@@ -30,11 +30,11 @@ namespace Jyz.Application
         /// </summary>
         /// <param name="info"></param>
         /// <returns></returns>
-        Task Add(OperateRequest info);
+        Task Add(OperateAddRequest info);
         /// <summary>
         /// 更新
         /// </summary>
         /// <param name="info"></param>
-        Task Modify(OperateRequest info);
+        Task Modify(OperateModifyRequest info);
     }
 }

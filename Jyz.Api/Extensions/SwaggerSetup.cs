@@ -19,8 +19,8 @@ namespace Jyz.Api.Extensions
                 {
                     // {ApiName} 定义成全局变量，方便修改
                     Version = "V1",
-                    Title = $"{AppSetting.Project.Name} 接口文档——Netcore 3.1",
-                    Description = $"{AppSetting.Project.Name} HTTP API v1",
+                    Title = $"{AppSetting.SystemConfig.Name} 接口文档——Netcore 3.1",
+                    Description = $"{AppSetting.SystemConfig.Name} HTTP API v1",
                 });
                 c.OrderActionsBy(o => o.RelativePath);
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, "Jyz.Api.xml");

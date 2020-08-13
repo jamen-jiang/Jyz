@@ -17,9 +17,11 @@ namespace Jyz.Application
     public class UserService : BaseService,IUserService
     {
         private readonly IMapper _mapper;
-        public UserService(IMapper mapper)
+        private IDepartmentService _departmentSvc;
+        public UserService(IMapper mapper, IDepartmentService departmentSvc)
         {
             _mapper = mapper;
+            _departmentSvc = departmentSvc;
         }
         /// <summary>
         /// 登录(返回token)
@@ -48,13 +50,17 @@ namespace Jyz.Application
         /// <param name="info"></param>
         /// <param name="isEnable"></param>
         /// <returns></returns>
-        public async Task<PageResponse<UserResponse>> Query(PageRequest<UserQuery> info)
+        public async Task<PageResponse<UserResponse>> Query(PageRequest<UserRequest> info)
         {
             using (var db = NewDB())
             {
                 PageResponse<UserResponse> model = new PageResponse<UserResponse>();
                 var query = db.User.AsNoTracking();
-
+                if (!info.Query.DepartmentId.IsEmpty())
+                {
+                    var ids = await _departmentSvc.GetCurrentAndChildrenIdList(info.Query.DepartmentId);
+                    query = query.Where(x => ids.Contains(x.DepartmentId));
+                }
                 if (!info.Query.Name.IsNullOrEmpty())
                     query = query.Where(x => x.Name.Contains(info.Query.Name));
                 if (!info.Query.UserName.IsNullOrEmpty())
@@ -65,11 +71,11 @@ namespace Jyz.Application
                     query = query.Where(x => x.CreatedOn <= info.Query.CreatedOnEnd);
 
                 int totalCount = await query.CountAsync();
-                List<User> list = await query.Paging(info.PageIndex, info.PageSize).ToListAsync();
+                List<User> list = await query.Paging(info.PageIndex, info.PageSize).Include(i => i.Department).ToListAsync();
                 model.PageIndex = info.PageIndex;
                 model.PageSize = info.PageSize;
                 model.TotalCount = totalCount;
-                model.List = _mapper.Map<List<UserResponse>>(list); ;
+                model.List = _mapper.Map<List<UserResponse>>(list);
                 return model;
             }
         }
@@ -111,7 +117,7 @@ namespace Jyz.Application
         {
             using (var db = NewDB())
             {
-                User user = _mapper.Map<User>(info);
+                User user = _mapper.Map<User>(info.User);
                 BeforeAddOrModify(user);
                 //密码暂写死
                 user.PassWord = user.UserName;
@@ -146,8 +152,8 @@ namespace Jyz.Application
         {
             using (var db = NewDB())
             {
-                await db.ExecSqlNoQuery("delete Role_User", new SqlParameter("UserId",info.Id));
-                await db.ExecSqlNoQuery("delete Privilege", new SqlParameter("MasterValue", info.Id));
+                await db.ExecSqlNoQuery("delete Role_User where UserId=@UserId", new SqlParameter("UserId",info.Id));
+                await db.ExecSqlNoQuery("delete Privilege where MasterValue=@MasterValue", new SqlParameter("MasterValue", info.Id));
                 var user = await db.User.FindByIdAsync(info.Id);
                 _mapper.Map(info.User, user);
                 BeforeAddOrModify(user);

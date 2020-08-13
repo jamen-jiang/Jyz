@@ -4,8 +4,12 @@ using System.Text;
 
 namespace Jyz.Application
 {
-    public class UserRequest:PageRequest
+    public class UserRequest
     {
+        public Guid DepartmentId { get; set; }
         public string Name { get; set; }
+        public string UserName { get; set; }
+        public DateTime? CreatedOnStart { get; set; }
+        public DateTime? CreatedOnEnd { get; set; }
     }
 }

@@ -19,6 +19,55 @@ namespace Jyz.Infrastructure.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("Jyz.Domain.Department", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<Guid>("CreatedBy");
+
+                    b.Property<string>("CreatedByName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime");
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(50);
+
+                    b.Property<string>("Fax")
+                        .HasMaxLength(50);
+
+                    b.Property<bool>("IsEnable");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50);
+
+                    b.Property<Guid?>("PId");
+
+                    b.Property<string>("Remark")
+                        .HasMaxLength(500);
+
+                    b.Property<int?>("Sort");
+
+                    b.Property<string>("Telephone")
+                        .HasMaxLength(50);
+
+                    b.Property<Guid?>("UpdatedBy");
+
+                    b.Property<string>("UpdatedByName")
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<DateTime?>("UpdatedOn")
+                        .HasColumnType("datetime");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Department");
+                });
+
             modelBuilder.Entity("Jyz.Domain.LogLogin", b =>
                 {
                     b.Property<Guid>("Id")
@@ -275,6 +324,24 @@ namespace Jyz.Infrastructure.Data.Migrations
                     b.ToTable("Role");
                 });
 
+            modelBuilder.Entity("Jyz.Domain.Role_Department", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<Guid>("DepartmentId");
+
+                    b.Property<Guid>("RoleId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DepartmentId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("Role_Department");
+                });
+
             modelBuilder.Entity("Jyz.Domain.Role_User", b =>
                 {
                     b.Property<Guid>("Id")
@@ -307,6 +374,8 @@ namespace Jyz.Infrastructure.Data.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime");
 
+                    b.Property<Guid>("DepartmentId");
+
                     b.Property<bool>("IsEnable");
 
                     b.Property<string>("Name")
@@ -334,6 +403,8 @@ namespace Jyz.Infrastructure.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("DepartmentId");
+
                     b.ToTable("User");
                 });
 
@@ -342,6 +413,19 @@ namespace Jyz.Infrastructure.Data.Migrations
                     b.HasOne("Jyz.Domain.Module", "Module")
                         .WithMany("Operates")
                         .HasForeignKey("ModuleId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Jyz.Domain.Role_Department", b =>
+                {
+                    b.HasOne("Jyz.Domain.Department", "Department")
+                        .WithMany()
+                        .HasForeignKey("DepartmentId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Jyz.Domain.Role", "Role")
+                        .WithMany()
+                        .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -355,6 +439,14 @@ namespace Jyz.Infrastructure.Data.Migrations
                     b.HasOne("Jyz.Domain.User", "User")
                         .WithMany("Role_User")
                         .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Jyz.Domain.User", b =>
+                {
+                    b.HasOne("Jyz.Domain.Department", "Department")
+                        .WithMany()
+                        .HasForeignKey("DepartmentId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

@@ -27,7 +27,7 @@ namespace Jyz.Api.Filter
             if (context.HttpContext.User.Identity.IsAuthenticated ||
                 context.ActionDescriptor.EndpointMetadata.Any(item => item is NoPrivilegeAttribute || item is AllowAnonymousAttribute))
                 return;
-            if(CurrentUser.UserId != AppSetting.Project.Admin.ToGuid())
+            if(CurrentUser.UserId != AppSetting.SystemConfig.Admin.ToGuid())
             {
                 string controllerName = context.RouteData.Values["controller"].ToString(); ;
                 string actionName = context.RouteData.Values["action"].ToString();

@@ -1,3 +1,5 @@
+using Autofac;
+using Autofac.Extras.DynamicProxy;
 using Jyz.Api.Attributes;
 using Jyz.Api.Extensions;
 using Jyz.Api.Filter;
@@ -15,7 +17,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 
 namespace Jyz.Api
 {
@@ -34,7 +40,7 @@ namespace Jyz.Api
         {
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             //接口注入
-            services.AddServiceSetup("Jyz.Application");
+            //services.AddServiceSetup("Jyz.Application");
             //配置文件注入
             services.AddAppSettingSetup(Env);
             //配置Swagger
@@ -60,6 +66,31 @@ namespace Jyz.Api
             {
                 controller.Filters.Add<LogActionFilter>();
             });
+            #region 缓存
+            if (AppSetting.SystemConfig.CacheType == (int)CacheTypeEnum.Redis)
+            {
+                services.AddSingleton<ICache, RedisCache>();
+            }
+            else
+            {
+                services.AddMemoryCache();
+                services.AddSingleton<ICache, MemoryCache>();
+            }
+            #endregion
+        }
+        public void ConfigureContainer(ContainerBuilder builder)
+        {
+            var servicesDllFile = Path.Combine(AppContext.BaseDirectory, "Jyz.Application.dll");
+            // AOP 开关，如果想要打开指定的功能，只需要在 appsettigns.json 对应对应 true 就行。
+            var cacheType = new List<Type>();
+            builder.RegisterType<RedisCacheAop>();
+            cacheType.Add(typeof(RedisCacheAop));
+            var assemblysServices = Assembly.LoadFrom(servicesDllFile);
+            builder.RegisterAssemblyTypes(assemblysServices)
+                      .AsImplementedInterfaces()
+                      .InstancePerDependency()
+                      .EnableInterfaceInterceptors()//引用Autofac.Extras.DynamicProxy;
+                      .InterceptedBy(cacheType.ToArray());//允许将拦截器服务的列表分配给注册。
         }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
@@ -73,7 +104,7 @@ namespace Jyz.Api
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint($"/swagger/V1/swagger.json", $"{AppSetting.Project.Name} v1");
+                c.SwaggerEndpoint($"/swagger/V1/swagger.json", $"{AppSetting.SystemConfig.Name} v1");
                 //路径配置，设置为空，表示直接在根域名（localhost:8001）访问该文件,注意localhost:8001/swagger是访问不到的，去launchSettings.json把launchUrl去掉，如果你想换一个路径，直接写名字即可，比如直接写c.RoutePrefix = "doc";
                 c.RoutePrefix = "";
             });

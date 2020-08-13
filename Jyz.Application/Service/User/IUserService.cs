@@ -17,7 +17,7 @@ namespace Jyz.Application
         /// </summary>
         /// <param name="info"></param>
         /// <returns></returns>
-        Task<PageResponse<UserResponse>> Query(PageRequest<UserQuery> info);
+        Task<PageResponse<UserResponse>> Query(PageRequest<UserRequest> info);
         /// <summary>
         /// 根据角色Id获取用户列表
         /// </summary>

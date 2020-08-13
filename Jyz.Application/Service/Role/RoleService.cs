@@ -10,6 +10,7 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Linq;
 using System.Data.SqlClient;
+using Jyz.Infrastructure;
 
 namespace Jyz.Application
 {
@@ -38,13 +39,16 @@ namespace Jyz.Application
         /// </summary>
         /// <param name="info"></param>
         /// <returns></returns>
-        public async Task<PageResponse<RoleResponse>> Query(PageRequest info)
+        public async Task<PageResponse<RoleResponse>> Query(PageRequest<RoleRequest> info)
         {
             using (var db = NewDB())
             {
                 PageResponse<RoleResponse> model = new PageResponse<RoleResponse>();
-                int totalCount = await db.User.CountAsync();
-                List<Role> list = await db.Role.Paging(info.PageIndex, info.PageSize).ToListAsync();
+                var query = db.Role.AsNoTracking();
+                if (!info.Query.Name.IsNullOrEmpty())
+                    query = query.Where(x => x.Name.Contains(info.Query.Name));
+                int totalCount = await query.CountAsync();
+                List<Role> list = await query.Paging(info.PageIndex, info.PageSize).ToListAsync();
                 model.PageIndex = info.PageIndex;
                 model.PageSize = info.PageSize;
                 model.TotalCount = totalCount;
@@ -69,19 +73,35 @@ namespace Jyz.Application
             }
         }
         /// <summary>
+        /// 根据部门Id获取角色列表
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public async Task<List<RoleResponse>> GetDepartmentRoles(Guid departmentId)
+        {
+            using (var db = NewDB())
+            {
+                var roles = await (from a in db.Role
+                                   join b in db.Role_Department on a.Id equals b.RoleId
+                                   where b.DepartmentId == departmentId
+                                   select a).ToListAsync();
+                return _mapper.Map<List<RoleResponse>>(roles);
+            }
+        }
+        /// <summary>
         /// 角色信息修改
         /// </summary>
         /// <param name="info"></param>
         /// <returns></returns>
-        public async Task Save(RoleRequest info)
+        public async Task Save(RoleModifyRequest info)
         {
             using (var db = NewDB())
             {
-                if (info.RoleId != null)
+                if (info.Id != null)
                 {
-                    await db.ExecSqlNoQuery("delete Role_User", new SqlParameter("RoleId", info.RoleId));
-                    await db.ExecSqlNoQuery("delete Privilege", new SqlParameter("MasterValue", info.RoleId));
-                    Role role = await db.Role.FindByIdAsync(info.RoleId);
+                    await db.ExecSqlNoQuery("delete Role_User where RoleId=@RoleId", new SqlParameter("RoleId", info.Id));
+                    await db.ExecSqlNoQuery("delete Privilege where MasterValue=@MasterValue", new SqlParameter("MasterValue", info.Id));
+                    Role role = await db.Role.FindByIdAsync(info.Id);
                     _mapper.Map(info.Role, role);
                     BeforeAddOrModify(role);
                 }
@@ -90,23 +110,23 @@ namespace Jyz.Application
                     Role role = _mapper.Map<Role>(info.Role);
                     await db.AddAsync(role);
                     await db.SaveChangesAsync();
-                    info.RoleId = role.Id;
+                    info.Id = role.Id;
                 }
                 foreach (Guid id in info.ModuleIds)
                 {
-                    Privilege privilege = new Privilege(MasterEnum.Role, info.RoleId, AccessEnum.Module, id);
+                    Privilege privilege = new Privilege(MasterEnum.Role, info.Id, AccessEnum.Module, id);
                     await db.AddAsync(privilege);
                 }
                 foreach (Guid id in info.OperateIds)
                 {
-                    Privilege privilege = new Privilege(MasterEnum.Role, info.RoleId, AccessEnum.Operate, id);
+                    Privilege privilege = new Privilege(MasterEnum.Role, info.Id, AccessEnum.Operate, id);
                     await db.AddAsync(privilege);
                 }
                 foreach (Guid id in info.UserIds)
                 {
                     Role_User model = new Role_User();
                     model.UserId = id;
-                    model.RoleId = info.RoleId;
+                    model.RoleId = info.Id;
                     await db.AddAsync(model);
                 }
                 await db.SaveChangesAsync();

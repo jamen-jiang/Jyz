@@ -45,7 +45,7 @@ namespace Jyz.Api.Handlers.Policy
                 {
                     httpContext.User = result.Principal;
                     Guid userId =httpContext.User.Claims.FirstOrDefault(x => x.Type == JwtRegisteredClaimNames.Jti).Value.ToGuid();
-                    if (userId != AppSetting.Project.Admin.ToGuid())
+                    if (userId != AppSetting.SystemConfig.Admin.ToGuid())
                     {
                         string controllerName =  httpContext.Request.RouteValues["controller"].ToString(); ;
                         string actionName = httpContext.Request.RouteValues["action"].ToString();

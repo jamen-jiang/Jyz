@@ -9,12 +9,6 @@ namespace Jyz.Application
     {
         List<PrivilegeResponse> GetPrivilegeByUserId(Guid userId);
         /// <summary>
-        /// 根据用户Id获取授权的菜单列表
-        /// </summary>
-        /// <param name="userId"></param>
-        /// <returns></returns>
-        List<ModuleResponse> GetAuthorizeModules(Guid userId);
-        /// <summary>
         ///  获取模块树及权限
         /// </summary>
         /// <param name="master"></param>

@@ -17,6 +17,5 @@ namespace Jyz.Application
         public string VueUri { get; set; }
         public string Remark { get; set; }
         public List<ModuleResponse> Children { get; set; } = new List<ModuleResponse>();
-        public List<OperateResponse> Operates { get; set; } = new List<OperateResponse>();
     }
 }

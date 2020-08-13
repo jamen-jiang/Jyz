@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Jyz.Infrastructure
+namespace Jyz.Application
 {
-    public class Project
+    public class DepartmentRequest
     {
         public string Name { get; set; }
-        public string Admin { get; set; }
     }
 }

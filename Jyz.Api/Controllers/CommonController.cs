@@ -1,6 +1,7 @@
 ﻿using Jyz.Api.Attributes;
 using Jyz.Application;
 using Jyz.Domain.Enums;
+using Jyz.Infrastructure;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -17,11 +18,13 @@ namespace Jyz.Api.Controllers
     {
         private readonly ICommonService _commonSvc;
         private readonly IModuleService _moduleSvc;
-        public CommonController(ICommonService commonSvc, IModuleService moduleSvc)
+        private readonly IDepartmentService _departmentSvc;
+        public CommonController(ICommonService commonSvc, IModuleService moduleSvc,IDepartmentService departmentSvc)
         {
             _commonSvc = commonSvc;
             _moduleSvc = moduleSvc;
-        }
+            _departmentSvc = departmentSvc;
+    }
         /// <summary>
         /// 获取功能类型列表
         /// </summary>
@@ -47,7 +50,25 @@ namespace Jyz.Api.Controllers
         [HttpGet]
         public async Task<List<ComboBoxTreeResponse>> GetModuleCatalogs()
         {
-            return await _moduleSvc.GetGetModuleCatalogs();
+            return await _moduleSvc.GetModuleCatalogs();
+        }
+        /// <summary>
+        /// 获取模块树
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<List<ComboBoxTreeResponse>> GetModules()
+        {
+            return await _moduleSvc.GetModules();
+        }
+        /// <summary>
+        /// 获取部门树
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<List<ComboBoxTreeResponse>> GetDepartments()
+        {
+            return await _departmentSvc.GetDepartments();
         }
     }
 }

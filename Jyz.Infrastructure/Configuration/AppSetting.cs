@@ -12,9 +12,8 @@ namespace Jyz.Infrastructure
     {
         public static IConfiguration Configuration { get; private set; }
         public static string CurrentPath { get; private set; } = null;
-        public static Connection Connection { get; private set; }
+        public static SystemConfig SystemConfig { get; private set; }
         public static Jwt Jwt { get; private set; }
-        public static Project Project { get; private set; }
         public static Cors Cors { get; private set; }
         public static ServiceProvider Provider { get; private set; }
 
@@ -27,14 +26,12 @@ namespace Jyz.Infrastructure
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", true)
                .Build();
             //string path  = $"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")}.json";
-            services.Configure<Connection>(Configuration.GetSection("Connection"));
+            services.Configure<SystemConfig>(Configuration.GetSection("SystemConfig"));
             services.Configure<Jwt>(Configuration.GetSection("Jwt"));
-            services.Configure<Project>(Configuration.GetSection("Project"));
             services.Configure<Cors>(Configuration.GetSection("Cors"));
             Provider = services.BuildServiceProvider();
-            Connection = Provider.GetRequiredService<IOptions<Connection>>().Value;
+            SystemConfig = Provider.GetRequiredService<IOptions<SystemConfig>>().Value;
             Jwt = Provider.GetRequiredService<IOptions<Jwt>>().Value;
-            Project = Provider.GetRequiredService<IOptions<Project>>().Value;
             Cors = Provider.GetRequiredService<IOptions<Cors>>().Value;
         }
     }

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Jyz.Domain;
 using Jyz.Domain.Enums;
+using Jyz.Infrastructure;
 using Jyz.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -13,9 +14,11 @@ namespace Jyz.Application
     public class OperateService : BaseService, IOperateService
     {
         private readonly IMapper _mapper;
-        public OperateService(IMapper mapper)
+        private readonly IModuleService _moduleSvc;
+        public OperateService(IMapper mapper, IModuleService moduleSvc)
         {
             _mapper = mapper;
+            _moduleSvc = moduleSvc;
         }
         /// <summary>
         /// 根据privilegeIds获取操作列表
@@ -34,14 +37,28 @@ namespace Jyz.Application
         /// <summary>
         /// 获取对应的功能列表
         /// </summary>
-        /// <param name="moduleId"></param>
+        /// <param name="info"></param>
         /// <returns></returns>
-        public async  Task<List<OperateResponse>> Query(Guid moduleId)
+        public async  Task<PageResponse<OperateResponse>> Query(PageRequest<OperateRequest> info)
         {
             using (var db = NewDB())
             {
-                var operates = await db.Operate.AsNoTracking().Where(x => x.ModuleId == moduleId).ToListAsync();
-                return _mapper.Map<List<OperateResponse>>(operates);
+                PageResponse<OperateResponse> model = new PageResponse<OperateResponse>();
+                var query = db.Operate.AsNoTracking();
+                if (!info.Query.ModuleId.IsEmpty())
+                {
+                    var ids = await _moduleSvc.GetCurrentAndChildrenIdList(info.Query.ModuleId);
+                    query = query.Where(x => ids.Contains(x.ModuleId));
+                }
+                if (!info.Query.Name.IsNullOrEmpty())
+                    query = query.Where(x => x.Name.Contains(info.Query.Name));
+                int totalCount = await query.CountAsync();
+                List<Operate> list = await query.Paging(info.PageIndex, info.PageSize).Include(x => x.Module).ToListAsync();
+                model.PageIndex = info.PageIndex;
+                model.PageSize = info.PageSize;
+                model.TotalCount = totalCount;
+                model.List = _mapper.Map<List<OperateResponse>>(list);
+                return model;
             }
         }
         /// <summary>
@@ -62,7 +79,7 @@ namespace Jyz.Application
         /// </summary>
         /// <param name="info"></param>
         /// <returns></returns>
-        public async Task Add(OperateRequest info)
+        public async Task Add(OperateAddRequest info)
         {
             using (var db = NewDB())
             { 
@@ -76,7 +93,7 @@ namespace Jyz.Application
         /// 修改
         /// </summary>
         /// <param name="info"></param>
-        public async Task Modify(OperateRequest info)
+        public async Task Modify(OperateModifyRequest info)
         {
             using (var db = NewDB())
             {

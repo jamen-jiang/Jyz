@@ -38,11 +38,14 @@ namespace Jyz.Application
         /// 获取模块列表
         /// </summary>
         /// <returns></returns>
-        public async Task<List<ModuleResponse>> Query()
+        public async Task<List<ModuleResponse>> Query(ModuleRequest info)
         {
             using (var db = NewDB())
             {
-                List<Module> modules = await db.Module.AsNoTracking().ToListAsync();
+                var query =  db.Module.AsNoTracking();
+                if (!info.Name.IsNullOrEmpty())
+                    query = query.Where(x => x.Name.Contains(info.Name));
+                List<Module> modules = await query.ToListAsync();
                 var dtos = _mapper.Map<List<ModuleResponse>>(modules);
                 var pDtos = dtos.Where(x => x.PId == null).ToList();
                 var list = new List<ModuleResponse>();
@@ -71,7 +74,7 @@ namespace Jyz.Application
         /// 获取模块目录列表
         /// </summary>
         /// <returns></returns>
-        public async Task<List<ComboBoxTreeResponse>> GetGetModuleCatalogs()
+        public async Task<List<ComboBoxTreeResponse>> GetModuleCatalogs()
         {
             using (var db = NewDB())
             {
@@ -82,7 +85,27 @@ namespace Jyz.Application
                 foreach (var p in pDtos)
                 {
                     list.Add(p);
-                    CreateModuleCatalogTree(p, dtos);
+                    CreateTree(p, dtos);
+                }
+                return list;
+            }
+        }
+        /// <summary>
+        /// 获取模块列表
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<ComboBoxTreeResponse>> GetModules()
+        {
+            using (var db = NewDB())
+            {
+                var modules = await db.Module.AsNoTracking().ToListAsync();
+                var dtos = _mapper.Map<List<ComboBoxTreeResponse>>(modules);
+                var pDtos = dtos.Where(x => x.PId == null).ToList();
+                var list = new List<ComboBoxTreeResponse>();
+                foreach (var p in pDtos)
+                {
+                    list.Add(p);
+                    CreateTree(p, dtos);
                 }
                 return list;
             }
@@ -96,19 +119,19 @@ namespace Jyz.Application
                 CreateModuleTree(c, dtos);
             }
         }
-        private void CreateModuleCatalogTree(ComboBoxTreeResponse node, List<ComboBoxTreeResponse> dtos)
+        private void CreateTree(ComboBoxTreeResponse node, List<ComboBoxTreeResponse> dtos)
         {
             var childs = dtos.Where(x => x.PId.ToGuid() == node.Id.ToGuid()).ToList();
             foreach (var c in childs)
             {
                 node.Children.Add(c);
-                CreateModuleCatalogTree(c, dtos);
+                CreateTree(c, dtos);
             }
         }
         /// <summary>
         /// 添加模块
         /// </summary>
-        public async Task Add(ModuleRequest info)
+        public async Task Add(ModuleAddRequest info)
         {
             if (info.PId == null)
             {
@@ -130,7 +153,7 @@ namespace Jyz.Application
         /// </summary>
         /// <param name="info"></param>
         /// <returns></returns>
-        public async Task Modify(ModuleRequest info)
+        public async Task Modify(ModuleModifyRequest info)
         {
             if (info.PId == null)
             {
@@ -145,6 +168,40 @@ namespace Jyz.Application
                 _mapper.Map(info, model);
                 BeforeAddOrModify(model);
                 await db.SaveChangesAsync();
+            }
+        }
+        /// <summary>
+        /// 获取当前模块及下面所有模块
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<List<Guid>> GetCurrentAndChildrenIdList(Guid id)
+        {
+            using (var db = NewDB())
+            {
+                var modules = await db.Module.AsNoTracking().ToListAsync();
+                List<Guid> idList = new List<Guid>();
+                idList.Add(id);
+                GetChildrenDepartmentIdList(modules, idList, id);
+                return idList;
+            }
+        }
+        /// <summary>
+        /// 获取当前模块及下面所有模块
+        /// </summary>
+        /// <param name="departments"></param>
+        /// <param name="idList"></param>
+        /// <param name="id"></param>
+        private void GetChildrenDepartmentIdList(List<Module> modules, List<Guid> idList, Guid pId)
+        {
+            var childrens = modules.Where(x => x.PId == pId).Select(s => s.Id).ToList();
+            if (childrens.Count > 0)
+            {
+                idList.AddRange(childrens);
+                foreach (Guid id in childrens)
+                {
+                    GetChildrenDepartmentIdList(modules, idList, id);
+                }
             }
         }
     }

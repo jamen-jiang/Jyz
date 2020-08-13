@@ -30,7 +30,9 @@ namespace Jyz.Domain.Enums
         [Description("角色")]
         Role = 0,
         [Description("用户")]
-        User = 1
+        User = 1,
+        [Description("部门")]
+        Department = 2
     }
     /// <summary>
     /// 权限通道

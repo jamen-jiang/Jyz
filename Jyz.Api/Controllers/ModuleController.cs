@@ -23,9 +23,9 @@ namespace Jyz.Api.Controllers
         /// <returns></returns>
         [HttpPost]
         [Logger("获取模块列表")]
-        public async Task<List<ModuleResponse>> Query()
+        public async Task<List<ModuleResponse>> Query(ModuleRequest info)
         {
-            return await _moduleSvc.Query();
+            return await _moduleSvc.Query(info);
         }
         /// <summary>
         /// 获取模块详情
@@ -45,7 +45,7 @@ namespace Jyz.Api.Controllers
         /// <returns></returns>
         [HttpPost]
         [Logger("添加模块")]
-        public async Task Add(ModuleRequest info)
+        public async Task Add(ModuleAddRequest info)
         {
             await _moduleSvc.Add(info);
         }
@@ -56,7 +56,7 @@ namespace Jyz.Api.Controllers
         /// <returns></returns>
         [HttpPost]
         [Logger("修改模块")]
-        public async Task Modify(ModuleRequest info)
+        public async Task Modify(ModuleModifyRequest info)
         {
             await _moduleSvc.Modify(info);
         }

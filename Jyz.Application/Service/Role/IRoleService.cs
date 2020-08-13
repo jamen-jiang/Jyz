@@ -17,7 +17,7 @@ namespace Jyz.Application
         /// </summary>
         /// <param name="info"></param>
         /// <returns></returns>
-        Task<PageResponse<RoleResponse>> Query(PageRequest info);
+        Task<PageResponse<RoleResponse>> Query(PageRequest<RoleRequest> info);
         /// <summary>
         /// 根据用户Id获取角色列表
         /// </summary>
@@ -25,10 +25,16 @@ namespace Jyz.Application
         /// <returns></returns>
         Task<List<RoleResponse>> GetUserRoles(Guid userId);
         /// <summary>
+        /// 根据部门Id获取角色列表
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        Task<List<RoleResponse>> GetDepartmentRoles(Guid departmentId);
+        /// <summary>
         /// 角色信息保存
         /// </summary>
         /// <param name="info"></param>
         /// <returns></returns>
-        Task Save(RoleRequest info);
+        Task Save(RoleModifyRequest info);
     }
 }
