@@ -84,7 +84,7 @@ namespace Jyz.Application
             using (var db = NewDB())
             { 
                 Operate model = _mapper.Map<Operate>(info);
-                BeforeAddOrModify(model);
+                BeforeAdd(model);
                 await db.Operate.AddAsync(model);
                 await db.SaveChangesAsync();
             }
@@ -99,7 +99,7 @@ namespace Jyz.Application
             {
                 Operate model = await db.Operate.FindByIdAsync(info.Id);
                 _mapper.Map(info,model);
-                BeforeAddOrModify(model);
+                BeforeModify(model);
                 await db.SaveChangesAsync();
             }
         }

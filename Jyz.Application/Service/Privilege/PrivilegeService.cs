@@ -47,6 +47,10 @@ namespace Jyz.Application
                 return list;
             }
         }
+        public void GetPrivilegeUrl()
+        { 
+            
+        }
         /// <summary>
         ///  获取模块树及权限
         /// </summary>

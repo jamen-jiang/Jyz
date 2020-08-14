@@ -23,6 +23,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jyz.Infrastructure", "Jyz.I
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02-Services", "02-Services", "{B6372158-5246-4711-811B-CC9E7CAEF92F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jyz.Infrastructure.Repository", "Jyz.Infrastructure.Repository\Jyz.Infrastructure.Repository.csproj", "{2E708B46-8BED-4F82-9837-82EB8EE68D86}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -49,6 +51,10 @@ Global
 		{2B7194BE-D7F5-459B-8738-F086BD0CF413}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2B7194BE-D7F5-459B-8738-F086BD0CF413}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2B7194BE-D7F5-459B-8738-F086BD0CF413}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2E708B46-8BED-4F82-9837-82EB8EE68D86}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E708B46-8BED-4F82-9837-82EB8EE68D86}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E708B46-8BED-4F82-9837-82EB8EE68D86}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E708B46-8BED-4F82-9837-82EB8EE68D86}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -59,6 +65,7 @@ Global
 		{B94739F9-A78C-442F-AAB0-88AA140428BB} = {C0940068-24A2-4C45-B186-9FC33F9D8AB3}
 		{026DBDDB-1EBB-48AE-AA41-A31AA66D5AA6} = {3E50C573-372D-42F2-94B3-33B2E8C978F4}
 		{2B7194BE-D7F5-459B-8738-F086BD0CF413} = {3E50C573-372D-42F2-94B3-33B2E8C978F4}
+		{2E708B46-8BED-4F82-9837-82EB8EE68D86} = {3E50C573-372D-42F2-94B3-33B2E8C978F4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E43AC0B1-9204-46F5-A862-EC7184086228}

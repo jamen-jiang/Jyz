@@ -1,13 +1,14 @@
-﻿using System;
+﻿using Jyz.Infrastructure;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Jyz.Application
 {
-    public class DepartmentResponse: BaseResponse
+    public class DepartmentResponse: BaseResponse,ITreeNode<DepartmentResponse>
     {
-        public Guid Id { get; set; }
-        public Guid? PId { get; set; }
+        public string Id { get; set; }
+        public string PId { get; set; }
         public string Name { get; set; }
         public string Telephone { get; set; }
         public string Fax { get; set; }

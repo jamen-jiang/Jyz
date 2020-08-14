@@ -34,6 +34,7 @@ namespace Jyz.Application
                 return modules;
             }
         }
+
         /// <summary>
         /// 获取模块列表
         /// </summary>
@@ -47,13 +48,8 @@ namespace Jyz.Application
                     query = query.Where(x => x.Name.Contains(info.Name));
                 List<Module> modules = await query.ToListAsync();
                 var dtos = _mapper.Map<List<ModuleResponse>>(modules);
-                var pDtos = dtos.Where(x => x.PId == null).ToList();
-                var list = new List<ModuleResponse>();
-                foreach (ModuleResponse p in pDtos)
-                {
-                    list.Add(p);
-                    CreateModuleTree(p, dtos);
-                }
+                List<ModuleResponse> list = new List<ModuleResponse>();
+                Utils.CreateTree(null, dtos, list);
                 return list;
             }
         }
@@ -80,13 +76,8 @@ namespace Jyz.Application
             {
                var modules = await db.Module.AsNoTracking().Where(x=>x.Type == (int)ModuleTypeEnum.Catalog).ToListAsync();
                 var dtos = _mapper.Map<List<ComboBoxTreeResponse>>(modules);
-                var pDtos = dtos.Where(x => x.PId == null).ToList();
                 var list = new List<ComboBoxTreeResponse>();
-                foreach (var p in pDtos)
-                {
-                    list.Add(p);
-                    CreateTree(p, dtos);
-                }
+                Utils.CreateTree(null, dtos, list);
                 return list;
             }
         }
@@ -100,32 +91,9 @@ namespace Jyz.Application
             {
                 var modules = await db.Module.AsNoTracking().ToListAsync();
                 var dtos = _mapper.Map<List<ComboBoxTreeResponse>>(modules);
-                var pDtos = dtos.Where(x => x.PId == null).ToList();
                 var list = new List<ComboBoxTreeResponse>();
-                foreach (var p in pDtos)
-                {
-                    list.Add(p);
-                    CreateTree(p, dtos);
-                }
+                Utils.CreateTree(null, dtos, list);
                 return list;
-            }
-        }
-        private void CreateModuleTree(ModuleResponse node, List<ModuleResponse> dtos)
-        {
-            var childs = dtos.Where(x => x.PId == node.Id).ToList();
-            foreach (var c in childs)
-            {
-                node.Children.Add(c);
-                CreateModuleTree(c, dtos);
-            }
-        }
-        private void CreateTree(ComboBoxTreeResponse node, List<ComboBoxTreeResponse> dtos)
-        {
-            var childs = dtos.Where(x => x.PId.ToGuid() == node.Id.ToGuid()).ToList();
-            foreach (var c in childs)
-            {
-                node.Children.Add(c);
-                CreateTree(c, dtos);
             }
         }
         /// <summary>
@@ -143,7 +111,7 @@ namespace Jyz.Application
             using (var db = NewDB())
             {
                 Module model = _mapper.Map<Module>(info);
-                BeforeAddOrModify(model);
+                BeforeAdd(model);
                 await db.Module.AddAsync(model);
                 await db.SaveChangesAsync();
             }
@@ -166,7 +134,7 @@ namespace Jyz.Application
             {
                 var model = await db.Module.FindByIdAsync(info.Id);
                 _mapper.Map(info, model);
-                BeforeAddOrModify(model);
+                BeforeModify(model);
                 await db.SaveChangesAsync();
             }
         }

@@ -2,6 +2,7 @@
 using Jyz.Infrastructure;
 using Jyz.Infrastructure.Data;
 using System;
+using System.Threading.Tasks;
 
 namespace Jyz.Application
 {
@@ -19,19 +20,17 @@ namespace Jyz.Application
         /// <typeparam name="T"></typeparam>
         /// <param name="t"></param>
         /// <returns></returns>
-        protected void BeforeAddOrModify<T>(T t) where T : Entity<Guid>
+        protected void BeforeAdd<T>(T t) where T : ICreateEntity<Guid>
         {
-            if (t.Id == null || t.Id.IsEmpty())
-            {
-                t.CreatedBy = CurrentUser.UserId;
-                t.CreatedByName = CurrentUser.UserName;
-            }
-            else
-            {
-                t.UpdatedBy = CurrentUser.UserId;
-                t.UpdatedByName = CurrentUser.UserName;
-                t.UpdatedOn = DateTime.Now;
-            }
+            t.CreatedBy = CurrentUser.UserId;
+            t.CreatedByName = CurrentUser.UserName;
+            t.CreatedOn = DateTime.Now;
+        }
+        protected void BeforeModify<T>(T t) where T : IUpdateEntity<Guid>
+        {
+            t.UpdatedBy = CurrentUser.UserId;
+            t.UpdatedByName = CurrentUser.UserName;
+            t.UpdatedOn = DateTime.Now;
         }
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Jyz.Domain
 {
-    public class Department:Entity<Guid>
+    public class Department: FullEntity<Guid>
     {
         public Guid? PId { get; set; }
         public string Name { get; set; }

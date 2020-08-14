@@ -14,13 +14,6 @@ namespace Jyz.Infrastructure.Data.Mappings
         {
             builder.Property(x => x.RoleId).IsRequired() ;
             builder.Property(x => x.UserId).IsRequired() ;
-            builder.Ignore(x => x.IsEnable);
-            builder.Ignore(x => x.CreatedBy);
-            builder.Ignore(x => x.CreatedByName);
-            builder.Ignore(x => x.CreatedOn);
-            builder.Ignore(x => x.UpdatedBy);
-            builder.Ignore(x => x.UpdatedByName);
-            builder.Ignore(x => x.UpdatedOn);
         }
     }
 }

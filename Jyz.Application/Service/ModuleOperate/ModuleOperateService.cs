@@ -27,17 +27,16 @@ namespace Jyz.Application
         {
             using (var db = NewDB())
             {
-                List<ModuleOperateResponse> list = new List<ModuleOperateResponse>();
                 List<Module> modules = await db.Module.AsNoTracking().ToListAsync();
                 var dtos = _mapper.Map<List<ModuleOperateResponse>>(modules);
-                var pDtos = dtos.Where(x => x.PId == null).ToList();
                 var operates = db.Operate.AsNoTracking().ToList();
                 var operateDtos = _mapper.Map<List<OperateResponse>>(operates);
-                foreach (ModuleOperateResponse p in pDtos)
+                foreach (var m in dtos)
                 {
-                    list.Add(p);
-                    CreateModuleOperateTree(p, dtos, operateDtos);
+                    m.Operates = operateDtos.Where(x => x.ModuleId == m.Id.ToGuid()).ToList();
                 }
+                List<ModuleOperateResponse> list = new List<ModuleOperateResponse>();
+                Utils.CreateTree(null, dtos, list);
                 return list;
             }
         }
@@ -70,13 +69,12 @@ namespace Jyz.Application
                 }
                 var operateDtos = _mapper.Map<List<OperateResponse>>(operates);
                 var moduleDtos = _mapper.Map<List<ModuleOperateResponse>>(modules);
-                List<ModuleOperateResponse> list = new List<ModuleOperateResponse>();
-                List<ModuleOperateResponse> pModules = moduleDtos.Where(x => x.PId == null).ToList();
-                foreach (var p in pModules)
+                foreach (var m in moduleDtos)
                 {
-                    list.Add(p);
-                    CreateModuleOperateTree(p, moduleDtos, operateDtos);
+                    m.Operates = operateDtos.Where(x => x.ModuleId == m.Id.ToGuid()).ToList();
                 }
+                List<ModuleOperateResponse> list = new List<ModuleOperateResponse>();
+                Utils.CreateTree(null, moduleDtos, list);
                 return list;
             }
         }
@@ -94,16 +92,6 @@ namespace Jyz.Application
                 response.ModuleIds = await db.Privilege.Get(master, AccessEnum.Module, masterValue).Select(s => s.AccessValue).ToListAsync();
                 response.OperateIds = await db.Privilege.Get(master, AccessEnum.Operate, masterValue).Select(s => s.AccessValue).ToListAsync();
                 return response;
-            }
-        }
-        private void CreateModuleOperateTree(ModuleOperateResponse node, List<ModuleOperateResponse> list, List<OperateResponse> operates)
-        {
-            var childList = list.Where(x => x.PId == node.Id).ToList();
-            foreach (var c in childList)
-            {
-                c.Operates = operates.Where(x => x.ModuleId == c.Id).ToList();
-                node.Children.Add(c);
-                CreateModuleOperateTree(c, list, operates);
             }
         }
     }

@@ -35,13 +35,8 @@ namespace Jyz.Application
                     query = query.Where(x => x.Name.Contains(info.Name));
                 List<Department> departments = await query.ToListAsync();
                 var dtos = _mapper.Map<List<DepartmentResponse>>(departments);
-                var pDtos = dtos.Where(x => x.PId == null).ToList();
                 var list = new List<DepartmentResponse>();
-                foreach (DepartmentResponse p in pDtos)
-                {
-                    list.Add(p);
-                    CreateDepartmentTree(p, dtos);
-                }
+                Utils.CreateTree(null, dtos, list);
                 return list;
             }
         }
@@ -68,13 +63,8 @@ namespace Jyz.Application
             {
                 var departments = await db.Department.AsNoTracking().ToListAsync();
                 var dtos = _mapper.Map<List<ComboBoxTreeResponse>>(departments);
-                var pDtos = dtos.Where(x => x.PId == null).ToList();
                 var list = new List<ComboBoxTreeResponse>();
-                foreach (var p in pDtos)
-                {
-                    list.Add(p);
-                    CreateTree(p, dtos);
-                }
+                Utils.CreateTree(null, dtos, list);
                 return list;
             }
         }
@@ -88,7 +78,7 @@ namespace Jyz.Application
             using (var db = NewDB())
             {
                 Department department = _mapper.Map<Department>(info.Department);
-                BeforeAddOrModify(department);
+                BeforeAdd(department);
                 await db.Department.AddAsync(department);
                 await db.SaveChangesAsync();
                 foreach (Guid id in info.ModuleIds)
@@ -124,7 +114,7 @@ namespace Jyz.Application
                 await db.ExecSqlNoQuery("delete Privilege where MasterValue=@MasterValue", new SqlParameter("MasterValue", info.Id));
                 var department = await db.Department.FindByIdAsync(info.Id);
                 _mapper.Map(info.Department, department);
-                BeforeAddOrModify(department);
+                BeforeModify(department);
                 foreach (Guid id in info.ModuleIds)
                 {
                     Privilege privilege = new Privilege(MasterEnum.Department, info.Id, AccessEnum.Module, id);
@@ -143,15 +133,6 @@ namespace Jyz.Application
                     await db.AddAsync(model);
                 }
                 await db.SaveChangesAsync();
-            }
-        }
-        private void CreateTree(ComboBoxTreeResponse node, List<ComboBoxTreeResponse> dtos)
-        {
-            var childs = dtos.Where(x => x.PId.ToGuid() == node.Id.ToGuid()).ToList();
-            foreach (var c in childs)
-            {
-                node.Children.Add(c);
-                CreateTree(c, dtos);
             }
         }
         /// <summary>
@@ -186,15 +167,6 @@ namespace Jyz.Application
                 {
                     GetChildrenDepartmentIdList(departments, idList, id);
                 }
-            }
-        }
-        private void CreateDepartmentTree(DepartmentResponse node, List<DepartmentResponse> dtos)
-        {
-            var childs = dtos.Where(x => x.PId == node.Id).ToList();
-            foreach (var c in childs)
-            {
-                node.Children.Add(c);
-                CreateDepartmentTree(c, dtos);
             }
         }
     }

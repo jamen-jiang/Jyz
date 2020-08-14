@@ -4,6 +4,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Jyz.Domain
 {
+    public interface IEntity : IEntity<int>
+    {
+    }
+    public interface IEntity<TPrimaryKey> where TPrimaryKey : struct
+    {
+        TPrimaryKey Id { get; set; }
+    }
     [Serializable]
     public abstract class Entity : Entity<int>
     {
@@ -14,8 +21,9 @@ namespace Jyz.Domain
     {
         [Key]
         public virtual TPrimaryKey Id { get; set; }
-
-        #region 公共属性
+    }
+    public abstract class FullEntity<TPrimaryKey>: Entity<TPrimaryKey>, ICreateEntity<TPrimaryKey>, IUpdateEntity<TPrimaryKey>, IEnableEntity where TPrimaryKey : struct
+    {
         /// <summary>
         /// 是否启用
         /// </summary>
@@ -25,18 +33,16 @@ namespace Jyz.Domain
         /// 创建人Id
         /// </summary>
         [Required]
-        public TPrimaryKey CreatedBy { get; set; }
+        public virtual TPrimaryKey CreatedBy { get; set; }
         /// <summary>
         /// 创建人名称
         /// </summary>
         [Required]
-        [Column(TypeName = "nvarchar(50)")]
         public virtual string CreatedByName { get; set; }
         /// <summary>
         /// 创建时间
         /// </summary>
         [Required]
-        [Column(TypeName = "datetime")]
         public virtual DateTime CreatedOn { get; set; } = DateTime.Now;
         /// <summary>
         /// 更新人Id
@@ -52,6 +58,42 @@ namespace Jyz.Domain
         /// </summary>
         [Column(TypeName = "datetime")]
         public virtual DateTime? UpdatedOn { get; set; }
-        #endregion
+    }
+    public interface ICreateEntity<TPrimaryKey> where TPrimaryKey : struct
+    {
+        /// <summary>
+        /// 创建人Id
+        /// </summary>
+        TPrimaryKey CreatedBy { get; set; }
+        /// <summary>
+        /// 创建人名称
+        /// </summary>
+        string CreatedByName { get; set; }
+        /// <summary>
+        /// 创建时间
+        /// </summary>
+        DateTime CreatedOn { get; set; }
+    }
+    public interface IUpdateEntity<TPrimaryKey> where TPrimaryKey : struct
+    {
+        /// <summary>
+        /// 更新人Id
+        /// </summary>
+        TPrimaryKey? UpdatedBy { get; set; }
+        /// <summary>
+        /// 更新人名称
+        /// </summary>
+        string UpdatedByName { get; set; }
+        /// <summary>
+        /// 更新时间
+        /// </summary>
+        DateTime? UpdatedOn { get; set; }
+    }
+    public interface IEnableEntity
+    {
+        /// <summary>
+        /// 是否启用
+        /// </summary>
+        bool IsEnable { get; set; }
     }
 }

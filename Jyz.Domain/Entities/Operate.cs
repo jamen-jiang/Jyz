@@ -2,7 +2,7 @@ using System;
 
 namespace Jyz.Domain
 {
-    public partial class Operate : Entity<Guid>
+    public partial class Operate : FullEntity<Guid>
     {
         public Guid ModuleId { get; set; }
         public int Type { get; set; }

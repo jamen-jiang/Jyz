@@ -103,7 +103,7 @@ namespace Jyz.Application
                     await db.ExecSqlNoQuery("delete Privilege where MasterValue=@MasterValue", new SqlParameter("MasterValue", info.Id));
                     Role role = await db.Role.FindByIdAsync(info.Id);
                     _mapper.Map(info.Role, role);
-                    BeforeAddOrModify(role);
+                    BeforeModify(role);
                 }
                 else
                 {

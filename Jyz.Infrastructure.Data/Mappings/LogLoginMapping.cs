@@ -12,13 +12,6 @@ namespace Jyz.Infrastructure.Data.Mappings
     {
         public void Configure(EntityTypeBuilder<LogLogin> builder)
         {
-            builder.Ignore(x => x.IsEnable);
-            builder.Ignore(x => x.CreatedBy);
-            builder.Ignore(x => x.CreatedByName);
-            builder.Ignore(x => x.CreatedOn);
-            builder.Ignore(x => x.UpdatedBy);
-            builder.Ignore(x => x.UpdatedByName);
-            builder.Ignore(x => x.UpdatedOn);
             builder.Property(x => x.UserName).IsRequired().HasMaxLength(50);
             builder.Property(x => x.LoginOn).IsRequired();
             builder.Property(x => x.IP).HasMaxLength(200);

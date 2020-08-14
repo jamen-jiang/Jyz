@@ -118,28 +118,12 @@ namespace Jyz.Application
             using (var db = NewDB())
             {
                 User user = _mapper.Map<User>(info.User);
-                BeforeAddOrModify(user);
+                BeforeAdd(user);
                 //密码暂写死
                 user.PassWord = user.UserName;
-                await db.User.AddAsync(user);
+                await db.AddAsync(user);
                 await db.SaveChangesAsync();
-                foreach (Guid id in info.ModuleIds)
-                {
-                    Privilege privilege = new Privilege(MasterEnum.Role, user.Id, AccessEnum.Module, id);
-                    await db.AddAsync(privilege);
-                }
-                foreach (Guid id in info.OperateIds)
-                {
-                    Privilege privilege = new Privilege(MasterEnum.Role, user.Id, AccessEnum.Operate, id);
-                    await db.AddAsync(privilege);
-                }
-                foreach (Guid id in info.RoleIds)
-                {
-                    Role_User model = new Role_User();
-                    model.UserId = user.Id;
-                    model.RoleId = id;
-                    await db.AddAsync(model);
-                }
+                await SetOtherInfo(db, user.Id, info.ModuleIds, info.OperateIds, info.RoleIds);
                 await db.SaveChangesAsync();
             }
         }
@@ -156,25 +140,38 @@ namespace Jyz.Application
                 await db.ExecSqlNoQuery("delete Privilege where MasterValue=@MasterValue", new SqlParameter("MasterValue", info.Id));
                 var user = await db.User.FindByIdAsync(info.Id);
                 _mapper.Map(info.User, user);
-                BeforeAddOrModify(user);
-                foreach (Guid id in info.ModuleIds)
-                {
-                    Privilege privilege = new Privilege(MasterEnum.User, info.Id, AccessEnum.Module, id);
-                    await db.AddAsync(privilege);
-                }
-                foreach (Guid id in info.OperateIds)
-                {
-                    Privilege privilege = new Privilege(MasterEnum.User, info.Id, AccessEnum.Operate, id);
-                    await db.AddAsync(privilege);
-                }
-                foreach (Guid id in info.RoleIds)
-                {
-                    Role_User model = new Role_User();
-                    model.UserId = info.Id;
-                    model.RoleId = id;
-                    await db.AddAsync(model);
-                }
+                BeforeModify(user);
+                await SetOtherInfo(db, info.Id, info.ModuleIds, info.OperateIds, info.RoleIds);
                 await db.SaveChangesAsync();
+            }
+        }
+        /// <summary>
+        /// 设置用户其他关联表信息
+        /// </summary>
+        /// <param name="db"></param>
+        /// <param name="userId"></param>
+        /// <param name="moduleIds"></param>
+        /// <param name="operateIds"></param>
+        /// <param name="roleIds"></param>
+        /// <returns></returns>
+        private async Task SetOtherInfo(JyzContext db,Guid userId,List<Guid> moduleIds, List<Guid> operateIds, List<Guid> roleIds)
+        {
+            foreach (Guid id in moduleIds)
+            {
+                Privilege privilege = new Privilege(MasterEnum.User, userId, AccessEnum.Module, id);
+                await db.AddAsync(privilege);
+            }
+            foreach (Guid id in operateIds)
+            {
+                Privilege privilege = new Privilege(MasterEnum.User, userId, AccessEnum.Operate, id);
+                await db.AddAsync(privilege);
+            }
+            foreach (Guid id in roleIds)
+            {
+                Role_User model = new Role_User();
+                model.UserId = userId;
+                model.RoleId = id;
+                await db.AddAsync(model);
             }
         }
     }

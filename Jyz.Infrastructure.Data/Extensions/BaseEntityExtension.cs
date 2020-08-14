@@ -21,6 +21,17 @@ namespace Jyz.Infrastructure.Data
             return  query.FirstOrDefault(x => x.Id == id);
         }
         /// <summary>
+        /// 根据Id获取实体(异步)
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="query"></param>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public static async Task<T> FindByIdAsync<T>(this IQueryable<T> query, Guid id) where T : Entity<Guid>
+        {
+            return await query.FirstOrDefaultAsync(x => x.Id == id);
+        }
+        /// <summary>
         /// 获取全部忽视isEnable
         /// </summary>
         /// <typeparam name="T"></typeparam>
@@ -28,18 +39,7 @@ namespace Jyz.Infrastructure.Data
         /// <returns></returns>
         public static IQueryable<T> GetAll<T>(this IQueryable<T> query) where T : Entity<Guid>
         {
-            return query.IgnoreQueryFilters();
-        }
-        /// <summary>
-        /// 根据Id获取实体(异步)
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="query"></param>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        public static async  Task<T> FindByIdAsync<T>(this IQueryable<T> query, Guid id) where T : Entity<Guid>
-        {
-            return await query.FirstOrDefaultAsync(x => x.Id == id);
+            return query.AsNoTracking().IgnoreQueryFilters();
         }
         /// <summary>
         /// 分页

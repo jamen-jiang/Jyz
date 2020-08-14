@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -98,6 +99,34 @@ namespace Jyz.Infrastructure
             MD5 md5 = MD5.Create();
             byte[] s = md5.ComputeHash(Encoding.UTF8.GetBytes(password));
             return Convert.ToBase64String(s);
+        }
+        /// <summary>
+        /// 生成树
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="node"></param>
+        /// <param name="list"></param>
+        /// <param name="tree"></param>
+        public static void CreateTree<T>(T node, List<T> list, List<T> tree = null)where T : ITreeNode<T>
+        {
+            if (node==null)
+            {
+                var parents = list.Where(x => x.PId == null).ToList();
+                foreach (var p in parents)
+                {
+                    tree.Add(p);
+                    CreateTree(p, list);
+                }
+            }
+            else
+            {
+                var childrens = list.Where(x => x.PId == node.Id).ToList();
+                foreach (var c in childrens)
+                {
+                    node.Children.Add(c);
+                    CreateTree(c, list);
+                }
+            }
         }
     }
 }

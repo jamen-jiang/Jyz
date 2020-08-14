@@ -4,10 +4,10 @@ using System.Collections.Generic;
 
 namespace Jyz.Application
 {
-    public class ModuleResponse : BaseResponse
+    public class ModuleResponse : BaseResponse,ITreeNode<ModuleResponse>
     {
-        public Guid Id { get; set; }
-        public Guid? PId { get; set; }
+        public string Id { get; set; }
+        public string PId { get; set; }
         public int Type { get; set; }
         public string TypeName { get; set; }
         public string Name { get; set; }

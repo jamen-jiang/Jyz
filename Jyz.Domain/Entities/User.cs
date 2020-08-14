@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Jyz.Domain
 {
-    public partial class User : Entity<Guid>
+    public partial class User : FullEntity<Guid>
     {
         public Guid DepartmentId { get; set; }
         public string UserName { get; set; }
