@@ -77,13 +77,13 @@ namespace Jyz.Application
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        public async Task<List<RoleResponse>> GetDepartmentRoles(Guid departmentId)
+        public async Task<List<RoleResponse>> GetOrganizationRoles(Guid organizationId)
         {
             using (var db = NewDB())
             {
                 var roles = await (from a in db.Role
-                                   join b in db.Role_Department on a.Id equals b.RoleId
-                                   where b.DepartmentId == departmentId
+                                   join b in db.Role_Organization on a.Id equals b.RoleId
+                                   where b.OrganizationId == organizationId
                                    select a).ToListAsync();
                 return _mapper.Map<List<RoleResponse>>(roles);
             }

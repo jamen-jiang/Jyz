@@ -7,13 +7,11 @@ namespace Jyz.Application
 {
     public interface IPrivilegeService
     {
-        List<PrivilegeResponse> GetPrivilegeByUserId(Guid userId);
         /// <summary>
-        ///  获取模块树及权限
+        /// 获取全部url并且此用户Id是否已授权
         /// </summary>
-        /// <param name="master"></param>
-        /// <param name="masterValue"></param>
+        /// <param name="userId"></param>
         /// <returns></returns>
-        Task<ModuleAndPrivilegeResponse> GetModuleAndPrivilege(MasterEnum master, Guid masterValue);
+        Task<List<OperateUrlResponse>> GetOperateUrlsByUserId(Guid userId);
     }
 }

@@ -2,6 +2,7 @@
 using Jyz.Api.Filter;
 using Jyz.Application;
 using Jyz.Domain.Enums;
+using Jyz.Infrastructure;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -14,15 +15,15 @@ namespace Jyz.Api.Controllers
     public class UserController : ApiControllerBase
     {
         private readonly IUserService _userSvc;
-        private readonly IDepartmentService _departmentScv;
+        private readonly IOrganizationService _organizationScv;
         private readonly IPrivilegeService _privilegeSvc;
         private readonly IRoleService _roleSvc;
         private readonly ILogLoginService _logLoginSvc;
         private readonly IModuleOperateService _moduleOperateSvc;
-        public UserController(IUserService userSvc, IDepartmentService departmentScv, IPrivilegeService privilegeSvc, IRoleService roleSvc,ILogLoginService logLoginSvc, IModuleOperateService moduleOperateSvc)
+        public UserController(IUserService userSvc, IOrganizationService organizationScv, IPrivilegeService privilegeSvc, IRoleService roleSvc,ILogLoginService logLoginSvc, IModuleOperateService moduleOperateSvc)
         {
             _userSvc = userSvc;
-            _departmentScv = departmentScv;
+            _organizationScv = organizationScv;
             _privilegeSvc = privilegeSvc;
             _roleSvc = roleSvc;
             _logLoginSvc = logLoginSvc;
@@ -42,6 +43,15 @@ namespace Jyz.Api.Controllers
             };
             await _logLoginSvc.Add(model);
             return res;
+        }
+        /// <summary>
+        /// 获取当前用户信息
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet, DisableLog]
+        public async Task<UserResponse> GetInformation()
+        {
+            return await _userSvc.Detail(CurrentUser.UserId);
         }
         /// <summary>
         /// 获取用户列表
@@ -108,9 +118,9 @@ namespace Jyz.Api.Controllers
         /// <param name="info"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<List<DepartmentResponse>> GetDepartments([FromBody] DepartmentRequest info)
+        public async Task<List<OrganizationResponse>> GetOrganizations([FromBody] OrganizationRequest info)
         {
-            return await _departmentScv.Query(info);
+            return await _organizationScv.Query(info);
         }
         /// <summary>
         /// 添加用户

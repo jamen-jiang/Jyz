@@ -5,16 +5,18 @@ using System.Text;
 
 namespace Jyz.Application
 {
-    public class DepartmentResponse: BaseResponse,ITreeNode<DepartmentResponse>
+    public class OrganizationResponse: BaseResponse,ITreeNode<OrganizationResponse>
     {
-        public string Id { get; set; }
-        public string PId { get; set; }
+        public object Id { get; set; }
+        public object PId { get; set; }
+        public int Type { get; set; }
+        public string TypeName { get; set; }
         public string Name { get; set; }
         public string Telephone { get; set; }
         public string Fax { get; set; }
         public string Email { get; set; }
         public int? Sort { get; set; }
         public string Remark { get; set; }
-        public List<DepartmentResponse> Children { get; set; } = new List<DepartmentResponse>();
+        public List<OrganizationResponse> Children { get; set; } = new List<OrganizationResponse>();
     }
 }

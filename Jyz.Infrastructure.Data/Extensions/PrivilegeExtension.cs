@@ -31,5 +31,24 @@ namespace Jyz.Infrastructure.Data.Extensions
         {
             return query.Where(x => x.Master == master.ToString() && x.Access == access.ToString() && masterValues.Contains(x.MasterValue));
         }
+        /// <summary>
+        /// 获取已有权限
+        /// </summary>
+        /// <param name="query"></param>
+        /// <param name="userId"></param>
+        /// <param name="organizationId"></param>
+        /// <param name="userRoleIds"></param>
+        /// <param name="organizationRoleIds"></param>
+        /// <returns></returns>
+        public static IQueryable<Privilege> GetByMasterValues(this IQueryable<Privilege> query, Guid userId, Guid organizationId, Guid[] userRoleIds, Guid[] organizationRoleIds)
+        {
+            var obj = from a in query
+            where (a.Master == MasterEnum.User.ToString() && userId == a.MasterValue)
+            || (a.Master == MasterEnum.User.ToString() && organizationId == a.MasterValue)
+            || (a.Master == MasterEnum.Role.ToString() && userRoleIds.Contains(a.MasterValue))
+            || (a.Master == MasterEnum.Organization.ToString() && organizationRoleIds.Contains(a.MasterValue))
+            select a;
+            return obj.Distinct();
+        }
     }
 }

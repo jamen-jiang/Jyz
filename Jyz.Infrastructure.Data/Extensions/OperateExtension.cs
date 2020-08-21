@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Jyz.Domain;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +10,18 @@ namespace Jyz.Infrastructure.Data.Extensions
 {
     public static class OperateExtension
     {
+        /// <summary>
+        /// 查找是否存在此url
+        /// </summary>
+        /// <param name="controller"></param>
+        /// <param name="action"></param>
+        /// <returns></returns>
+        public static async Task<bool> HasUrl(this IQueryable<Operate> query, string controller, string action)
+        {
+            var obj = from a in query.Include(x => x.Module)
+                      where a.Module.Controller == controller && a.Action == action
+                      select a;
+            return await obj.CountAsync() > 0;
+        }
     }
 }

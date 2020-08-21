@@ -4,16 +4,17 @@ using System.Text;
 
 namespace Jyz.Application
 {
-    public class DepartmentAddRequest
+    public class OrganizationAddRequest
     {
-        public DepartmentInfo Department { get; set; }
+        public OrganizationInfo Organization { get; set; }
         public List<Guid> RoleIds { get; set; }
         public List<Guid> ModuleIds { get; set; }
         public List<Guid> OperateIds { get; set; }
     }
-    public class DepartmentInfo
+    public class OrganizationInfo
     {
         public Guid? PId { get; set; }
+        public int Type { get; set; }
         public string Name { get; set; }
         public string Telephone { get; set; }
         public string Fax { get; set; }

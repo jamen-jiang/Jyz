@@ -8,12 +8,12 @@ using System.Text;
 
 namespace Jyz.Infrastructure.Data.Mappings
 {
-    public class Role_DepartmentMapping : IEntityTypeConfiguration<Role_Department>
+    public class Organization_UserMapping : IEntityTypeConfiguration<Organization_User>
     {
-        public void Configure(EntityTypeBuilder<Role_Department> builder)
+        public void Configure(EntityTypeBuilder<Organization_User> builder)
         {
-            builder.Property(x => x.RoleId).IsRequired() ;
-            builder.Property(x => x.DepartmentId).IsRequired() ;
+            builder.Property(x => x.OrganizationId).IsRequired() ;
+            builder.Property(x => x.UserId).IsRequired() ;
         }
     }
 }

@@ -49,7 +49,7 @@ namespace Jyz.Api.Handlers.Policy
                     {
                         string controllerName =  httpContext.Request.RouteValues["controller"].ToString(); ;
                         string actionName = httpContext.Request.RouteValues["action"].ToString();
-                        List<PrivilegeResponse> list = _privilegeSvc.GetPrivilegeByUserId(userId);
+                        var list = await  _privilegeSvc.GetOperateUrlsByUserId(userId);
                         if (list.Count(x => x.Controller.Compare(controllerName) && x.Action.Compare(actionName)) <= 0)
                         {
                             throw new ApiException(ApiStatusEnum.Fail_UnAuthorized);

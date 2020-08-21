@@ -4,8 +4,8 @@ using System.Text;
 
 namespace Jyz.Application
 {
-    public class DepartmentModifyRequest : DepartmentAddRequest
+    public class OrganizationRequest
     {
-        public Guid Id { get; set; }
+        public string Name { get; set; }
     }
 }

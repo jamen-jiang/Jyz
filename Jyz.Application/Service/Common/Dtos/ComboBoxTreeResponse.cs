@@ -7,8 +7,8 @@ namespace Jyz.Application
 {
     public class ComboBoxTreeResponse:ITreeNode<ComboBoxTreeResponse>
     {
-        public string Id { get; set; }
-        public string PId { get; set; }
+        public object Id { get; set; }
+        public object PId { get; set; }
         public string Name { get; set; }
         public List<ComboBoxTreeResponse> Children { get; set; } = new List<ComboBoxTreeResponse>();
     }

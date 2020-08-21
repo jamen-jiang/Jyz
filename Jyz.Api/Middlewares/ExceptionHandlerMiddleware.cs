@@ -3,6 +3,7 @@ using Jyz.Infrastructure;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Net;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Jyz.Api.Middlewares
@@ -53,7 +54,7 @@ namespace Jyz.Api.Middlewares
             }
             context.Response.StatusCode = (int)HttpStatusCode.OK;
             context.Response.ContentType = "application/json";
-            await context.Response.WriteAsync(response.ToJson()).ConfigureAwait(false);
+            await context.Response.WriteAsync(response.ToJson(), Encoding.UTF8).ConfigureAwait(false);
         }
     }
 }

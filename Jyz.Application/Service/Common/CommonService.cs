@@ -16,12 +16,12 @@ namespace Jyz.Application
         /// <returns></returns>
         public List<ComboBoxResponse> GetComboBoxList<T>()where T :Enum
         {
-            Dictionary<string,string> data = Utils.GetEnumDict<T>();
+            Dictionary<object, string> data = Utils.GetEnumDict<T>();
             List<ComboBoxResponse> list = new List<ComboBoxResponse>();
             foreach (var d in data)
             {
                 ComboBoxResponse model = new ComboBoxResponse();
-                model.Value = d.Key.ToInt();
+                model.Value = d.Key;
                 model.Name = d.Value;
                 list.Add(model);
             }

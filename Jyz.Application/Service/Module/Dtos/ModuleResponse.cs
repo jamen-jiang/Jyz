@@ -6,8 +6,8 @@ namespace Jyz.Application
 {
     public class ModuleResponse : BaseResponse,ITreeNode<ModuleResponse>
     {
-        public string Id { get; set; }
-        public string PId { get; set; }
+        public object Id { get; set; }
+        public object PId { get; set; }
         public int Type { get; set; }
         public string TypeName { get; set; }
         public string Name { get; set; }

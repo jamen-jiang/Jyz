@@ -5,37 +5,37 @@ using System.Threading.Tasks;
 
 namespace Jyz.Application
 {
-    public interface IDepartmentService
+    public interface IOrganizationService
     {
         /// <summary>
         /// 获取部门列表
         /// </summary>
         /// <param name="info"></param>
         /// <returns></returns>
-        Task<List<DepartmentResponse>> Query(DepartmentRequest info);
+        Task<List<OrganizationResponse>> Query(OrganizationRequest info);
         /// <summary>
         /// 详情
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        Task<DepartmentResponse> Detail(Guid id);
+        Task<OrganizationResponse> Detail(Guid id);
         /// <summary>
         /// 获取部门列表
         /// </summary>
         /// <returns></returns>
-        Task<List<ComboBoxTreeResponse>> GetDepartments();
+        Task<List<ComboBoxTreeResponse>> GetOrganizations();
         /// <summary>
         /// 添加部门
         /// </summary>
         /// <param name="info"></param>
         /// <returns></returns>
-        Task Add(DepartmentAddRequest info);
+        Task Add(OrganizationAddRequest info);
         /// <summary>
         /// 修改部门信息
         /// </summary>
         /// <param name="info"></param>
         /// <returns></returns>
-        Task Modify(DepartmentModifyRequest info);
+        Task Modify(OrganizationModifyRequest info);
         /// <summary>
         /// 获取当前部门及下面所有部门
         /// </summary>

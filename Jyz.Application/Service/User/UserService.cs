@@ -17,11 +17,11 @@ namespace Jyz.Application
     public class UserService : BaseService,IUserService
     {
         private readonly IMapper _mapper;
-        private IDepartmentService _departmentSvc;
-        public UserService(IMapper mapper, IDepartmentService departmentSvc)
+        private readonly ICache _cache;
+        public UserService(IMapper mapper, ICache cache)
         {
             _mapper = mapper;
-            _departmentSvc = departmentSvc;
+            _cache = cache;
         }
         /// <summary>
         /// 登录(返回token)
@@ -45,6 +45,13 @@ namespace Jyz.Application
             }
         }
         /// <summary>
+        /// 登出
+        /// </summary>
+        public void  Logout()
+        {
+            _cache.Clear();
+        }
+        /// <summary>
         /// 获取用户列表
         /// </summary>
         /// <param name="info"></param>
@@ -55,27 +62,49 @@ namespace Jyz.Application
             using (var db = NewDB())
             {
                 PageResponse<UserResponse> model = new PageResponse<UserResponse>();
-                var query = db.User.AsNoTracking();
-                if (!info.Query.DepartmentId.IsEmpty())
+                var query = db.User.AsNoTracking().Where(x => x.Id != AppSetting.SystemConfig.Admin.ToGuid());
+                var organizations = await db.Organization.AsNoTracking().ToListAsync();
+                var organizationDtos = _mapper.Map<List<OrganizationResponse>>(organizations);
+                if (!info.Query.OrganizationId.IsEmpty())
                 {
-                    var ids = await _departmentSvc.GetCurrentAndChildrenIdList(info.Query.DepartmentId);
-                    query = query.Where(x => ids.Contains(x.DepartmentId));
+                    List<object> ids = new List<object>();
+                    GetCurrentAndChildrenIds(organizationDtos, ids, info.Query.OrganizationId.ToString(), true);
+                    query = query.GetByOrganizationIds(ids.Select(s => s.ToGuid()).ToArray());
                 }
                 if (!info.Query.Name.IsNullOrEmpty())
                     query = query.Where(x => x.Name.Contains(info.Query.Name));
                 if (!info.Query.UserName.IsNullOrEmpty())
                     query = query.Where(x => x.UserName.Contains(info.Query.UserName));
-                if (info.Query.CreatedOnStart!=null)
+                if (info.Query.CreatedOnStart != null)
                     query = query.Where(x => x.CreatedOn >= info.Query.CreatedOnStart);
                 if (info.Query.CreatedOnEnd != null)
                     query = query.Where(x => x.CreatedOn <= info.Query.CreatedOnEnd);
 
                 int totalCount = await query.CountAsync();
-                List<User> list = await query.Paging(info.PageIndex, info.PageSize).Include(i => i.Department).ToListAsync();
+                List<User> list = await query.OrderBy(x => x.CreatedOn).Paging(info.PageIndex, info.PageSize).Include(x => x.Organization_User).ToListAsync();
+                User user = new User();
                 model.PageIndex = info.PageIndex;
                 model.PageSize = info.PageSize;
                 model.TotalCount = totalCount;
                 model.List = _mapper.Map<List<UserResponse>>(list);
+                foreach (var l in model.List)
+                {
+                    if (l.OrganizationIds == null)
+                        continue;
+                    foreach (var organizationId in l.OrganizationIds)
+                    {
+                        string organizationName = "";
+                        List<OrganizationResponse> outList = new List<OrganizationResponse>();
+                        var organization = organizationDtos.FirstOrDefault(x => x.Id.ToGuid() == organizationId);
+                        GetCurrentAndParents(organizationDtos, outList, organization);
+                        foreach (var obj in outList)
+                        {
+                            organizationName = obj.Name + "-" + organizationName;
+                        }
+                        if (organizationName.Length > 0)
+                            l.OrganizationNames.Add(organizationName.Trim('-'));
+                    }
+                }
                 return model;
             }
         }
@@ -105,7 +134,10 @@ namespace Jyz.Application
             using (var db = NewDB())
             {
                 var model = await db.User.FindByIdAsync(id);
-                return _mapper.Map<UserResponse>(model);
+                var organization = await db.Organization.GetByUserId(id).Select(s=>s.Id).ToListAsync();
+                var dto = _mapper.Map<UserResponse>(model);
+                dto.OrganizationIds = organization;
+                return dto;
             }
         }
         /// <summary>
@@ -123,7 +155,7 @@ namespace Jyz.Application
                 user.PassWord = user.UserName;
                 await db.AddAsync(user);
                 await db.SaveChangesAsync();
-                await SetOtherInfo(db, user.Id, info.ModuleIds, info.OperateIds, info.RoleIds);
+                await SetOtherInfo(db, user.Id, info.User.OrganizationIds, info.ModuleIds, info.OperateIds, info.RoleIds);
                 await db.SaveChangesAsync();
             }
         }
@@ -136,12 +168,13 @@ namespace Jyz.Application
         {
             using (var db = NewDB())
             {
+                await db.ExecSqlNoQuery("delete Organization_User where UserId=@UserId", new SqlParameter("UserId", info.Id));
                 await db.ExecSqlNoQuery("delete Role_User where UserId=@UserId", new SqlParameter("UserId",info.Id));
                 await db.ExecSqlNoQuery("delete Privilege where MasterValue=@MasterValue", new SqlParameter("MasterValue", info.Id));
                 var user = await db.User.FindByIdAsync(info.Id);
                 _mapper.Map(info.User, user);
                 BeforeModify(user);
-                await SetOtherInfo(db, info.Id, info.ModuleIds, info.OperateIds, info.RoleIds);
+                await SetOtherInfo(db, info.Id, info.User.OrganizationIds, info.ModuleIds, info.OperateIds, info.RoleIds);
                 await db.SaveChangesAsync();
             }
         }
@@ -154,8 +187,17 @@ namespace Jyz.Application
         /// <param name="operateIds"></param>
         /// <param name="roleIds"></param>
         /// <returns></returns>
-        private async Task SetOtherInfo(JyzContext db,Guid userId,List<Guid> moduleIds, List<Guid> operateIds, List<Guid> roleIds)
+        private async Task SetOtherInfo(JyzContext db,Guid userId,List<Guid> organizationIds, List<Guid> moduleIds, List<Guid> operateIds, List<Guid> roleIds)
         {
+            foreach (Guid id in organizationIds)
+            {
+                Organization_User ou = new Organization_User()
+                {
+                    UserId = userId,
+                    OrganizationId = id
+                };
+                await db.AddAsync(ou);
+            }
             foreach (Guid id in moduleIds)
             {
                 Privilege privilege = new Privilege(MasterEnum.User, userId, AccessEnum.Module, id);

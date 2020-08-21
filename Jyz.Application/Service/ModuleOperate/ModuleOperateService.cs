@@ -2,6 +2,7 @@
 using Jyz.Domain;
 using Jyz.Domain.Enums;
 using Jyz.Infrastructure;
+using Jyz.Infrastructure.Data;
 using Jyz.Infrastructure.Data.Extensions;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -36,7 +37,7 @@ namespace Jyz.Application
                     m.Operates = operateDtos.Where(x => x.ModuleId == m.Id.ToGuid()).ToList();
                 }
                 List<ModuleOperateResponse> list = new List<ModuleOperateResponse>();
-                Utils.CreateTree(null, dtos, list);
+                CreateTree(null, dtos, list);
                 return list;
             }
         }
@@ -60,21 +61,23 @@ namespace Jyz.Application
                 }
                 else
                 {
-                    Guid[] roleIdList = db.Role.WhereByUserId(userId).Select(s => s.Id).ToArray();
-                    List<Privilege> privilegeList = await db.Privilege.Get(MasterEnum.Role, roleIdList).ToListAsync();
-                    Guid[] moduleIds = privilegeList.Where(x => x.Access == AccessEnum.Module.ToString()).Select(s => s.AccessValue).ToArray();
-                    Guid[] operateIds = privilegeList.Where(x => x.Access == AccessEnum.Operate.ToString()).Select(s => s.AccessValue).ToArray();
-                    modules = await db.Module.Where(x => moduleIds.Contains(x.Id)).OrderBy(o => o.Sort).ToListAsync();
-                    operates = await db.Operate.Where(x => operateIds.Contains(x.Id)).ToListAsync();
+                    var user = await db.User.FindByIdAsync(userId);
+                    var userRoleIds = await db.Role.GetByUserId(userId).Select(s => s.Id).ToArrayAsync();
+                    //var organizationRoleIds = await db.Role.GetByOrganizationId(user.OrganizationId).Select(s => s.Id).ToArrayAsync();
+                    //List<Privilege> privilegeList = await db.Privilege.GetByMasterValues(userId, user.OrganizationId, userRoleIds, organizationRoleIds).ToListAsync();
+                    //Guid[] moduleIds = privilegeList.Where(x => x.Access == AccessEnum.Module.ToString()).Select(s => s.AccessValue).ToArray();
+                    //Guid[] operateIds = privilegeList.Where(x => x.Access == AccessEnum.Operate.ToString()).Select(s => s.AccessValue).ToArray();
+                    //modules = await db.Module.Where(x => moduleIds.Contains(x.Id)).OrderBy(o => o.Sort).ToListAsync();
+                    //operates = await db.Operate.Where(x => operateIds.Contains(x.Id)).ToListAsync();
                 }
-                var operateDtos = _mapper.Map<List<OperateResponse>>(operates);
                 var moduleDtos = _mapper.Map<List<ModuleOperateResponse>>(modules);
+                var operateDtos = _mapper.Map<List<OperateResponse>>(operates);
                 foreach (var m in moduleDtos)
                 {
                     m.Operates = operateDtos.Where(x => x.ModuleId == m.Id.ToGuid()).ToList();
                 }
                 List<ModuleOperateResponse> list = new List<ModuleOperateResponse>();
-                Utils.CreateTree(null, moduleDtos, list);
+                CreateTree(null, moduleDtos, list);
                 return list;
             }
         }

@@ -3,6 +3,7 @@ using Jyz.Domain;
 using Jyz.Domain.Enums;
 using Jyz.Infrastructure;
 using Jyz.Infrastructure.Data;
+using Jyz.Infrastructure.Data.Extensions;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -19,6 +20,20 @@ namespace Jyz.Application
         {
             _mapper = mapper;
             _moduleSvc = moduleSvc;
+        }
+        /// <summary>
+        /// 获取所有操作Url
+        /// </summary>
+        /// <param name="controller"></param>
+        /// <param name="action"></param>
+        /// <returns></returns>
+        public async Task<List<OperateUrlResponse>> GetAllOperateUrl()
+        {
+            using (var db = NewDB())
+            {
+                var operates= await db.Operate.Include(x => x.Module).AsNoTracking().ToListAsync();
+                return _mapper.Map<List<OperateUrlResponse>>(operates);
+            }
         }
         /// <summary>
         /// 根据privilegeIds获取操作列表

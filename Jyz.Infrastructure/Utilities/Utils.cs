@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
@@ -17,10 +18,10 @@ namespace Jyz.Infrastructure
         /// <param name="enumType"></param>
         /// <param name="isAddEmpty"></param>
         /// <returns></returns>
-        public static Dictionary<string, string> GetEnumDict<T>(bool isAddEmpty = false)where T : Enum
+        public static Dictionary<object, string> GetEnumDict<T>(bool isAddEmpty = false)where T : Enum
         {
             var type = typeof(T);
-            Dictionary<string, string> dict = new Dictionary<string, string>();
+            Dictionary<object, string> dict = new Dictionary<object, string>();
             if (isAddEmpty)
             {
                 dict.Add("", "");
@@ -28,7 +29,7 @@ namespace Jyz.Infrastructure
             foreach (int i in Enum.GetValues(type))
             {
                 string name = GetEnumName(type, i);
-                dict.Add(i.ToString(), name);
+                dict.Add(i, name);
             }
             return dict;
         }
@@ -101,32 +102,28 @@ namespace Jyz.Infrastructure
             return Convert.ToBase64String(s);
         }
         /// <summary>
-        /// 生成树
+        /// 继承HashAlgorithm
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="node"></param>
-        /// <param name="list"></param>
-        /// <param name="tree"></param>
-        public static void CreateTree<T>(T node, List<T> list, List<T> tree = null)where T : ITreeNode<T>
+        /// <param name="stream"></param>
+        /// <returns></returns>
+        public static string GetHash<T>(Stream stream) where T : HashAlgorithm
         {
-            if (node==null)
+            StringBuilder sb = new StringBuilder();
+
+            MethodInfo create = typeof(T).GetMethod("Create", new Type[] { });
+            using (T crypt = (T)create.Invoke(null, null))
             {
-                var parents = list.Where(x => x.PId == null).ToList();
-                foreach (var p in parents)
+                if (crypt != null)
                 {
-                    tree.Add(p);
-                    CreateTree(p, list);
+                    byte[] hashBytes = crypt.ComputeHash(stream);
+                    foreach (byte bt in hashBytes)
+                    {
+                        sb.Append(bt.ToString("x2"));
+                    }
                 }
             }
-            else
-            {
-                var childrens = list.Where(x => x.PId == node.Id).ToList();
-                foreach (var c in childrens)
-                {
-                    node.Children.Add(c);
-                    CreateTree(c, list);
-                }
-            }
+            return sb.ToString();
         }
     }
 }

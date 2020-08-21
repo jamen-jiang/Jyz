@@ -4,10 +4,14 @@ using System.Text;
 
 namespace Jyz.Infrastructure
 {
-    public interface ITreeNode<T>
+    public interface ITreeNode
     {
-        string PId { get; set; }
-        string Id { get; set; }
+        object PId { get; set; }
+        object Id { get; set; }
+        string Name { get; set; }
+    }
+    public interface ITreeNode<T>: ITreeNode
+    {
         List<T> Children { get; set; }
     }
 }

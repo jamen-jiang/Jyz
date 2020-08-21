@@ -29,7 +29,7 @@ namespace Jyz.Application
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        Task<List<RoleResponse>> GetDepartmentRoles(Guid departmentId);
+        Task<List<RoleResponse>> GetOrganizationRoles(Guid organizationId);
         /// <summary>
         /// 角色信息保存
         /// </summary>

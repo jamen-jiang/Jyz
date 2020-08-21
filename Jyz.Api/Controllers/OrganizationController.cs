@@ -11,15 +11,15 @@ using System.Threading.Tasks;
 namespace Jyz.Api.Controllers
 {
     [Privilege,DisableLog]
-    public class DepartmentController : ApiControllerBase
+    public class OrganizationController : ApiControllerBase
     {
-        private readonly IDepartmentService _departmentScv;
+        private readonly IOrganizationService _organizationScv;
         private readonly IPrivilegeService _privilegeSvc;
         private readonly IRoleService _roleSvc;
         private readonly IModuleOperateService _moduleOperateSvc;
-        public DepartmentController(IDepartmentService departmentScv, IPrivilegeService privilegeSvc, IRoleService roleSvc,IModuleOperateService moduleOperateSvc)
+        public OrganizationController(IOrganizationService organizationScv, IPrivilegeService privilegeSvc, IRoleService roleSvc,IModuleOperateService moduleOperateSvc)
         {
-            _departmentScv = departmentScv;
+            _organizationScv = organizationScv;
             _privilegeSvc = privilegeSvc;
             _roleSvc = roleSvc;
             _moduleOperateSvc = moduleOperateSvc;
@@ -30,9 +30,9 @@ namespace Jyz.Api.Controllers
         /// <param name="info"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<List<DepartmentResponse>> Query([FromBody]DepartmentRequest info)
+        public async Task<List<OrganizationResponse>> Query([FromBody]OrganizationRequest info)
         {
-            return await _departmentScv.Query(info);
+            return await _organizationScv.Query(info);
         }
         /// <summary>
         /// 获取部门详情
@@ -40,10 +40,10 @@ namespace Jyz.Api.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet]
-        [Logger("获取模块详情")]
-        public async Task<DepartmentResponse> Detail(Guid id)
+        [Logger("获取组织架构详情")]
+        public async Task<OrganizationResponse> Detail(Guid id)
         {
-            return await _departmentScv.Detail(id);
+            return await _organizationScv.Detail(id);
         }
         /// <summary>
         /// 获取模块操作列表
@@ -62,7 +62,7 @@ namespace Jyz.Api.Controllers
         [HttpGet, DisableLog]
         public async Task<AuthorizeModuleOperateIdsResponse> GetAuthorizeModuleOperateIds(Guid id)
         {
-            return await _moduleOperateSvc.GetAuthorizeModuleOperateIds(MasterEnum.Department,id);
+            return await _moduleOperateSvc.GetAuthorizeModuleOperateIds(MasterEnum.Organization,id);
         }
         /// <summary>
         /// 获取角色列表
@@ -80,31 +80,31 @@ namespace Jyz.Api.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet, DisableLog]
-        public async Task<List<RoleResponse>> GetDepartmentRoles(Guid id)
+        public async Task<List<RoleResponse>> GetOrganizationRoles(Guid id)
         {
-            return await _roleSvc.GetDepartmentRoles(id);
+            return await _roleSvc.GetOrganizationRoles(id);
         }
         /// <summary>
-        /// 添加部门
+        /// 添加组织机构
         /// </summary>
         /// <param name="info"></param>
         /// <returns></returns>
         [HttpPost]
-        [Logger("添加部门")]
-        public async Task Add(DepartmentAddRequest info)
+        [Logger("添加组织机构")]
+        public async Task Add(OrganizationAddRequest info)
         {
-            await _departmentScv.Add(info);
+            await _organizationScv.Add(info);
         }
         /// <summary>
-        /// 修改部门
+        /// 修改组织机构
         /// </summary>
         /// <param name="info"></param>
         /// <returns></returns>
         [HttpPost]
-        [Logger("修改部门信息")]
-        public async Task Modify(DepartmentModifyRequest info)
+        [Logger("修改组织机构信息")]
+        public async Task Modify(OrganizationModifyRequest info)
         {
-            await _departmentScv.Modify(info);
+            await _organizationScv.Modify(info);
         }
     }
 }

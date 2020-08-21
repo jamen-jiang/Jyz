@@ -48,6 +48,12 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:Jyz.Api.Controllers.CommonController.GetOrganizationTypes">
+            <summary>
+            获取组织机构类型
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:Jyz.Api.Controllers.CommonController.GetModuleCatalogs">
             <summary>
             获取模块目录树
@@ -60,63 +66,40 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Jyz.Api.Controllers.CommonController.GetDepartments">
+        <member name="M:Jyz.Api.Controllers.CommonController.GetOrganizations">
             <summary>
-            获取部门树
+            获取组织架构树
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Jyz.Api.Controllers.DepartmentController.Query(Jyz.Application.DepartmentRequest)">
+        <member name="M:Jyz.Api.Controllers.CommonController.GetDictionaryCategorys">
             <summary>
-            获取部门列表
-            </summary>
-            <param name="info"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Jyz.Api.Controllers.DepartmentController.Detail(System.Guid)">
-            <summary>
-            获取部门详情
-            </summary>
-            <param name="id"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Jyz.Api.Controllers.DepartmentController.GetModuleOperates">
-            <summary>
-            获取模块操作列表
+            获取字典类型列表
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Jyz.Api.Controllers.DepartmentController.GetAuthorizeModuleOperateIds(System.Guid)">
+        <member name="M:Jyz.Api.Controllers.DictionaryController.Query">
             <summary>
-            获取授权的模块操作Id列表
+            获取字典内容列表
             </summary>
-            <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:Jyz.Api.Controllers.DepartmentController.GetRoles(Jyz.Application.PageRequest{Jyz.Application.RoleRequest})">
+        <member name="M:Jyz.Api.Controllers.DictionaryController.Detail(System.Guid)">
             <summary>
-            获取角色列表
+            获取字典类型列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Jyz.Api.Controllers.DictionaryController.Add(Jyz.Application.DictionaryAddRequest)">
+            <summary>
+            添加字典
             </summary>
             <param name="info"></param>
             <returns></returns>
         </member>
-        <member name="M:Jyz.Api.Controllers.DepartmentController.GetDepartmentRoles(System.Guid)">
+        <member name="M:Jyz.Api.Controllers.DictionaryController.Modify(Jyz.Application.DictionaryModifyRequest)">
             <summary>
-            获取此部门Id的角色列表
-            </summary>
-            <param name="id"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Jyz.Api.Controllers.DepartmentController.Add(Jyz.Application.DepartmentAddRequest)">
-            <summary>
-            添加部门
-            </summary>
-            <param name="info"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Jyz.Api.Controllers.DepartmentController.Modify(Jyz.Application.DepartmentModifyRequest)">
-            <summary>
-            修改部门
+            修改字典
             </summary>
             <param name="info"></param>
             <returns></returns>
@@ -172,6 +155,61 @@
             <summary>
             获取对应的功能列表
             </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Jyz.Api.Controllers.OrganizationController.Query(Jyz.Application.OrganizationRequest)">
+            <summary>
+            获取部门列表
+            </summary>
+            <param name="info"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Jyz.Api.Controllers.OrganizationController.Detail(System.Guid)">
+            <summary>
+            获取部门详情
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Jyz.Api.Controllers.OrganizationController.GetModuleOperates">
+            <summary>
+            获取模块操作列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Jyz.Api.Controllers.OrganizationController.GetAuthorizeModuleOperateIds(System.Guid)">
+            <summary>
+            获取授权的模块操作Id列表
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Jyz.Api.Controllers.OrganizationController.GetRoles(Jyz.Application.PageRequest{Jyz.Application.RoleRequest})">
+            <summary>
+            获取角色列表
+            </summary>
+            <param name="info"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Jyz.Api.Controllers.OrganizationController.GetOrganizationRoles(System.Guid)">
+            <summary>
+            获取此部门Id的角色列表
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Jyz.Api.Controllers.OrganizationController.Add(Jyz.Application.OrganizationAddRequest)">
+            <summary>
+            添加组织机构
+            </summary>
+            <param name="info"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Jyz.Api.Controllers.OrganizationController.Modify(Jyz.Application.OrganizationModifyRequest)">
+            <summary>
+            修改组织机构
+            </summary>
+            <param name="info"></param>
             <returns></returns>
         </member>
         <member name="M:Jyz.Api.Controllers.PrivilegeController.GetAuthorizeModuleOperates">
@@ -234,6 +272,12 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:Jyz.Api.Controllers.UserController.GetInformation">
+            <summary>
+            获取当前用户信息
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:Jyz.Api.Controllers.UserController.Query(Jyz.Application.PageRequest{Jyz.Application.UserRequest})">
             <summary>
             获取用户列表
@@ -275,7 +319,7 @@
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:Jyz.Api.Controllers.UserController.GetDepartments(Jyz.Application.DepartmentRequest)">
+        <member name="M:Jyz.Api.Controllers.UserController.GetOrganizations(Jyz.Application.OrganizationRequest)">
             <summary>
             获取部门列表
             </summary>

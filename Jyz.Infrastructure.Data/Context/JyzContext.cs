@@ -1,8 +1,11 @@
 ﻿using Jyz.Domain;
 using Jyz.Infrastructure.Data.Mappings;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
 using System.Linq.Expressions;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Jyz.Infrastructure.Data
 {
@@ -22,8 +25,11 @@ namespace Jyz.Infrastructure.Data
         public virtual DbSet<User> User { get; set; }
         public virtual DbSet<LogOperate> LogOperate { get; set; }
         public virtual DbSet<LogLogin> LogLogin { get; set; }
-        public virtual DbSet<Department> Department { get; set; }
-        public virtual DbSet<Role_Department> Role_Department { get; set; }
+        public virtual DbSet<Organization> Organization { get; set; }
+        public virtual DbSet<Role_Organization> Role_Organization { get; set; }
+        public virtual DbSet<File> File { get; set; }
+        public virtual DbSet<Dictionary> Dictionary { get; set; }
+        public virtual DbSet<Organization_User> Organization_User { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

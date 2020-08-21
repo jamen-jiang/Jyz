@@ -9,5 +9,6 @@ namespace Jyz.Domain
         public int? Sort { get; set; }
         public string Remark { get; set; }
         public virtual ICollection<Role_User> Role_User { get; set; }
+        public virtual ICollection<Role_Organization> Role_Organization { get; set; }
     }
 }

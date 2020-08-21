@@ -6,7 +6,7 @@ namespace Jyz.Application
 {
     public class UserRequest
     {
-        public Guid DepartmentId { get; set; }
+        public Guid OrganizationId { get; set; }
         public string Name { get; set; }
         public string UserName { get; set; }
         public DateTime? CreatedOnStart { get; set; }

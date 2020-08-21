@@ -49,7 +49,7 @@ namespace Jyz.Application
                 List<Module> modules = await query.ToListAsync();
                 var dtos = _mapper.Map<List<ModuleResponse>>(modules);
                 List<ModuleResponse> list = new List<ModuleResponse>();
-                Utils.CreateTree(null, dtos, list);
+                CreateTree(null, dtos, list);
                 return list;
             }
         }
@@ -77,7 +77,7 @@ namespace Jyz.Application
                var modules = await db.Module.AsNoTracking().Where(x=>x.Type == (int)ModuleTypeEnum.Catalog).ToListAsync();
                 var dtos = _mapper.Map<List<ComboBoxTreeResponse>>(modules);
                 var list = new List<ComboBoxTreeResponse>();
-                Utils.CreateTree(null, dtos, list);
+                CreateTree(null, dtos, list);
                 return list;
             }
         }
@@ -92,7 +92,7 @@ namespace Jyz.Application
                 var modules = await db.Module.AsNoTracking().ToListAsync();
                 var dtos = _mapper.Map<List<ComboBoxTreeResponse>>(modules);
                 var list = new List<ComboBoxTreeResponse>();
-                Utils.CreateTree(null, dtos, list);
+                CreateTree(null, dtos, list);
                 return list;
             }
         }
@@ -111,8 +111,7 @@ namespace Jyz.Application
             using (var db = NewDB())
             {
                 Module model = _mapper.Map<Module>(info);
-                BeforeAdd(model);
-                await db.Module.AddAsync(model);
+                await db.AddEntityAsync(model);
                 await db.SaveChangesAsync();
             }
         }
@@ -134,7 +133,7 @@ namespace Jyz.Application
             {
                 var model = await db.Module.FindByIdAsync(info.Id);
                 _mapper.Map(info, model);
-                BeforeModify(model);
+                db.ModifyEntity(model);
                 await db.SaveChangesAsync();
             }
         }
@@ -150,17 +149,17 @@ namespace Jyz.Application
                 var modules = await db.Module.AsNoTracking().ToListAsync();
                 List<Guid> idList = new List<Guid>();
                 idList.Add(id);
-                GetChildrenDepartmentIdList(modules, idList, id);
+                GetChildrenModuleIdList(modules, idList, id);
                 return idList;
             }
         }
         /// <summary>
         /// 获取当前模块及下面所有模块
         /// </summary>
-        /// <param name="departments"></param>
+        /// <param name="modules"></param>
         /// <param name="idList"></param>
         /// <param name="id"></param>
-        private void GetChildrenDepartmentIdList(List<Module> modules, List<Guid> idList, Guid pId)
+        private void GetChildrenModuleIdList(List<Module> modules, List<Guid> idList, Guid pId)
         {
             var childrens = modules.Where(x => x.PId == pId).Select(s => s.Id).ToList();
             if (childrens.Count > 0)
@@ -168,7 +167,7 @@ namespace Jyz.Application
                 idList.AddRange(childrens);
                 foreach (Guid id in childrens)
                 {
-                    GetChildrenDepartmentIdList(modules, idList, id);
+                    GetChildrenModuleIdList(modules, idList, id);
                 }
             }
         }

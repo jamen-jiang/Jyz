@@ -1,6 +1,4 @@
 ﻿using Jyz.Domain;
-using Jyz.Infrastructure;
-using Jyz.Infrastructure.Data;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -9,7 +7,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace Jyz.Application
+namespace Jyz.Infrastructure
 {
     public static class CurrentUser
     {
@@ -49,13 +47,6 @@ namespace Jyz.Application
                 return UserId ==  AppSetting.SystemConfig.Admin.ToGuid();
             }
         }
-        public static User User
-        {
-            get 
-            {
-                return new JyzContext().Set<User>().FindById(UserId);
-            }
-        }
         public static Guid UserId
         {
             get
@@ -72,7 +63,7 @@ namespace Jyz.Application
         }
         public static T GetService<T>() where T : class
         {
-            return AppSetting.Provider.GetRequiredService<T>();
+            return HttpContext.RequestServices.GetService<T>();
         }
     }
 }

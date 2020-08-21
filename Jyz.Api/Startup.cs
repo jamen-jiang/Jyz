@@ -99,8 +99,8 @@ namespace Jyz.Api
             {
                 app.UseDeveloperExceptionPage();
             }
-            //异常中间件
-            app.UseExceptionHandlerMiddleware();
+            
+            
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
@@ -124,6 +124,9 @@ namespace Jyz.Api
             app.UseAuthentication();
             //授权
             app.UseAuthorization();
+
+            //异常中间件
+            app.UseExceptionHandlerMiddleware();
 
             app.UseEndpoints(endpoints =>
             {

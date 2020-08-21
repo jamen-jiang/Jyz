@@ -15,9 +15,9 @@ namespace Jyz.Api.Filter
     /// <summary>
     /// 权限过滤
     /// </summary>
-    public class PrivilegeAttribute : AuthorizeAttribute, IAuthorizationFilter
+    public class PrivilegeAttribute : AuthorizeAttribute, IAsyncAuthorizationFilter
     {
-        public void OnAuthorization(AuthorizationFilterContext context)
+        public async Task OnAuthorizationAsync(AuthorizationFilterContext context)
         {
             //允许匿名访问
             //if (context.HttpContext.User.Identity.IsAuthenticated ||
@@ -27,17 +27,19 @@ namespace Jyz.Api.Filter
             if (context.HttpContext.User.Identity.IsAuthenticated ||
                 context.ActionDescriptor.EndpointMetadata.Any(item => item is NoPrivilegeAttribute || item is AllowAnonymousAttribute))
                 return;
-            if(CurrentUser.UserId != AppSetting.SystemConfig.Admin.ToGuid())
+            string controllerName = context.RouteData.Values["controller"].ToString(); ;
+            string actionName = context.RouteData.Values["action"].ToString();
+            //获取权限接口
+            var privilegeSvc = CurrentUser.GetService<IPrivilegeService>();
+            var list = await privilegeSvc.GetOperateUrlsByUserId(CurrentUser.UserId);
+            var model = list.FirstOrDefault(x => x.Controller.Compare(controllerName) && x.Action.Compare(actionName));
+            if (model == null)
             {
-                string controllerName = context.RouteData.Values["controller"].ToString(); ;
-                string actionName = context.RouteData.Values["action"].ToString();
-                //获取权限接口
-                var privilegeSvc = CurrentUser.GetService<IPrivilegeService>();
-                List<PrivilegeResponse> list = privilegeSvc.GetPrivilegeByUserId(CurrentUser.UserId);
-                if (list.Count(x => x.Controller.Compare(controllerName) && x.Action.Compare(actionName)) <= 0)
-                {
-                    throw new ApiException(ApiStatusEnum.Fail_UnAuthorized);
-                }
+                throw new ApiException(ApiStatusEnum.Fail_Forbidden);
+            }
+            else if (!model.IsAuthorize)
+            {
+                throw new ApiException(ApiStatusEnum.Fail_UnAuthorized);
             }
         }
     }

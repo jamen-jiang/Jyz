@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
 
 namespace Jyz.Application
@@ -20,72 +21,40 @@ namespace Jyz.Application
         {
             _mapper = mapper;
         }
-        public List<PrivilegeResponse> GetPrivilegeByUserId(Guid userId)
-        {
-            using (var db = NewDB())
-            {
-                Guid[] roleIdList = db.Role.WhereByUserId(userId).Select(s => s.Id).ToArray();
-                List<Privilege> privilegeList = db.Privilege.Get(MasterEnum.Role, roleIdList).ToList();
-                Guid[] moduleIds = privilegeList.Where(x => x.Access == AccessEnum.Module.ToString()).Select(s => s.AccessValue).ToArray();
-                Guid[] operateIds = privilegeList.Where(x => x.Access == AccessEnum.Operate.ToString()).Select(s => s.AccessValue).ToArray();
-                List<Module> moduleList = db.Module.Where(x => moduleIds.Contains(x.Id)).ToList();
-                List<Operate> operateList = db.Operate.Where(x => operateIds.Contains(x.Id)).ToList();
-                List<PrivilegeResponse> list = new List<PrivilegeResponse>();
-                foreach (var m in moduleList)
-                {
-                    var tempOperateList = operateList.Where(x => x.ModuleId == m.Id).ToList();
-                    foreach (var o in tempOperateList)
-                    {
-                        PrivilegeResponse model = new PrivilegeResponse();
-                        model.ModuleId = m.Id;
-                        model.Controller = m.Controller;
-                        model.OperateId = o.Id;
-                        model.Action = o.Action;
-                        list.Add(model);
-                    }
-                }
-                return list;
-            }
-        }
-        public void GetPrivilegeUrl()
-        { 
-            
-        }
         /// <summary>
-        ///  获取模块树及权限
+        /// 获取全部url并且此用户Id是否已授权
         /// </summary>
-        /// <param name="master"></param>
-        /// <param name="masterValue"></param>
+        /// <param name="userId"></param>
         /// <returns></returns>
-        public async Task<ModuleAndPrivilegeResponse> GetModuleAndPrivilege(MasterEnum master,Guid masterValue)
+        public async Task<List<OperateUrlResponse>> GetOperateUrlsByUserId(Guid userId)
         {
             using (var db = NewDB())
             {
-                ModuleAndPrivilegeResponse model = new ModuleAndPrivilegeResponse();
-                List<Module> modules = await db.Module.AsNoTracking().ToListAsync();
-                var dtos = _mapper.Map<List<ModuleResponse>>(modules);
-                var pDtos = dtos.Where(x => x.PId == null).ToList();
-                var operates = db.Operate.AsNoTracking().ToList();
-                var operateDto = _mapper.Map<List<OperateResponse>>(operates);
-                foreach (ModuleResponse p in pDtos)
+                //全部url(controller+action)
+                var operates = await db.Operate.Include(x => x.Module).AsNoTracking().ToListAsync();
+                var operateUrls =   _mapper.Map<List<OperateUrlResponse>>(operates);
+                if (userId == AppSetting.SystemConfig.Admin.ToGuid())
                 {
-                    model.Modules.Add(p);
-                    CreateModuleTree(p, dtos, operateDto);
+                    operateUrls.ForEach(item => item.IsAuthorize = true);
+                    return  operateUrls;
                 }
-                model.SelectedModules = await db.Privilege.Get(master, AccessEnum.Module, masterValue).Select(s => s.AccessValue).ToListAsync();
-                model.SelectedOperates = await db.Privilege.Get(master, AccessEnum.Operate, masterValue).Select(s => s.AccessValue).ToListAsync();
-                return model;
-            }
-        }
+                else
+                {
+                    var user = await db.User.FindByIdAsync(userId);
+                    var userRoleIds = await db.Role.GetByUserId(userId).Select(s => s.Id).ToArrayAsync();
+                    //var organizationRoleIds = await db.Role.GetByOrganizationId(user.OrganizationId).Select(s => s.Id).ToArrayAsync();
+                    //List<Privilege> privilegeList = await db.Privilege.GetByMasterValues(userId, user.OrganizationId, userRoleIds, organizationRoleIds).ToListAsync();
+                    //Guid[] operateIds = privilegeList.Where(x => x.Access == AccessEnum.Operate.ToString()).Select(s => s.AccessValue).ToArray();
 
-        private void CreateModuleTree(ModuleResponse node, List<ModuleResponse> list, List<OperateResponse> operates)
-        {
-            var childList = list.Where(x => x.PId == node.Id).ToList();
-            foreach (var c in childList)
-            {
-                //c.Operates = operates.Where(x => x.ModuleId == c.Id).ToList();
-                node.Children.Add(c);
-                CreateModuleTree(c, list, operates);
+                    //List<PrivilegeResponse> list = new List<PrivilegeResponse>();
+                    //var authOperateUrls = operateUrls.Where(x => operateIds.Contains(x.OperateId)).ToList();
+                    //foreach (var o in authOperateUrls)
+                    //{
+                    //    o.IsAuthorize = true;
+                    //}
+                    //return authOperateUrls;
+                    return null;
+                }
             }
         }
     }

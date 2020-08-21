@@ -1,5 +1,6 @@
 ﻿using Jyz.Api.Attributes;
 using Jyz.Application;
+using Jyz.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System;
 using System.Collections.Generic;

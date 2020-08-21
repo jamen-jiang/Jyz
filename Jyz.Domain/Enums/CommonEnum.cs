@@ -31,8 +31,8 @@ namespace Jyz.Domain.Enums
         Role = 0,
         [Description("用户")]
         User = 1,
-        [Description("部门")]
-        Department = 2
+        [Description("组织机构")]
+        Organization = 2
     }
     /// <summary>
     /// 权限通道
@@ -43,5 +43,17 @@ namespace Jyz.Domain.Enums
         Module,
         [Description("功能")]
         Operate,
+    }
+    /// <summary>
+    /// 组织机构类型
+    /// </summary>
+    public enum OrganizationTypeEnum
+    {
+        [Description("机构")]
+        Organ,
+        [Description("部门")]
+        Department,
+        [Description("岗位")]
+        Post
     }
 }

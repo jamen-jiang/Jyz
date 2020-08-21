@@ -25,7 +25,10 @@ namespace Jyz.Application.AutoMapper
             CreateMap<LogOperateRequest, LogOperate>();
             CreateMap<LogLoginRequest, LogLogin>();
 
-            CreateMap<DepartmentInfo, Department>();
+            CreateMap<OrganizationInfo, Organization>();
+
+            CreateMap<DictionaryAddRequest, Dictionary>();
+            CreateMap<DictionaryModifyRequest, Dictionary>();
         }
     }
 }

@@ -8,16 +8,16 @@ using System.Text;
 
 namespace Jyz.Infrastructure.Data.Mappings
 {
-    public class DepartmentMapping : IEntityTypeConfiguration<Department>
+    public class FileMapping : IEntityTypeConfiguration<File>
     {
-        public void Configure(EntityTypeBuilder<Department> builder)
+        public void Configure(EntityTypeBuilder<File> builder)
         {
             builder.HasQueryFilter(x => x.IsEnable);
             builder.Property(x => x.Name).IsRequired().HasMaxLength(50);
-            builder.Property(x => x.Telephone).HasMaxLength(50);
-            builder.Property(x => x.Fax).HasMaxLength(50);
-            builder.Property(x => x.Email).HasMaxLength(50);
-            builder.Property(x => x.Remark).IsRequired(false).HasMaxLength(500);
+            builder.Property(x => x.Extension).IsRequired().HasMaxLength(50);
+            builder.Property(x => x.Path).IsRequired().HasMaxLength(500);
+            builder.Property(x => x.Md5).IsRequired().HasMaxLength(500);
+            builder.Property(x => x.Remark).HasMaxLength(500);
         }
     }
 }

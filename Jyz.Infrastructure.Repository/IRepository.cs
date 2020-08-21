@@ -8,16 +8,14 @@ namespace Jyz.Infrastructure.Repository
     public interface IRepository : IDisposable
     {
         int SaveChanges();
-        IQueryable<T> All<T>() where T : class;
-        T Get<T>(Expression<Func<T, bool>> conditions) where T : class;
+        IQueryable<T> QueryAll<T, S>(Expression<Func<T, S>> orderBy = null) where T : class;
+        T Query<T>(Expression<Func<T, bool>> where) where T : class;
         void Add<T>(T entity) where T : class;
-        void Update<T>(T entity) where T : class;
+        void Modify<T>(T entity) where T : class;
         void Remove<T>(T entity) where T : class;
-        void Remove<T>(Expression<Func<T, bool>> conditions) where T : class;
-        List<T> Find<T>(Expression<Func<T, bool>> conditions = null) where T : class;
-        List<T> Find<T, S>(Expression<Func<T, bool>> conditions, Expression<Func<T, S>> orderBy, int pageSize, int pageIndex, out int totalCount) where T : class;
-        List<T> SqlQuery<T>(string sql);
-        int ExecuteSqlCommand(string sql);
-        long GetNextSequenceValue(string sequenceName);
+        void Remove<T>(Expression<Func<T, bool>> where) where T : class;
+        IQueryable<T> Find<T>(Expression<Func<T, bool>> where = null) where T : class;
+        IQueryable<T> Find<T, S>(Expression<Func<T, bool>> where, Expression<Func<T, S>> orderBy, int pageSize, int pageIndex, out int totalCount) where T : class;
+        IQueryable<T> SqlQuery<T>(string sql);
     }
 }

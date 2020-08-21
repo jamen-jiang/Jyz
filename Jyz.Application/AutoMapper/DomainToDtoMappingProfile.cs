@@ -2,6 +2,7 @@
 using Jyz.Domain;
 using Jyz.Domain.Enums;
 using Jyz.Infrastructure;
+using System.Linq;
 
 namespace Jyz.Application.AutoMapper
 {
@@ -12,9 +13,10 @@ namespace Jyz.Application.AutoMapper
         /// </summary>
         public DomainToDtoMappingProfile()
         {
-            CreateMap<User, UserResponse>().ForMember(
-                dto => dto.DepartmentName,
-                domain => domain.MapFrom(src => src.Department.Name)
+            CreateMap<User, UserResponse>()
+            .ForMember(
+            dto => dto.OrganizationIds,
+            domain => domain.MapFrom(src => src.Organization_User.Select(s=>s.OrganizationId).ToList())
             );
             CreateMap<Module, ModuleResponse>().ForMember(
                dto => dto.TypeName,
@@ -25,6 +27,7 @@ namespace Jyz.Application.AutoMapper
               domain => domain.MapFrom(src => src.Type.GetDescription<ModuleTypeEnum>())
            );
             CreateMap<Module, ComboBoxTreeResponse>();
+
             CreateMap<Operate, OperateResponse>().ForMember(
                dto => dto.TypeName,
                domain => domain.MapFrom(src => src.Type.GetDescription<OperateTypeEnum>())
@@ -36,8 +39,13 @@ namespace Jyz.Application.AutoMapper
             CreateMap<LogOperate, LogOperateResponse>();
             CreateMap<LogLogin, LogLoginResponse>();
 
-            CreateMap<Department, DepartmentResponse>();
-            CreateMap<Department, ComboBoxTreeResponse>();
+            CreateMap<Organization, OrganizationResponse>().ForMember(
+                dto => dto.TypeName,
+                domain => domain.MapFrom(src => src.Type.GetDescription<OrganizationTypeEnum>())
+            );
+            CreateMap<Organization, ComboBoxTreeResponse>();
+
+            CreateMap<Dictionary, DictionaryResponse>();
         }
     }
 }

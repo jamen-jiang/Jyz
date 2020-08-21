@@ -19,30 +19,27 @@ namespace Jyz.Infrastructure.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("Jyz.Domain.Department", b =>
+            modelBuilder.Entity("Jyz.Domain.Dictionary", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<string>("Category")
+                        .HasMaxLength(50);
+
+                    b.Property<string>("Code")
+                        .HasMaxLength(50);
+
                     b.Property<Guid>("CreatedBy");
 
                     b.Property<string>("CreatedByName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(50)");
+                        .IsRequired();
 
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime");
-
-                    b.Property<string>("Email")
-                        .HasMaxLength(50);
-
-                    b.Property<string>("Fax")
-                        .HasMaxLength(50);
+                    b.Property<DateTime>("CreatedOn");
 
                     b.Property<bool>("IsEnable");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasMaxLength(50);
 
                     b.Property<Guid?>("PId");
@@ -52,8 +49,56 @@ namespace Jyz.Infrastructure.Data.Migrations
 
                     b.Property<int?>("Sort");
 
-                    b.Property<string>("Telephone")
+                    b.Property<Guid?>("UpdatedBy");
+
+                    b.Property<string>("UpdatedByName")
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<DateTime?>("UpdatedOn")
+                        .HasColumnType("datetime");
+
+                    b.Property<string>("Value")
                         .HasMaxLength(50);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Dictionary");
+                });
+
+            modelBuilder.Entity("Jyz.Domain.File", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<Guid>("CreatedBy");
+
+                    b.Property<string>("CreatedByName")
+                        .IsRequired();
+
+                    b.Property<DateTime>("CreatedOn");
+
+                    b.Property<string>("Extension")
+                        .IsRequired()
+                        .HasMaxLength(50);
+
+                    b.Property<bool>("IsEnable");
+
+                    b.Property<string>("Md5")
+                        .IsRequired()
+                        .HasMaxLength(500);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50);
+
+                    b.Property<string>("Path")
+                        .IsRequired()
+                        .HasMaxLength(500);
+
+                    b.Property<string>("Remark")
+                        .HasMaxLength(500);
+
+                    b.Property<long?>("Size");
 
                     b.Property<Guid?>("UpdatedBy");
 
@@ -65,7 +110,7 @@ namespace Jyz.Infrastructure.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Department");
+                    b.ToTable("File");
                 });
 
             modelBuilder.Entity("Jyz.Domain.LogLogin", b =>
@@ -165,11 +210,9 @@ namespace Jyz.Infrastructure.Data.Migrations
                     b.Property<Guid>("CreatedBy");
 
                     b.Property<string>("CreatedByName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(50)");
+                        .IsRequired();
 
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime");
+                    b.Property<DateTime>("CreatedOn");
 
                     b.Property<string>("Icon")
                         .HasMaxLength(200);
@@ -217,11 +260,9 @@ namespace Jyz.Infrastructure.Data.Migrations
                     b.Property<Guid>("CreatedBy");
 
                     b.Property<string>("CreatedByName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(50)");
+                        .IsRequired();
 
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime");
+                    b.Property<DateTime>("CreatedOn");
 
                     b.Property<string>("Icon")
                         .HasMaxLength(200);
@@ -254,6 +295,73 @@ namespace Jyz.Infrastructure.Data.Migrations
                     b.HasIndex("ModuleId");
 
                     b.ToTable("Operate");
+                });
+
+            modelBuilder.Entity("Jyz.Domain.Organization", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<Guid>("CreatedBy");
+
+                    b.Property<string>("CreatedByName")
+                        .IsRequired();
+
+                    b.Property<DateTime>("CreatedOn");
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(50);
+
+                    b.Property<string>("Fax")
+                        .HasMaxLength(50);
+
+                    b.Property<bool>("IsEnable");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50);
+
+                    b.Property<Guid?>("PId");
+
+                    b.Property<string>("Remark")
+                        .HasMaxLength(500);
+
+                    b.Property<int?>("Sort");
+
+                    b.Property<string>("Telephone")
+                        .HasMaxLength(50);
+
+                    b.Property<int>("Type");
+
+                    b.Property<Guid?>("UpdatedBy");
+
+                    b.Property<string>("UpdatedByName")
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<DateTime?>("UpdatedOn")
+                        .HasColumnType("datetime");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Organization");
+                });
+
+            modelBuilder.Entity("Jyz.Domain.Organization_User", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<Guid>("OrganizationId");
+
+                    b.Property<Guid>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrganizationId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Organization_User");
                 });
 
             modelBuilder.Entity("Jyz.Domain.Privilege", b =>
@@ -294,11 +402,9 @@ namespace Jyz.Infrastructure.Data.Migrations
                     b.Property<Guid>("CreatedBy");
 
                     b.Property<string>("CreatedByName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(50)");
+                        .IsRequired();
 
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime");
+                    b.Property<DateTime>("CreatedOn");
 
                     b.Property<bool>("IsEnable");
 
@@ -324,22 +430,22 @@ namespace Jyz.Infrastructure.Data.Migrations
                     b.ToTable("Role");
                 });
 
-            modelBuilder.Entity("Jyz.Domain.Role_Department", b =>
+            modelBuilder.Entity("Jyz.Domain.Role_Organization", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<Guid>("DepartmentId");
+                    b.Property<Guid>("OrganizationId");
 
                     b.Property<Guid>("RoleId");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DepartmentId");
+                    b.HasIndex("OrganizationId");
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("Role_Department");
+                    b.ToTable("Role_Organization");
                 });
 
             modelBuilder.Entity("Jyz.Domain.Role_User", b =>
@@ -365,16 +471,15 @@ namespace Jyz.Infrastructure.Data.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<string>("Avatar")
+                        .HasMaxLength(500);
+
                     b.Property<Guid>("CreatedBy");
 
                     b.Property<string>("CreatedByName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(50)");
+                        .IsRequired();
 
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime");
-
-                    b.Property<Guid>("DepartmentId");
+                    b.Property<DateTime>("CreatedOn");
 
                     b.Property<bool>("IsEnable");
 
@@ -403,8 +508,6 @@ namespace Jyz.Infrastructure.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DepartmentId");
-
                     b.ToTable("User");
                 });
 
@@ -416,15 +519,28 @@ namespace Jyz.Infrastructure.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Jyz.Domain.Role_Department", b =>
+            modelBuilder.Entity("Jyz.Domain.Organization_User", b =>
                 {
-                    b.HasOne("Jyz.Domain.Department", "Department")
-                        .WithMany()
-                        .HasForeignKey("DepartmentId")
+                    b.HasOne("Jyz.Domain.Organization", "Organization")
+                        .WithMany("Organization_User")
+                        .HasForeignKey("OrganizationId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Jyz.Domain.User", "User")
+                        .WithMany("Organization_User")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Jyz.Domain.Role_Organization", b =>
+                {
+                    b.HasOne("Jyz.Domain.Organization", "Organization")
+                        .WithMany("Role_Organization")
+                        .HasForeignKey("OrganizationId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Jyz.Domain.Role", "Role")
-                        .WithMany()
+                        .WithMany("Role_Organization")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
@@ -439,14 +555,6 @@ namespace Jyz.Infrastructure.Data.Migrations
                     b.HasOne("Jyz.Domain.User", "User")
                         .WithMany("Role_User")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Jyz.Domain.User", b =>
-                {
-                    b.HasOne("Jyz.Domain.Department", "Department")
-                        .WithMany()
-                        .HasForeignKey("DepartmentId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

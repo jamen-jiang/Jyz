@@ -11,6 +11,20 @@ namespace Jyz.Infrastructure.Data.Extensions
 {
     public static class DbContextExtension
     {
+        public static async Task AddEntityAsync<T>(this JyzContext db, T model) where T : ICreateEntity<Guid>
+        {
+            model.CreatedBy = CurrentUser.UserId;
+            model.CreatedByName = CurrentUser.UserName;
+            model.CreatedOn = DateTime.Now;
+            await db.AddAsync(model);
+        }
+        public static void  ModifyEntity<T>(this JyzContext db, T model) where T : IUpdateEntity<Guid>
+        {
+            model.UpdatedBy = CurrentUser.UserId;
+            model.UpdatedByName = CurrentUser.UserName;
+            model.UpdatedOn = DateTime.Now;
+        }
+
         /// <summary>
         /// 执行sql返回受影响的行数
         /// </summary>
