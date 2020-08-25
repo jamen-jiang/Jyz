@@ -15,7 +15,7 @@ namespace Jyz.Api.Controllers
         private readonly IModuleService _moduleSvc;
         public ModuleController(IModuleService moduleSvc)
         {
-            _moduleSvc = moduleSvc;
+             _moduleSvc = moduleSvc;
         }
         /// <summary>
         /// 获取模块列表
