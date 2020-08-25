@@ -22,7 +22,6 @@ JYZ 是一个前后端分离的Asp.Net Core后台管理系统,(前端链接:http
 ![功能管理](https://gitee.com/jamen1004/readmeimg/raw/master/%E5%8A%9F%E8%83%BD%E7%AE%A1%E7%90%86.png)
 ![角色管理](https://gitee.com/jamen1004/readmeimg/raw/master/%E8%A7%92%E8%89%B2%E7%AE%A1%E7%90%86.png)
 ![组织管理](https://gitee.com/jamen1004/readmeimg/raw/master/%E7%BB%84%E7%BB%87%E7%AE%A1%E7%90%86.png)
-![组织管理](https://gitee.com/jamen1004/readmeimg/raw/master/%E7%BB%84%E7%BB%87%E7%AE%A1%E7%90%86.png)
 ![用户管理](https://gitee.com/jamen1004/readmeimg/raw/master/%E7%94%A8%E6%88%B7%E7%AE%A1%E7%90%86.png)
 ![字典配置](https://gitee.com/jamen1004/readmeimg/raw/master/%E5%AD%97%E5%85%B8%E9%85%8D%E7%BD%AE.png)
 ![操作日志](https://gitee.com/jamen1004/readmeimg/raw/master/%E6%93%8D%E4%BD%9C%E6%97%A5%E5%BF%97.png)
