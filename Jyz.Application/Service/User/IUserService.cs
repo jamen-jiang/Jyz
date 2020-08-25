@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace Jyz.Application
 {
-    public  interface IUserService
+    public interface IUserService
     {
         /// <summary>
         /// 登录(返回token)
@@ -42,5 +42,17 @@ namespace Jyz.Application
         /// <param name="info"></param>
         /// <returns></returns>
         Task Modify(UserModifyRequest info);
+        /// <summary>
+        /// 更新个人信息
+        /// </summary>
+        /// <param name="info"></param>
+        /// <returns></returns>
+        Task ModifyProfile(ProfileRequest info);
+        /// <summary>
+        /// 修改密码
+        /// </summary>
+        /// <param name="info"></param>
+        /// <returns></returns>
+        Task ChangePassWord(PassWordRequest info);
     }
 }

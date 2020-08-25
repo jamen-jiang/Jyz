@@ -272,6 +272,11 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:Jyz.Api.Controllers.UserController.Logout">
+            <summary>
+            登出
+            </summary>
+        </member>
         <member name="M:Jyz.Api.Controllers.UserController.GetInformation">
             <summary>
             获取当前用户信息
@@ -336,6 +341,20 @@
         <member name="M:Jyz.Api.Controllers.UserController.Modify(Jyz.Application.UserModifyRequest)">
             <summary>
             修改用户
+            </summary>
+            <param name="info"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Jyz.Api.Controllers.UserController.ModifyProfile(Jyz.Application.ProfileRequest)">
+            <summary>
+            更新个人信息
+            </summary>
+            <param name="info"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Jyz.Api.Controllers.UserController.ChangePassWord(Jyz.Application.PassWordRequest)">
+            <summary>
+            修改密码
             </summary>
             <param name="info"></param>
             <returns></returns>

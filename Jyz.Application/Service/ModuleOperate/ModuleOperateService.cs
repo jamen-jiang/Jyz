@@ -61,14 +61,15 @@ namespace Jyz.Application
                 }
                 else
                 {
-                    var user = await db.User.FindByIdAsync(userId);
+                    var user = await db.User.Include(x=>x.Organization_User).Include(x=>x.Role_User).FindByIdAsync(userId);
+                    var organizationIds = user.Organization_User.Select(s => s.OrganizationId).ToArray();
                     var userRoleIds = await db.Role.GetByUserId(userId).Select(s => s.Id).ToArrayAsync();
-                    //var organizationRoleIds = await db.Role.GetByOrganizationId(user.OrganizationId).Select(s => s.Id).ToArrayAsync();
-                    //List<Privilege> privilegeList = await db.Privilege.GetByMasterValues(userId, user.OrganizationId, userRoleIds, organizationRoleIds).ToListAsync();
-                    //Guid[] moduleIds = privilegeList.Where(x => x.Access == AccessEnum.Module.ToString()).Select(s => s.AccessValue).ToArray();
-                    //Guid[] operateIds = privilegeList.Where(x => x.Access == AccessEnum.Operate.ToString()).Select(s => s.AccessValue).ToArray();
-                    //modules = await db.Module.Where(x => moduleIds.Contains(x.Id)).OrderBy(o => o.Sort).ToListAsync();
-                    //operates = await db.Operate.Where(x => operateIds.Contains(x.Id)).ToListAsync();
+                    var organizationRoleIds = await db.Role.GetByOrganizationIds(organizationIds).Select(s => s.Id).ToArrayAsync();
+                    List<Privilege> privilegeList = await db.Privilege.GetByMasterValues(userId, organizationIds, userRoleIds, organizationRoleIds).ToListAsync();
+                    Guid[] moduleIds = privilegeList.Where(x => x.Access == AccessEnum.Module.ToString()).Select(s => s.AccessValue).ToArray();
+                    Guid[] operateIds = privilegeList.Where(x => x.Access == AccessEnum.Operate.ToString()).Select(s => s.AccessValue).ToArray();
+                    modules = await db.Module.Where(x => moduleIds.Contains(x.Id)).OrderBy(o => o.Sort).ToListAsync();
+                    operates = await db.Operate.Where(x => operateIds.Contains(x.Id)).ToListAsync();
                 }
                 var moduleDtos = _mapper.Map<List<ModuleOperateResponse>>(modules);
                 var operateDtos = _mapper.Map<List<OperateResponse>>(operates);

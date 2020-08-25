@@ -17,6 +17,9 @@ namespace Jyz.Application.AutoMapper
             .ForMember(
             dto => dto.OrganizationIds,
             domain => domain.MapFrom(src => src.Organization_User.Select(s=>s.OrganizationId).ToList())
+            ).ForMember(
+            dto => dto.RoleIds,
+            domain => domain.MapFrom(src => src.Role_User.Select(s => s.RoleId).ToList())
             );
             CreateMap<Module, ModuleResponse>().ForMember(
                dto => dto.TypeName,

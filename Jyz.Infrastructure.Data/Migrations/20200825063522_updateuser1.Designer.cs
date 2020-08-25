@@ -4,14 +4,16 @@ using Jyz.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Jyz.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(JyzContext))]
-    partial class JyzContextModelSnapshot : ModelSnapshot
+    [Migration("20200825063522_updateuser1")]
+    partial class updateuser1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -488,7 +490,7 @@ namespace Jyz.Infrastructure.Data.Migrations
 
                     b.Property<bool>("IsEnable");
 
-                    b.Property<string>("MobilePhone")
+                    b.Property<string>("Mobile")
                         .HasMaxLength(50);
 
                     b.Property<string>("Name")

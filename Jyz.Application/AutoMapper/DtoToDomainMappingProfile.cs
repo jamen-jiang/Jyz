@@ -21,6 +21,7 @@ namespace Jyz.Application.AutoMapper
             CreateMap<UserAddRequest, User>();
             CreateMap<UserModifyRequest, User>();
             CreateMap<UserInfo, User>();
+            CreateMap<ProfileRequest, User>();
 
             CreateMap<LogOperateRequest, LogOperate>();
             CreateMap<LogLoginRequest, LogLogin>();

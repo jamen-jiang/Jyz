@@ -20,7 +20,8 @@ namespace Jyz.Api.Controllers
         private readonly IRoleService _roleSvc;
         private readonly ILogLoginService _logLoginSvc;
         private readonly IModuleOperateService _moduleOperateSvc;
-        public UserController(IUserService userSvc, IOrganizationService organizationScv, IPrivilegeService privilegeSvc, IRoleService roleSvc,ILogLoginService logLoginSvc, IModuleOperateService moduleOperateSvc)
+        private readonly ICache _cache;
+        public UserController(IUserService userSvc, IOrganizationService organizationScv, IPrivilegeService privilegeSvc, IRoleService roleSvc,ILogLoginService logLoginSvc, IModuleOperateService moduleOperateSvc, ICache cache)
         {
             _userSvc = userSvc;
             _organizationScv = organizationScv;
@@ -28,6 +29,7 @@ namespace Jyz.Api.Controllers
             _roleSvc = roleSvc;
             _logLoginSvc = logLoginSvc;
             _moduleOperateSvc = moduleOperateSvc;
+            _cache = cache;
         }
         /// <summary>
         /// 登录
@@ -45,10 +47,18 @@ namespace Jyz.Api.Controllers
             return res;
         }
         /// <summary>
+        /// 登出
+        /// </summary>
+        [HttpGet]
+        public void Logout()
+        {
+            _cache.Clear();
+        }
+        /// <summary>
         /// 获取当前用户信息
         /// </summary>
         /// <returns></returns>
-        [HttpGet, DisableLog]
+        [HttpGet]
         public async Task<UserResponse> GetInformation()
         {
             return await _userSvc.Detail(CurrentUser.UserId);
@@ -58,7 +68,7 @@ namespace Jyz.Api.Controllers
         /// </summary>
         /// <param name="info"></param>
         /// <returns></returns>
-        [HttpPost, DisableLog]
+        [HttpPost]
         public async Task<PageResponse<UserResponse>> Query([FromBody]PageRequest<UserRequest> info)
         {
             return await _userSvc.Query(info);
@@ -68,7 +78,7 @@ namespace Jyz.Api.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [HttpGet, DisableLog]
+        [HttpGet]
         public async Task<UserResponse> Detail(Guid id)
         {
             return await _userSvc.Detail(id);
@@ -78,7 +88,7 @@ namespace Jyz.Api.Controllers
         /// </summary>
         /// <param name="info"></param>
         /// <returns></returns>
-        [HttpPost, DisableLog]
+        [HttpPost]
         public async Task<PageResponse<RoleResponse>> GetRoles([FromBody] PageRequest<RoleRequest> info)
         {
             return await _roleSvc.Query(info);
@@ -88,7 +98,7 @@ namespace Jyz.Api.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [HttpGet, DisableLog]
+        [HttpGet]
         public async Task<List<RoleResponse>> GetUserRoles(Guid id)
         {
             return await _roleSvc.GetUserRoles(id);
@@ -97,7 +107,7 @@ namespace Jyz.Api.Controllers
         /// 获取模块操作列表
         /// </summary>
         /// <returns></returns>
-        [HttpGet, DisableLog]
+        [HttpGet]
         public async Task<List<ModuleOperateResponse>> GetModuleOperates()
         {
             return await _moduleOperateSvc.GetModuleOperates();
@@ -107,7 +117,7 @@ namespace Jyz.Api.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [HttpGet, DisableLog]
+        [HttpGet]
         public async Task<AuthorizeModuleOperateIdsResponse> GetAuthorizeModuleOperateIds(Guid id)
         {
             return await _moduleOperateSvc.GetAuthorizeModuleOperateIds(MasterEnum.User, id);
@@ -143,6 +153,26 @@ namespace Jyz.Api.Controllers
         public async Task Modify(UserModifyRequest info)
         {
             await _userSvc.Modify(info);
+        }
+        /// <summary>
+        /// 更新个人信息
+        /// </summary>
+        /// <param name="info"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task ModifyProfile(ProfileRequest info)
+        {
+            await _userSvc.ModifyProfile(info);
+        }
+        /// <summary>
+        /// 修改密码
+        /// </summary>
+        /// <param name="info"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task ChangePassWord(PassWordRequest info)
+        {
+            await _userSvc.ChangePassWord(info);
         }
     }
 }

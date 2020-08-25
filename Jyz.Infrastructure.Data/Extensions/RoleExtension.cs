@@ -21,11 +21,11 @@ namespace Jyz.Infrastructure.Data.Extensions
                       select a;
             return obj.Distinct();
         }
-        public static IQueryable<Role> GetByOrganizationId(this IQueryable<Role> query, Guid organizationId)
+        public static IQueryable<Role> GetByOrganizationIds(this IQueryable<Role> query, Guid [] organizationIds)
         {
             var obj = from a in query
                       from b in a.Role_Organization
-                      where b.OrganizationId == organizationId
+                      where  organizationIds.Contains(b.OrganizationId)
                       select a;
             return obj.Distinct();
         }

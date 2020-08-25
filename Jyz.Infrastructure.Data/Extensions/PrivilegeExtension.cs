@@ -40,11 +40,11 @@ namespace Jyz.Infrastructure.Data.Extensions
         /// <param name="userRoleIds"></param>
         /// <param name="organizationRoleIds"></param>
         /// <returns></returns>
-        public static IQueryable<Privilege> GetByMasterValues(this IQueryable<Privilege> query, Guid userId, Guid organizationId, Guid[] userRoleIds, Guid[] organizationRoleIds)
+        public static IQueryable<Privilege> GetByMasterValues(this IQueryable<Privilege> query, Guid userId, Guid [] organizationIds, Guid[] userRoleIds, Guid[] organizationRoleIds)
         {
             var obj = from a in query
             where (a.Master == MasterEnum.User.ToString() && userId == a.MasterValue)
-            || (a.Master == MasterEnum.User.ToString() && organizationId == a.MasterValue)
+            || (a.Master == MasterEnum.User.ToString() && organizationIds.Contains(a.MasterValue))
             || (a.Master == MasterEnum.Role.ToString() && userRoleIds.Contains(a.MasterValue))
             || (a.Master == MasterEnum.Organization.ToString() && organizationRoleIds.Contains(a.MasterValue))
             select a;

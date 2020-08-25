@@ -45,13 +45,6 @@ namespace Jyz.Application
             }
         }
         /// <summary>
-        /// 登出
-        /// </summary>
-        public void  Logout()
-        {
-            _cache.Clear();
-        }
-        /// <summary>
         /// 获取用户列表
         /// </summary>
         /// <param name="info"></param>
@@ -133,10 +126,26 @@ namespace Jyz.Application
         {
             using (var db = NewDB())
             {
-                var model = await db.User.FindByIdAsync(id);
-                var organization = await db.Organization.GetByUserId(id).Select(s=>s.Id).ToListAsync();
+                var model = await db.User.Include(x => x.Organization_User).Include(x => x.Role_User).FindByIdAsync(id);
+                //var organization = await db.Organization.GetByUserId(id).Select(s=>s.Id).ToListAsync();
                 var dto = _mapper.Map<UserResponse>(model);
-                dto.OrganizationIds = organization;
+                var organizations = await db.Organization.AsNoTracking().ToListAsync();
+                var organizationDtos = _mapper.Map<List<OrganizationResponse>>(organizations);
+                var roles = await db.Role.Where(x => dto.RoleIds.Contains(x.Id)).ToListAsync();
+                dto.RoleNames = roles.Select(s => s.Name).ToList();
+                foreach (var organizationId in dto.OrganizationIds)
+                {
+                    string organizationName = "";
+                    List<OrganizationResponse> outList = new List<OrganizationResponse>();
+                    var organization = organizationDtos.FirstOrDefault(x => x.Id.ToGuid() == organizationId);
+                    GetCurrentAndParents(organizationDtos, outList, organization);
+                    foreach (var obj in outList)
+                    {
+                        organizationName = obj.Name + "-" + organizationName;
+                    }
+                    if (organizationName.Length > 0)
+                        dto.OrganizationNames.Add(organizationName.Trim('-'));
+                }
                 return dto;
             }
         }
@@ -177,6 +186,41 @@ namespace Jyz.Application
                 await SetOtherInfo(db, info.Id, info.User.OrganizationIds, info.ModuleIds, info.OperateIds, info.RoleIds);
                 await db.SaveChangesAsync();
             }
+        }
+        /// <summary>
+        /// 更新个人信息
+        /// </summary>
+        /// <param name="info"></param>
+        /// <returns></returns>
+        public async Task ModifyProfile(ProfileRequest info)
+        {
+            using (var db = NewDB())
+            {
+                var user = await db.User.FindByIdAsync(info.Id);
+                _mapper.Map(info, user);
+                BeforeModify(user);
+                await db.SaveChangesAsync();
+            }
+        }
+        /// <summary>
+        /// 修改密码
+        /// </summary>
+        /// <param name="info"></param>
+        /// <returns></returns>
+        public async Task ChangePassWord(PassWordRequest info)
+        {
+            using (var db = NewDB())
+            {
+                var user = await db.User.FindByIdAsync(CurrentUser.UserId);
+                if (info.OldPassWord != user.PassWord)
+                    throw new ApiException("旧密码不正确!");
+                else if(info.NewPassWord!= info.NewPassWordConfirm)
+                    throw new ApiException("两次输入密码不一致!");
+                user.PassWord = info.NewPassWord;
+                BeforeModify(user);
+                await db.SaveChangesAsync();
+            }
+
         }
         /// <summary>
         /// 设置用户其他关联表信息

@@ -16,8 +16,10 @@ namespace Jyz.Infrastructure.Data.Mappings
             builder.Property(x => x.UserName).IsRequired().HasMaxLength(50);
             builder.Property(x => x.PassWord).IsRequired().HasMaxLength(50);
             builder.Property(x => x.Name).IsRequired().HasMaxLength(50);
+            builder.Property(x => x.MobilePhone).HasMaxLength(50);
+            builder.Property(x => x.Email).HasMaxLength(50);
             builder.Property(x => x.Avatar).HasMaxLength(500);
-            builder.Property(x => x.Remark).IsRequired(false).HasMaxLength(500);
+            builder.Property(x => x.Remark).HasMaxLength(500);
         }
     }
 }

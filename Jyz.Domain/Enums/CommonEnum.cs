@@ -56,4 +56,16 @@ namespace Jyz.Domain.Enums
         [Description("岗位")]
         Post
     }
+    /// <summary>
+    /// 操作类型
+    /// </summary>
+    public enum GenderEnum
+    {
+        [Description("未知")]
+        Unknown = 0,
+        [Description("男")]
+        Man = 1,
+        [Description("女")]
+        Woman = 2,
+    }
 }
