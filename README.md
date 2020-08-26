@@ -16,7 +16,36 @@ JYZ 是一个前后端分离的Asp.Net Core后台管理系统,(前端链接:http
 - 字典配置：对系统中经常使用的一些较为固定的数据进行维护。
 - 系统日志：  
     登录日志：用户登录的日志  
-    操作日志：用户操作权限(如:添加菜单)的日志 
+    操作日志：用户操作权限(如:添加菜单)的日志  
+# 系统环境
+windows 10、SQL Server 08+、Visual Studio 2019  
+    
+    后端技术：
+
+      * .Net Core 3.1 API
+      
+      * Swagger 前后端文档说明
+
+      * Async和Await 异步编程
+
+      * Cors 简单的跨域解决方案
+
+      * AOP基于切面编程技术
+
+      * Autofac 轻量级IoC和DI依赖注入
+
+      * JWT权限验证  
+      
+    数据库技术：
+
+      * EF框架，CodeFirst
+
+      * AutoMapper 自动对象映射  
+    前端技术
+
+      * Vue 2.0 框架全家桶 Vue2 + VueRouter2 + Webpack + Axios + vue-cli + vuex
+
+      * ElementUI 基于Vue 2.0的组件库
 ## 项目图片 
 ![模块管理](https://gitee.com/jamen1004/readmeimg/raw/master/%E6%A8%A1%E5%9D%97%E7%AE%A1%E7%90%86.png)
 ![功能管理](https://gitee.com/jamen1004/readmeimg/raw/master/%E5%8A%9F%E8%83%BD%E7%AE%A1%E7%90%86.png)
